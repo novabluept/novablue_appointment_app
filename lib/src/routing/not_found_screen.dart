@@ -27,7 +27,7 @@ class NotFoundScreen extends StatelessWidget {
               ),
               gapH32,
               TextButton(
-                onPressed: () => context.goNamed(AppRoute.splash.name),
+                onPressed: () => context.goNamed(AppRoute.login.name),
                 child: Text(
                 'Go Home',
                 style: Theme.of(context).textTheme.headlineMedium,

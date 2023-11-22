@@ -1,3 +1,4 @@
+
 import 'package:novablue_appointment_app/src/supabase_providers/providers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,15 +21,12 @@ class SupabaseAuthRepository implements AuthRepository{
     final authStream = _client.auth.onAuthStateChange;
 
     await for (final authState in authStream) {
-      print("user -> ${authState.session?.user}");
       yield authState.session?.user;
     }
   }
 
   @override
   User? get currentUser => _client.auth.currentUser;
-
-
 
   @override
   Future<void> createUserWithEmailAndPassword(String email, String password) async{

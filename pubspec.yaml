@@ -30,11 +30,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   supabase_flutter: ^1.6.2
   flutter_riverpod: ^2.4.5
-  go_router: 7.0.0
+  go_router: 7.1.0
   flutter_svg: ^2.0.9
+  intl: any
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +59,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -67,6 +72,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - images/app_info_blue/
+    - images/flags/
     - images/main/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
