@@ -51,6 +51,7 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
             child: SizedBox(
               height: Sizes.s80.h,
               child: BottomNavigationBar(
+                backgroundColor: OtherColors.white,
                 elevation: 0,
                 iconSize: Sizes.s24.w,
                 type: BottomNavigationBarType.fixed,

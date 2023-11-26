@@ -8,7 +8,7 @@ import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'package:novablue_appointment_app/src/languages/languages_constants.dart';
+import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import '../../../../common_widgets/my_button.dart';
 import '../../../../common_widgets/my_text.dart';
@@ -45,7 +45,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return MyScaffold(
       appBar: MyAppBar(
-        title: translation(context).recoverPassword.capitalize(),
+        title: context.loc.recoverPassword.capitalize(),
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, 0),
           child: GestureDetector(
@@ -69,7 +69,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             gapH24,
             Align(
                 alignment: Alignment.centerLeft,
-                child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: translation(context).emailRecoverMessage.capitalize())
+                child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.emailRecoverMessage.capitalize())
             ),
             gapH24,
             Form(
@@ -77,8 +77,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                 children: [
                   MyTextFormField(
                       textEditingController: _emailController,
-                      text: translation(context).email.capitalize(),
-                      errorText: translation(context).emailValidation.capitalize(),
+                      text: context.loc.email.capitalize(),
+                      errorText: context.loc.emailValidation.capitalize(),
                       prefixIcon: IconlyBold.message,
                       fieldHasError: _emailHasError,
                       isFieldFocused: _isEmailFocused,
@@ -93,7 +93,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   gapH24,
                   MyButton(
                       type: ButtonTypes.filledFullyRounded,
-                      text: translation(context).submit.capitalize(),
+                      text: context.loc.submit.capitalize(),
                       onPressed: (){
                         setState(() {});
                         if (_formKey.currentState!.validate()){}

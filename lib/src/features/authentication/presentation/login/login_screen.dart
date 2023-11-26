@@ -7,18 +7,20 @@ import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/login/login_screen_controller.dart';
+import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import '../../../../../main.dart';
 import '../../../../common_widgets/my_app_bar.dart';
 import '../../../../common_widgets/my_dropdown_button.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
 import 'package:iconly/iconly.dart';
-import '../../../../languages/languages.dart';
-import '../../../../languages/languages_constants.dart';
+import '../../../../localization/app_locale_notifier.dart';
+import '../../../../localization/app_supported_locale.dart';
 import '../../../../routing/app_routing.dart';
+import '../../../../utils/dialogs.dart';
 import '../../../../utils/validations.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -43,6 +45,9 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
 
   bool _isPasswordObscure = true;
 
+  String get email => _emailController.text;
+  String get password => _passwordController.text;
+
   @override
   void initState() {
     super.initState();
@@ -57,13 +62,65 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<void>>(
+      loginScreenControllerProvider,
+      (_, state) => state.showDialogError(context),
+    );
     return MyScaffold(
       appBar: MyAppBar(
         actions: [
-          MyDropdownButton(
-            items: Language.languageList(),
+          MyDropdownButton<SupportedLocale>(
+            items: SupportedLocale.values,
             icon: Icons.language_rounded,
-            dropDownMenuItem: Language.languageList().map<DropdownMenuItem<Language>>((e) => DropdownMenuItem<Language>(
+            dropDownMenuItem: SupportedLocale.values.map<DropdownMenuItem<SupportedLocale>>((e) => DropdownMenuItem<SupportedLocale>(
+              value: e,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SvgPicture.asset(e.path,width: Sizes.s24.w,height: Sizes.s18.h),
+                  gapW4,
+                  MyText(
+                    type: TextTypes.bodyMedium,
+                    fontWeight: FontWeights.semiBold,
+                    text: e.name == SupportedLocale.pt.name ? context.loc.portuguese.capitalize() : context.loc.english.capitalize(),
+                  ),
+                ],
+              ),
+            ),
+            ).toList(),
+            onChanged: (SupportedLocale? value) {
+              ref.read(localeProvider.notifier).changeLanguage(value ?? SupportedLocale.pt);
+            },
+          )
+        ],
+      ),
+
+
+
+      /*AppBar(
+        title: Text(''),
+        actions: [
+          PopupMenuButton < SupportedLocale > (
+            itemBuilder: (context) {
+              return SupportedLocale.values.map < PopupMenuEntry < SupportedLocale >> ((e) => PopupMenuItem(
+                child: SvgPicture.asset(e.path,width: Sizes.s24.w,height: Sizes.s18.h),
+                value: e,
+              )).toList();
+            },
+            onSelected: (locale) {
+              ref.read(localeProvider.notifier).changeLanguage(locale);
+            },
+          )
+        ],
+      ),*/
+
+
+      /*MyAppBar(
+        actions: [
+          MyDropdownButton(
+            items: Localization.localizationList(),
+            icon: Icons.language_rounded,
+            dropDownMenuItem: Localization.localizationList().map<DropdownMenuItem<Localization>>((e) => DropdownMenuItem<Localization>(
                 value: e,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -73,13 +130,13 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                     MyText(
                       type: TextTypes.bodyMedium,
                       fontWeight: FontWeights.semiBold,
-                      text: e.languageCode == 'pt' ? translation(context).portuguese.capitalize() : translation(context).english.capitalize(),
+                      text: e.languageCode == portuguese ? context.loc.portuguese.capitalize() : context.loc.english.capitalize(),
                     ),
                   ],
                 ),
               ),
             ).toList(),
-            onChanged: (Language? language) async{
+            onChanged: (Localization? language) async{
               if (language != null) {
                 Locale _locale = await setLocale(language.languageCode);
                 MyApp.setLocale(context, _locale);
@@ -87,7 +144,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
             },
           ),
         ]
-      ),
+      ),*/
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -98,7 +155,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
               height: Sizes.s140.h
             ),
             gapH27,
-            MyText(type: TextTypes.h3, text: translation(context).loginToYourAccount.capitalize()),
+            MyText(type: TextTypes.h3, text: context.loc.loginToYourAccount.capitalize()),
             gapH27,
             Form(
               key: _formKey,
@@ -107,8 +164,8 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                 children: [
                   MyTextFormField(
                     textEditingController: _emailController,
-                    text: translation(context).email.capitalize(),
-                    errorText: translation(context).emailValidation.capitalize(),
+                    text: context.loc.email.capitalize(),
+                    errorText: context.loc.emailValidation.capitalize(),
                     prefixIcon: IconlyBold.message,
                     fieldHasError: _emailHasError,
                     isFieldFocused: _isEmailFocused,
@@ -127,7 +184,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                   gapH20,
                   MyTextFormField(
                     textEditingController: _passwordController,
-                    text: translation(context).password.capitalize(),
+                    text: context.loc.password.capitalize(),
                     prefixIcon: IconlyBold.lock,
                     suffixIcon: _isPasswordObscure ? IconlyBold.hide : IconlyBold.show,
                     onSuffixIconTap: (){
@@ -148,11 +205,11 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                   gapH64,
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
-                    text: translation(context).login.capitalize(),
-                    onPressed: (){
+                    text: context.loc.login.capitalize(),
+                    onPressed: () async {
                       setState(() {});
                       if (_formKey.currentState!.validate()){
-                        ref.read(authRepositoryProvider).signInWithEmailAndPassword('email', '');
+                        await ref.read(loginScreenControllerProvider.notifier).signInWithEmailAndPassword(email, password);
                       }
                     }
                   ),
@@ -164,19 +221,19 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
               onTap: (){
                 context.pushNamed(AppRoute.forgotPassword.name);
               },
-              child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.semiBold, text: translation(context).forgotPassword.capitalize(),color: MainColors.primary)
+              child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.semiBold, text: context.loc.forgotPassword.capitalize(),color: MainColors.primary)
             ),
             gapH99,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MyText(type: TextTypes.bodyMedium, text: translation(context).dontHaveAnAccount.capitalize(),color: GreyScaleColors.grey500),
+                MyText(type: TextTypes.bodyMedium, text: context.loc.dontHaveAnAccount.capitalize(),color: GreyScaleColors.grey500),
                 gapW4,
                 GestureDetector(
                   onTap: (){
                     context.pushNamed(AppRoute.register.name);
                   },
-                  child: MyText(type: TextTypes.bodyMedium,fontWeight: FontWeights.semiBold, text: translation(context).signUp.capitalize(),color: MainColors.primary)
+                  child: MyText(type: TextTypes.bodyMedium,fontWeight: FontWeights.semiBold, text: context.loc.signUp.capitalize(),color: MainColors.primary)
                 ),
               ],
             ),

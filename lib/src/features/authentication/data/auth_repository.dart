@@ -1,7 +1,9 @@
 
+import 'package:novablue_appointment_app/src/localization/app_locale_notifier.dart';
 import 'package:novablue_appointment_app/src/supabase_providers/providers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../exceptions/app_exceptions.dart';
 
 abstract class AuthRepository {
   Stream<User?>  authStateChanges();
@@ -13,8 +15,11 @@ abstract class AuthRepository {
 
 class SupabaseAuthRepository implements AuthRepository{
 
-  SupabaseAuthRepository(this._client);
+  SupabaseAuthRepository(this.ref,this._client);
+
+  final Ref ref;
   final SupabaseClient _client;
+
 
   @override
   Stream<User?> authStateChanges() async*{
@@ -38,9 +43,10 @@ class SupabaseAuthRepository implements AuthRepository{
 
   @override
   Future<void> signInWithEmailAndPassword(String email, String password) async{
+    throw EmailAlreadyInUseException(ref);
     await _client.auth.signInWithPassword(
-      email: 'miguelsilva20015111@gmail.com',
-      password: '12345678',
+      email: email, // 'miguelsilva20015111@gmail.com'
+      password: password, // '12345678'
     );
   }
 
@@ -53,7 +59,7 @@ class SupabaseAuthRepository implements AuthRepository{
 
 final authRepositoryProvider = Provider<SupabaseAuthRepository>((ref) {
   final client = ref.watch(supabaseClientProvider);
-  return SupabaseAuthRepository(client);
+  return SupabaseAuthRepository(ref,client);
 });
 
 final authStateChangesProvider = StreamProvider((ref) {

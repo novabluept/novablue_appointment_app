@@ -10,7 +10,7 @@ import 'package:novablue_appointment_app/src/common_widgets/my_avatar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_dropdown_button.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'package:novablue_appointment_app/src/languages/languages_constants.dart';
+import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import '../../../../common_widgets/my_button.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
@@ -66,7 +66,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     return MyScaffold(
       appBar: MyAppBar(
-        title: translation(context).fillYourProfile.capitalize(),
+        title: context.loc.fillYourProfile.capitalize(),
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, 0),
           child: GestureDetector(
@@ -91,8 +91,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 children: [
                   MyTextFormField(
                     textEditingController: _firstnameController,
-                    text: translation(context).firstname.capitalize(),
-                    errorText: translation(context).firstnameValidation.capitalize(),
+                    text: context.loc.firstname.capitalize(),
+                    errorText: context.loc.firstnameValidation.capitalize(),
                     prefixIcon: IconlyBold.profile,
                     fieldHasError: _firstnameHasError,
                     isFieldFocused: _isFirstnameFocused,
@@ -107,8 +107,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   gapH24,
                   MyTextFormField(
                     textEditingController: _lastnameController,
-                    text: translation(context).lastname.capitalize(),
-                    errorText: translation(context).lastnameValidation.capitalize(),
+                    text: context.loc.lastname.capitalize(),
+                    errorText: context.loc.lastnameValidation.capitalize(),
                     prefixIcon: IconlyBold.profile,
                     fieldHasError: _lastnameHasError,
                     isFieldFocused: _isLastnameFocused,
@@ -123,8 +123,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   gapH24,
                   MyTextFormField(
                     textEditingController: _emailController,
-                    text: translation(context).email.capitalize(),
-                    errorText: translation(context).emailValidation.capitalize(),
+                    text: context.loc.email.capitalize(),
+                    errorText: context.loc.emailValidation.capitalize(),
                     prefixIcon: IconlyBold.message,
                     fieldHasError: _emailHasError,
                     isFieldFocused: _isEmailFocused,
@@ -139,8 +139,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   gapH24,
                   MyTextFormField(
                     textEditingController: _phoneController,
-                    text: translation(context).phone.capitalize(),
-                    errorText: translation(context).phoneValidation.capitalize(),
+                    text: context.loc.phone.capitalize(),
+                    errorText: context.loc.phoneValidation.capitalize(),
                     prefixWidget: MyDropdownButton(
                       items: items,
                       value: selectedValue,
@@ -174,7 +174,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   gapH80,
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
-                    text: translation(context).next.capitalize(),
+                    text: context.loc.next.capitalize(),
                     onPressed: (){
                       context.pushNamed(AppRoute.createPassword.name);
                     }

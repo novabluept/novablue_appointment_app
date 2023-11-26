@@ -30,6 +30,8 @@ class Sizes {
   static const s140 = 140.0;
   static const s175 = 175.0;
   static const s179 = 179.0;
+  static const s180 = 180.0;
+  static const s185 = 185.0;
   static const s250 = 250.0;
   static const s276 = 276.0;
   static const s329 = 329.0;

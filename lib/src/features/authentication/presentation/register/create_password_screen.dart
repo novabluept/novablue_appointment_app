@@ -8,7 +8,7 @@ import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'package:novablue_appointment_app/src/languages/languages_constants.dart';
+import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import '../../../../common_widgets/my_button.dart';
 import '../../../../common_widgets/my_text.dart';
@@ -49,7 +49,7 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
   Widget build(BuildContext context) {
     return MyScaffold(
       appBar: MyAppBar(
-        title: translation(context).createPassword.capitalize(),
+        title: context.loc.createPassword.capitalize(),
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, 0),
           child: GestureDetector(
@@ -73,7 +73,7 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
             gapH71,
             Align(
               alignment: Alignment.centerLeft,
-              child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: translation(context).createYourNewPassword.capitalize())
+              child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.createYourNewPassword.capitalize())
             ),
             gapH24,
             Form(
@@ -81,8 +81,8 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                 children: [
                   MyTextFormField(
                     textEditingController: _passwordController,
-                    text: translation(context).password.capitalize(),
-                    errorText: translation(context).passwordValidation.capitalize(),
+                    text: context.loc.password.capitalize(),
+                    errorText: context.loc.passwordValidation.capitalize(),
                     prefixIcon: IconlyBold.message,
                     fieldHasError: _passwordHasError,
                     isFieldFocused: _isPasswordFocused,
@@ -97,8 +97,8 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                   gapH24,
                   MyTextFormField(
                     textEditingController: _confirmPasswordController,
-                    text: translation(context).confirmPassword.capitalize(),
-                    errorText: translation(context).confirmPasswordValidation.capitalize(),
+                    text: context.loc.confirmPassword.capitalize(),
+                    errorText: context.loc.confirmPasswordValidation.capitalize(),
                     prefixIcon: IconlyBold.message,
                     fieldHasError: _confirmPasswordHasError,
                     isFieldFocused: _isConfirmPasswordFocused,
@@ -112,7 +112,7 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                   gapH24,
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
-                    text: translation(context).signUp.capitalize(),
+                    text: context.loc.signUp.capitalize(),
                     onPressed: (){
                       setState(() {});
                       if (_formKey.currentState!.validate()){}

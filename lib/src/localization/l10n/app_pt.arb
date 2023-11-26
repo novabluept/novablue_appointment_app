@@ -13,6 +13,12 @@
     "emailValidation": "por favor ensira um correio eletrónico válido",
     "passwordValidation": "por favor ensira uma palavra-passe válida",
     "confirmPasswordValidation": "por favor ensira uma palavra-passe válida",
+
+    "emailAlreadyInUseException": "Este correio eletrónico já se encontra em uso",
+    "weakPasswordException": "Palavra-passe demasiado fraca",
+    "wrongPasswordException": "Palavra-passe errada",
+    "userNotFoundException": "Utilizador não encontrado",
+
     "loginToYourAccount": "entre na sua conta",
     "login": "entrar",
     "forgotPassword": "Esqueceu a palavra-passe?",
@@ -24,5 +30,9 @@
     "createYourNewPassword": "crie a sua nova palavra-passe",
     "recoverPassword": "recuperar palavra-passe",
     "submit": "submeter",
-    "emailRecoverMessage": "introduza o seu correio eletrónico e enviaremos uma ligação para redefinir a sua palavra-passe"
+    "emailRecoverMessage": "introduza o seu correio eletrónico e enviaremos uma ligação para redefinir a sua palavra-passe",
+    "goBack": "voltar",
+    "ok":"ok",
+    "successMessage": "sucesso!",
+    "errorMessage": "oops, falhou!"
 }

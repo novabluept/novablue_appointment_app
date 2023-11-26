@@ -13,6 +13,12 @@
     "phoneValidation": "please enter a valid phone number",
     "passwordValidation": "please enter a valid password",
     "confirmPasswordValidation": "please enter a valid password",
+
+    "emailAlreadyInUseException": "Email already in use",
+    "weakPasswordException": "Password is too weak",
+    "wrongPasswordException": "Wrong password",
+    "userNotFoundException": "User not found",
+
     "loginToYourAccount": "login to your account",
     "login": "login",
     "forgotPassword": "forgot the password?",
@@ -24,5 +30,9 @@
     "createYourNewPassword": "create your new password",
     "recoverPassword": "recover password",
     "submit": "submit",
-    "emailRecoverMessage": "enter your email address below, and we'll send you a link to reset your password"
+    "emailRecoverMessage": "enter your email address below, and we'll send you a link to reset your password",
+    "goBack": "go back",
+    "ok":"ok",
+    "successMessage": "success!",
+    "errorMessage": "oops, failed!"
 }
