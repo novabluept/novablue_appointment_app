@@ -10,23 +10,26 @@ import 'package:novablue_appointment_app/src/common_widgets/my_avatar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_dropdown_button.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/personal_data/personal_data_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
+import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import '../../../../common_widgets/my_button.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../routing/app_routing.dart';
 import '../../../../utils/validations.dart';
+import '../../data/auth_repository.dart';
 
 
-class RegisterScreen extends ConsumerStatefulWidget {
-  const RegisterScreen({super.key});
+class PersonalDataScreen extends ConsumerStatefulWidget {
+  const PersonalDataScreen({super.key});
 
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _PersonalDataState createState() => _PersonalDataState();
 }
 
-class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -64,6 +67,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<void>>(
+      PersonalDataScreenControllerProvider,
+          (_, state) => state.showDialogError(context),
+    );
     return MyScaffold(
       appBar: MyAppBar(
         title: context.loc.fillYourProfile.capitalize(),
@@ -175,8 +182,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.next.capitalize(),
-                    onPressed: (){
-                      context.pushNamed(AppRoute.createPassword.name);
+                    onPressed: () async{
+                      await ref.read(PersonalDataScreenControllerProvider.notifier).chooseProfilePicture();
+                      //context.pushNamed(AppRoute.createPassword.name);
                     }
                   ),
                   gapH48,

@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/register/create_password_screen.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/forgot_password/forgot_password.dart';
 import 'package:novablue_appointment_app/src/routing/not_found_screen.dart';
 import 'package:novablue_appointment_app/src/routing/scaffold_with_nested_navigation.dart';
 import '../features/authentication/data/auth_repository.dart';
+import '../features/authentication/presentation/create_password/create_password_screen.dart';
+import '../features/authentication/presentation/personal_data/personal_data_screen.dart';
 import '../features/shops/presentation/shops_slidable_list/shops_slidable_list_screen.dart';
 import '../features/authentication/presentation/login/login_screen.dart';
-import '../features/authentication/presentation/register/register_screen.dart';
 import 'go_router_refresh_stream.dart';
 
 CustomTransitionPage buildPageWithDefaultTransition<T>({
@@ -83,7 +83,7 @@ final goRouterProvider = Provider((ref) {
             pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
               context: context,
               state: state,
-              child: const RegisterScreen(),
+              child: const PersonalDataScreen(),
             ),
             routes: [
               GoRoute(

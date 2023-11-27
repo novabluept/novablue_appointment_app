@@ -14,10 +14,19 @@
     "passwordValidation": "please enter a valid password",
     "confirmPasswordValidation": "please enter a valid password",
 
+    "unexpectedErrorException": "An unexpected error has occurred. Please try again later",
+    "invalidLoginCredentialsException": "The email or password you entered are incorrect",
     "emailAlreadyInUseException": "Email already in use",
     "weakPasswordException": "Password is too weak",
     "wrongPasswordException": "Wrong password",
     "userNotFoundException": "User not found",
+    "fileTooLargeException": "The file is too large. Allowed maximum size is {fileMaxSizeInMegaBytes} MB",
+    "@fileTooLargeException": {
+        "fileMaxSizeInMegaBytes": {
+            "type": "double",
+            "example": 2.0
+        }
+    },
 
     "loginToYourAccount": "login to your account",
     "login": "login",

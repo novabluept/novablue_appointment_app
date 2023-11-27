@@ -12,20 +12,32 @@ sealed class AppException implements Exception {
   String toString() => message;
 }
 
-/// Auth
-class EmailAlreadyInUseException extends AppException {
+/// General Exceptions
+class UnexpectedErrorException extends AppException {
+  UnexpectedErrorException(ref) : super('unexpected-error', ref.read(appLocalizationsProvider).unexpectedErrorException);
+}
 
+/// Auth
+class InvalidLoginCredentialsException extends AppException {
+  InvalidLoginCredentialsException(ref) : super('invalid-login-credentials', ref.read(appLocalizationsProvider).invalidLoginCredentialsException);
+}
+
+class EmailAlreadyInUseException extends AppException {
   EmailAlreadyInUseException(ref) : super('email-already-in-use', ref.read(appLocalizationsProvider).emailAlreadyInUseException);
 }
-/*
+
 class WeakPasswordException extends AppException {
-  WeakPasswordException() : super('weak-password', context.loc.weakPasswordException.capitalize());
+  WeakPasswordException(ref) : super('weak-password', ref.read(appLocalizationsProvider).weakPasswordException);
 }
 
 class WrongPasswordException extends AppException {
-  WrongPasswordException() : super('wrong-password', context.loc.wrongPasswordException.capitalize());
+  WrongPasswordException(ref) : super('wrong-password', ref.read(appLocalizationsProvider).wrongPasswordException);
 }
 
 class UserNotFoundException extends AppException {
-  UserNotFoundException() : super('user-not-found', context.loc.userNotFoundException.capitalize());
-}*/
+  UserNotFoundException(ref) : super('user-not-found', ref.read(appLocalizationsProvider).userNotFoundException);
+}
+
+class FileTooLargeException extends AppException {
+  FileTooLargeException(ref,fileMaxSizeInMegaBytes) : super('file-too-large', ref.read(appLocalizationsProvider).fileTooLargeException(fileMaxSizeInMegaBytes));
+}

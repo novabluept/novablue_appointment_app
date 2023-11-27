@@ -48,6 +48,7 @@ class MyDialog extends StatelessWidget {
                   MyText(
                     type: TextTypes.bodyLarge,
                     text: label,
+                    textAlign: TextAlign.center,
                   ),
                   gapH32,
                   MyButton(

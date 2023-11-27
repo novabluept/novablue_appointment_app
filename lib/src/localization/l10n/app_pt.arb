@@ -14,10 +14,19 @@
     "passwordValidation": "por favor ensira uma palavra-passe válida",
     "confirmPasswordValidation": "por favor ensira uma palavra-passe válida",
 
+    "unexpectedErrorException": "Ocorreu um erro inesperado. Por favor, tente mais tarde",
+    "invalidLoginCredentialsException": "O e-mail ou a palavra-passe introduzidos estão incorrectos",
     "emailAlreadyInUseException": "Este correio eletrónico já se encontra em uso",
     "weakPasswordException": "Palavra-passe demasiado fraca",
     "wrongPasswordException": "Palavra-passe errada",
     "userNotFoundException": "Utilizador não encontrado",
+    "fileTooLargeException": "O ficheiro é demasiado grande. O tamanho máximo permitido é {fileMaxSizeInMegaBytes} MB",
+    "@fileTooLargeException": {
+        "fileMaxSizeInMegaBytes": {
+            "type": "double",
+            "example": 2.0
+        }
+    },
 
     "loginToYourAccount": "entre na sua conta",
     "login": "entrar",

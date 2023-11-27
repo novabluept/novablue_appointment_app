@@ -9,6 +9,7 @@ import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/login/login_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
@@ -94,57 +95,6 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
           )
         ],
       ),
-
-
-
-      /*AppBar(
-        title: Text(''),
-        actions: [
-          PopupMenuButton < SupportedLocale > (
-            itemBuilder: (context) {
-              return SupportedLocale.values.map < PopupMenuEntry < SupportedLocale >> ((e) => PopupMenuItem(
-                child: SvgPicture.asset(e.path,width: Sizes.s24.w,height: Sizes.s18.h),
-                value: e,
-              )).toList();
-            },
-            onSelected: (locale) {
-              ref.read(localeProvider.notifier).changeLanguage(locale);
-            },
-          )
-        ],
-      ),*/
-
-
-      /*MyAppBar(
-        actions: [
-          MyDropdownButton(
-            items: Localization.localizationList(),
-            icon: Icons.language_rounded,
-            dropDownMenuItem: Localization.localizationList().map<DropdownMenuItem<Localization>>((e) => DropdownMenuItem<Localization>(
-                value: e,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SvgPicture.asset(e.imagePath,width: Sizes.s24.w,height: Sizes.s18.h),
-                    gapW4,
-                    MyText(
-                      type: TextTypes.bodyMedium,
-                      fontWeight: FontWeights.semiBold,
-                      text: e.languageCode == portuguese ? context.loc.portuguese.capitalize() : context.loc.english.capitalize(),
-                    ),
-                  ],
-                ),
-              ),
-            ).toList(),
-            onChanged: (Localization? language) async{
-              if (language != null) {
-                Locale _locale = await setLocale(language.languageCode);
-                MyApp.setLocale(context, _locale);
-              }
-            },
-          ),
-        ]
-      ),*/
       body: SingleChildScrollView(
         child: Column(
           children: [

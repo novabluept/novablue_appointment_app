@@ -1,4 +1,8 @@
 
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
+import 'package:novablue_appointment_app/src/constants/app_file_size.dart';
 import 'package:novablue_appointment_app/src/localization/app_locale_notifier.dart';
 import 'package:novablue_appointment_app/src/supabase_providers/providers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
@@ -11,6 +15,7 @@ abstract class AuthRepository {
   Future<void> signInWithEmailAndPassword(String email, String password);
   Future<void> createUserWithEmailAndPassword(String email, String password);
   Future<void> signOut();
+  Future<File?> chooseProfilePicture();
 }
 
 class SupabaseAuthRepository implements AuthRepository{
@@ -43,11 +48,15 @@ class SupabaseAuthRepository implements AuthRepository{
 
   @override
   Future<void> signInWithEmailAndPassword(String email, String password) async{
-    throw EmailAlreadyInUseException(ref);
     await _client.auth.signInWithPassword(
       email: email, // 'miguelsilva20015111@gmail.com'
       password: password, // '12345678'
-    );
+    ).catchError((e){
+      if(e.message == 'Invalid login credentials'){
+        throw InvalidLoginCredentialsException(ref);
+      }
+      throw UnexpectedErrorException(ref);
+    });
   }
 
   @override
@@ -55,6 +64,24 @@ class SupabaseAuthRepository implements AuthRepository{
     await _client.auth.signOut();
   }
 
+  @override
+  Future<File?> chooseProfilePicture() async{
+    final file = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if(file != null){
+      var imagePath = await file.readAsBytes();
+
+      var fileSize = imagePath.length;
+
+      if(fileSize <= fileMaxSizeInBytes){
+        return File(file.path);
+      }else if(fileSize > fileMaxSizeInBytes){
+        throw FileTooLargeException(ref,fileMaxSizeInMegaBytes);
+      }
+    }
+
+    return null;
+  }
 }
 
 final authRepositoryProvider = Provider<SupabaseAuthRepository>((ref) {
