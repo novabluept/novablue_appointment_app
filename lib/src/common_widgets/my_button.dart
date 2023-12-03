@@ -20,7 +20,7 @@ class MyButton extends StatelessWidget {
   final double? width;
   final double? height;
   final double? verticalPadding;
-  final Function() onPressed;
+  final Function()? onPressed;
 
   const MyButton({super.key, required this.type, this.text, this.backgroundColor,
     this.foregroundColor = OtherColors.white, this.width = double.infinity, this.height = Sizes.s60, this.verticalPadding = Sizes.s18,

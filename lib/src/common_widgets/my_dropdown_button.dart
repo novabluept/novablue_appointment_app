@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 
 class CountryCode {
@@ -22,6 +21,7 @@ class MyDropdownButton<T> extends StatelessWidget {
   final T? value;
   final String hint;
   final IconData? icon;
+  final double? iconSize;
   List<DropdownMenuItem<T>>? dropDownMenuItem;
   final void Function(T?) onChanged;
 
@@ -30,6 +30,7 @@ class MyDropdownButton<T> extends StatelessWidget {
     required this.items,
     this.value,
     this.icon,
+    this.iconSize,
     required this.dropDownMenuItem,
     required this.onChanged,
     this.hint = ''}
@@ -43,14 +44,18 @@ class MyDropdownButton<T> extends StatelessWidget {
         highlightColor: OtherColors.transparent,
         hoverColor: OtherColors.transparent,
       ),
-      child: DropdownButton<T>(
-        padding: EdgeInsets.zero,
-        underline: Container(),
-        value: value,
-        onChanged: onChanged,
-        items: dropDownMenuItem,
-        icon: icon != null ? Icon(icon,size: 24.w,color: GreyScaleColors.grey500) : Container(),
-      ),
+      child: Stack(
+        children: [
+          DropdownButton<T>(
+            padding: EdgeInsets.zero,
+            underline: Container(),
+            value: value,
+            onChanged: onChanged,
+            items: dropDownMenuItem,
+            icon: icon != null ? Icon(icon,size: iconSize,color: GreyScaleColors.grey500) : Container(),
+          ),
+        ],
+      )
     );
   }
 }

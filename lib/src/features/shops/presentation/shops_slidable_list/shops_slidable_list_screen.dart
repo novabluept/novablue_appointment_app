@@ -1,11 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:novablue_appointment_app/src/common_widgets/my_button.dart';
-import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
-import 'package:novablue_appointment_app/src/constants/app_colors.dart';
-import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -23,7 +18,10 @@ class _HomePageState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MyScaffold(
+    return Container();
+  }
+    /*return MyScaffold(
+      state: state,
       edgeInsets: EdgeInsets.zero,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -90,5 +88,5 @@ class _HomePageState extends ConsumerState<HomeScreen> {
         ],
       )
     );
-  }
+  }*/
 }

@@ -1,4 +1,5 @@
 
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +20,7 @@ import '../../../../common_widgets/my_text_form_field.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../routing/app_routing.dart';
 import '../../../../utils/validations.dart';
-import '../../data/auth_repository.dart';
+import '../create_password/create_password_screen.dart';
 
 
 class PersonalDataScreen extends ConsumerStatefulWidget {
@@ -48,8 +49,13 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
   bool _isEmailFocused = false;
   bool _isPhoneFocused = false;
 
+  String get firstname => _firstnameController.text;
+  String get lastname => _lastnameController.text;
+  String get email => _emailController.text;
+  String get phone => _phoneController.text;
+
   List<CountryCode> items = [PhoneCountryCode.pt,PhoneCountryCode.es,PhoneCountryCode.fr];
-  CountryCode selectedValue = PhoneCountryCode.pt;
+  CountryCode phoneCode = PhoneCountryCode.pt;
 
   @override
   void initState() {
@@ -67,11 +73,13 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AsyncValue<void>>(
-      PersonalDataScreenControllerProvider,
+    ref.listen<AsyncValue<File?>>(
+      personalDataScreenControllerProvider,
           (_, state) => state.showDialogError(context),
     );
+    final state = ref.watch(personalDataScreenControllerProvider);
     return MyScaffold(
+      state: state,
       appBar: MyAppBar(
         title: context.loc.fillYourProfile.capitalize(),
         leading: Transform.translate(
@@ -89,7 +97,12 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             gapH24,
-            const MyAvatar(),
+            MyAvatar(
+              file: state.hasValue ? state.value : null, /// TODO: Arranjar forma de tirar este .hasValue. Vai passar por dedicar um provider para a funcao e outro para o valor obtido
+              onTap: () async{
+                await ref.read(personalDataScreenControllerProvider.notifier).chooseProfilePicture();
+              },
+            ),
             gapH24,
             Form(
               key: _formKey,
@@ -107,7 +120,11 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
                       setState(() {_isFirstnameFocused = value;});
                     },
                     validator: (value){
-
+                      if(value == null || value.isEmpty || !Validations.hasMinimumAndMaxCharacters(value)){
+                        _firstnameHasError = true;
+                        return '';
+                      }
+                      _firstnameHasError = false;
                       return null;
                     }
                   ),
@@ -123,7 +140,11 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
                       setState(() {_isLastnameFocused = value;});
                     },
                     validator: (value){
-
+                      if(value == null || value.isEmpty || !Validations.hasMinimumAndMaxCharacters(value)){
+                        _lastnameHasError = true;
+                        return '';
+                      }
+                      _lastnameHasError = false;
                       return null;
                     }
                   ),
@@ -139,7 +160,11 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
                       setState(() {_isEmailFocused = value;});
                     },
                     validator: (value){
-
+                      if(value == null || value.isEmpty || !Validations.isEmailValid(value)){
+                        _emailHasError = true;
+                        return '';
+                      }
+                      _emailHasError = false;
                       return null;
                     }
                   ),
@@ -150,7 +175,9 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
                     errorText: context.loc.phoneValidation.capitalize(),
                     prefixWidget: MyDropdownButton(
                       items: items,
-                      value: selectedValue,
+                      value: phoneCode,
+                      icon: IconlyBold.arrow_down_2,
+                      iconSize: Sizes.s12.w,
                       dropDownMenuItem: items.map((item) {
                         return DropdownMenuItem(
                           alignment: Alignment.center,
@@ -160,7 +187,7 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
                       }).toList(),
                       onChanged: (value){
                         setState(() {
-                          selectedValue = value!;
+                          phoneCode = value!;
                         });
                       },
                     ),
@@ -170,7 +197,7 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
                       setState(() {_isPhoneFocused = value;});
                     },
                     validator: (value){
-                      if(value == null || value.isEmpty || !Validations.isPhoneValid(value, selectedValue.code)){
+                      if(value == null || value.isEmpty || !Validations.isPhoneValid(value, phoneCode.code)){
                         _phoneHasError = true;
                         return '';
                       }
@@ -183,8 +210,20 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.next.capitalize(),
                     onPressed: () async{
-                      await ref.read(PersonalDataScreenControllerProvider.notifier).chooseProfilePicture();
-                      //context.pushNamed(AppRoute.createPassword.name);
+                      setState(() {}); /// refresh textformfield errors
+                      if (_formKey.currentState!.validate()){
+                        context.pushNamed(
+                          AppRoute.createPassword.name,
+                          extra: CreatePasswordScreenArguments(
+                            filePath: state.value?.path ?? '',
+                            firstname: firstname.capitalize().trim(),
+                            lastname: lastname.capitalize().trim(),
+                            email: email.trim(),
+                            phone: phone.capitalize().trim(),
+                            phoneCode: phoneCode.code,
+                          )
+                        );
+                      }
                     }
                   ),
                   gapH48,

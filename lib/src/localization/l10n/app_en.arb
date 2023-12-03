@@ -7,6 +7,7 @@
     "phone": "phone",
     "password": "password",
     "confirmPassword": "confirm password",
+
     "firstnameValidation": "please enter a valid first name",
     "lastnameValidation": "please enter a valid last name",
     "emailValidation": "please enter a valid email",
@@ -14,13 +15,14 @@
     "passwordValidation": "please enter a valid password",
     "confirmPasswordValidation": "please enter a valid password",
 
-    "unexpectedErrorException": "An unexpected error has occurred. Please try again later",
-    "invalidLoginCredentialsException": "The email or password you entered are incorrect",
-    "emailAlreadyInUseException": "Email already in use",
-    "weakPasswordException": "Password is too weak",
-    "wrongPasswordException": "Wrong password",
-    "userNotFoundException": "User not found",
-    "fileTooLargeException": "The file is too large. Allowed maximum size is {fileMaxSizeInMegaBytes} MB",
+    "unexpectedErrorException": "An unexpected error has occurred. Please try again later.",
+    "invalidLoginCredentialsException": "The email or password you entered are incorrect.",
+    "emailAlreadyInUseException": "Email already in use.",
+    "weakPasswordException": "Password is too weak.",
+    "wrongPasswordException": "Wrong password.",
+    "userNotFoundException": "User not found.",
+    "emailNotConfirmedException": "The email is not confirmed. Please check your email inbox.",
+    "fileTooLargeException": "The file is too large. Allowed maximum size is {fileMaxSizeInMegaBytes} MB.",
     "@fileTooLargeException": {
         "fileMaxSizeInMegaBytes": {
             "type": "double",
@@ -30,7 +32,7 @@
 
     "loginToYourAccount": "login to your account",
     "login": "login",
-    "forgotPassword": "forgot the password?",
+    "forgotPassword": "forgot your password?",
     "dontHaveAnAccount": "don't have an account?",
     "signUp": "sign up",
     "fillYourProfile": "Fill your profile",

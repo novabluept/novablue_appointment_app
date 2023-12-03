@@ -1,27 +1,26 @@
 
-
 import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../data/auth_repository.dart';
 
-class PersonalDataScreenController extends StateNotifier<AsyncValue<void>>{
+class PersonalDataScreenController extends StateNotifier<AsyncValue<File?>>{
 
   final SupabaseAuthRepository authRepository;
 
-  PersonalDataScreenController({required this.authRepository})
-      : super(const AsyncValue<void>.data(null));
+  PersonalDataScreenController({required this.authRepository}) : super(const AsyncValue<File?>.data(null));
 
-  Future<void> chooseProfilePicture() async {
-    state = const AsyncValue<void>.loading();
-    state = await AsyncValue.guard(() => authRepository.chooseProfilePicture());
+  Future chooseProfilePicture() async {
+    state = const AsyncLoading();
+    final value = await AsyncValue.guard(() => authRepository.chooseProfileImage());
+    if (value.hasError) {
+      state = AsyncError(value.error!, StackTrace.current);
+    } else {
+      state = AsyncData(value.value);
+    }
   }
-
 }
 
-
-final PersonalDataScreenControllerProvider = StateNotifierProvider<PersonalDataScreenController,AsyncValue<void>>((ref) {
+final personalDataScreenControllerProvider = StateNotifierProvider.autoDispose<PersonalDataScreenController,AsyncValue<File?>>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return PersonalDataScreenController(authRepository: authRepository);
 });

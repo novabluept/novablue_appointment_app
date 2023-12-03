@@ -7,6 +7,7 @@
     "phone": "telemóvel",
     "password": "palavra-passe",
     "confirmPassword": "confirmar palavra-passe",
+
     "firstnameValidation": "por favor ensira um primeiro nome válido",
     "lastnameValidation": "por favor ensira um último nome válido",
     "phoneValidation": "por favor ensira um número de telemóvel válido",
@@ -14,13 +15,14 @@
     "passwordValidation": "por favor ensira uma palavra-passe válida",
     "confirmPasswordValidation": "por favor ensira uma palavra-passe válida",
 
-    "unexpectedErrorException": "Ocorreu um erro inesperado. Por favor, tente mais tarde",
-    "invalidLoginCredentialsException": "O e-mail ou a palavra-passe introduzidos estão incorrectos",
-    "emailAlreadyInUseException": "Este correio eletrónico já se encontra em uso",
-    "weakPasswordException": "Palavra-passe demasiado fraca",
-    "wrongPasswordException": "Palavra-passe errada",
-    "userNotFoundException": "Utilizador não encontrado",
-    "fileTooLargeException": "O ficheiro é demasiado grande. O tamanho máximo permitido é {fileMaxSizeInMegaBytes} MB",
+    "unexpectedErrorException": "Ocorreu um erro inesperado. Por favor, tente mais tarde.",
+    "invalidLoginCredentialsException": "O e-mail ou a palavra-passe introduzidos estão incorrectos.",
+    "emailAlreadyInUseException": "Este correio eletrónico já se encontra em uso.",
+    "weakPasswordException": "Palavra-passe demasiado fraca.",
+    "wrongPasswordException": "Palavra-passe errada.",
+    "userNotFoundException": "Utilizador não encontrado.",
+    "emailNotConfirmedException": "O email não está confirmado. Por favor, verifique a caixa de entrada do seu correio eletrónico.",
+    "fileTooLargeException": "O ficheiro é demasiado grande. O tamanho máximo permitido é {fileMaxSizeInMegaBytes} MB.",
     "@fileTooLargeException": {
         "fileMaxSizeInMegaBytes": {
             "type": "double",

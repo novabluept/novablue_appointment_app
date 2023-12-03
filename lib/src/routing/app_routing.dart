@@ -86,14 +86,20 @@ final goRouterProvider = Provider((ref) {
               child: const PersonalDataScreen(),
             ),
             routes: [
-              GoRoute(
+
+            GoRoute(
                 name: AppRoute.createPassword.name,
                 path: 'create-password',
-                pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
-                  context: context,
-                  state: state,
-                  child: const CreatePasswordScreen(),
-                ),
+                pageBuilder: (context, state) {
+                  CreatePasswordScreenArguments args = state.extra as CreatePasswordScreenArguments;
+                  return buildPageWithDefaultTransition<void>(
+                    context: context,
+                    state: state,
+                    child: CreatePasswordScreen(
+                      args: args,
+                    ),
+                  );
+                }
               ),
             ]
           ),

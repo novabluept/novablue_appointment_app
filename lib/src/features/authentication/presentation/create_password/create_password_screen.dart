@@ -9,14 +9,40 @@ import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
+import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import '../../../../common_widgets/my_button.dart';
 import '../../../../common_widgets/my_text.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
 import '../../../../constants/app_colors.dart';
+import '../../../../routing/app_routing.dart';
+import '../../../../utils/validations.dart';
+import 'create_password_screen_controller.dart';
+
+class CreatePasswordScreenArguments {
+
+  String filePath;
+  String firstname;
+  String lastname;
+  String email;
+  String phone;
+  String phoneCode;
+
+  CreatePasswordScreenArguments({
+    required this.filePath,
+    required this.firstname,
+    required this.lastname,
+    required this.email,
+    required this.phone,
+    required this.phoneCode,
+  });
+}
 
 class CreatePasswordScreen extends ConsumerStatefulWidget {
-  const CreatePasswordScreen({super.key});
+  
+  final CreatePasswordScreenArguments args;
+
+  const CreatePasswordScreen({super.key,required this.args});
 
   @override
   _CreatePasswordScreenState createState() => _CreatePasswordScreenState();
@@ -35,6 +61,9 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
   bool _isPasswordFocused = false;
   bool _isConfirmPasswordFocused = false;
 
+  String get password => _passwordController.text;
+  String get confirmPassword => _confirmPasswordController.text;
+
   @override
   void initState() {
     super.initState();
@@ -47,16 +76,22 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<void>>(
+      createPasswordScreenControllerProvider,
+          (_, state) => state.showDialogError(context),
+    );
+    final state = ref.watch(createPasswordScreenControllerProvider);
     return MyScaffold(
+      state: state,
       appBar: MyAppBar(
         title: context.loc.createPassword.capitalize(),
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, 0),
           child: GestureDetector(
-              onTap: (){
-                context.pop();
-              },
-              child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
+            onTap: (){
+              context.pop();
+            },
+            child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
           ),
         ),
       ),
@@ -77,6 +112,8 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
             ),
             gapH24,
             Form(
+              key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 children: [
                   MyTextFormField(
@@ -90,7 +127,11 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                       setState(() {_isPasswordFocused = value;});
                     },
                     validator: (value){
-
+                      if(value == null || value.isEmpty || !Validations.isPasswordValid(value)){
+                        _passwordHasError = true;
+                        return '';
+                      }
+                      _passwordHasError = false;
                       return null;
                     }
                   ),
@@ -106,6 +147,11 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                       setState(() {_isConfirmPasswordFocused = value;});
                     },
                     validator: (value){
+                      if(value == null || value.isEmpty || password != confirmPassword){
+                        _confirmPasswordHasError = true;
+                        return '';
+                      }
+                      _confirmPasswordHasError = false;
                       return null;
                     }
                   ),
@@ -113,9 +159,18 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.signUp.capitalize(),
-                    onPressed: (){
-                      setState(() {});
-                      if (_formKey.currentState!.validate()){}
+                    onPressed: state.isLoading ? null : () async{
+                      if (_formKey.currentState!.validate()){
+                        await ref.read(createPasswordScreenControllerProvider.notifier).createUserWithEmailAndPassword(
+                          filePath: widget.args.filePath,
+                          firstname: widget.args.firstname,
+                          lastname: widget.args.lastname,
+                          email: widget.args.email,
+                          phone: widget.args.phone,
+                          phoneCode: widget.args.phoneCode,
+                          onSuccess: () => context.goNamed(AppRoute.login.name)
+                        );
+                      }
                     }
                   ),
                   gapH48,

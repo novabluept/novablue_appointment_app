@@ -19,19 +19,22 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
   Widget build(BuildContext context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight.sp),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Sizes.s20.w),
-        child: AppBar(
-          backgroundColor: OtherColors.white,
-          elevation: 0,
-          scrolledUnderElevation: 0,
-          titleSpacing: -Sizes.s24.w,
-          centerTitle: false,
-          leading: leading,
-          actions: actions,
-          title: MyText(
-            type: TextTypes.h4,
-            text: title ?? '',
+      child: Container(
+        width: double.infinity,
+        color: OtherColors.white,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: Sizes.s20.w),
+          child: AppBar(
+            elevation: 0,
+            scrolledUnderElevation: 0,
+            titleSpacing: -Sizes.s24.w,
+            centerTitle: false,
+            leading: leading,
+            actions: actions,
+            title: MyText(
+              type: TextTypes.h4,
+              text: title ?? '',
+            ),
           ),
         ),
       ),

@@ -1,5 +1,4 @@
 
-import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import '../localization/app_locale_notifier.dart';
 
 sealed class AppException implements Exception {
@@ -36,6 +35,10 @@ class WrongPasswordException extends AppException {
 
 class UserNotFoundException extends AppException {
   UserNotFoundException(ref) : super('user-not-found', ref.read(appLocalizationsProvider).userNotFoundException);
+}
+
+class EmailNotConfirmedException extends AppException {
+  EmailNotConfirmedException(ref) : super('email-not-confirmed', ref.read(appLocalizationsProvider).emailNotConfirmedException);
 }
 
 class FileTooLargeException extends AppException {

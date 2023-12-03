@@ -19,7 +19,7 @@ class LoginScreenController extends StateNotifier<AsyncValue<void>>{
 }
 
 
-final loginScreenControllerProvider = StateNotifierProvider<LoginScreenController,AsyncValue<void>>((ref) {
+final loginScreenControllerProvider = StateNotifierProvider.autoDispose<LoginScreenController,AsyncValue<void>>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return LoginScreenController(authRepository: authRepository);
 });

@@ -104,7 +104,6 @@ class MyTextFormField extends StatelessWidget {
               prefixIcon: _prefixIcon(),
               suffixIcon: _suffixIcon(),
               hintText: text,
-              focusColor: Colors.green,
               errorStyle: TextFormFieldTextStyles.error,
               hintStyle: TextFormFieldTextStyles.placeHolder,
               enabledBorder: TextFormFieldBorderStyles.disabled,
@@ -115,17 +114,24 @@ class MyTextFormField extends StatelessWidget {
             validator: validator,
           ),
         ),
-        fieldHasError == true ? Row(
-          children: [
-            Icon(IconlyBold.danger,size: Sizes.s14.w,color: OtherColors.red),
-            gapW8,
-            MyText(
-              type: TextTypes.bodyMedium,
-              fontWeight: FontWeights.medium,
-              color: OtherColors.red,
-              text: errorText ?? '',
-            ),
-          ],
+        fieldHasError == true ? SizedBox(
+          width: double.infinity,
+          height: Sizes.s24.h,
+          child: Row(
+            children: [
+              Icon(IconlyBold.danger,size: Sizes.s14.w,color: OtherColors.red),
+              gapW8,
+              Expanded(
+                child: MyText(
+                  type: TextTypes.bodyMedium,
+                  fontWeight: FontWeights.medium,
+                  color: OtherColors.red,
+                  text: errorText ?? '',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ) : Container()
       ],
     );

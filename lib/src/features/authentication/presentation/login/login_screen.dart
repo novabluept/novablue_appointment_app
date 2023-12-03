@@ -9,11 +9,9 @@ import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/login/login_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
-import '../../../../../main.dart';
 import '../../../../common_widgets/my_app_bar.dart';
 import '../../../../common_widgets/my_dropdown_button.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
@@ -67,12 +65,15 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
       loginScreenControllerProvider,
       (_, state) => state.showDialogError(context),
     );
+    final state = ref.watch(loginScreenControllerProvider);
     return MyScaffold(
+      state: state,
       appBar: MyAppBar(
         actions: [
           MyDropdownButton<SupportedLocale>(
             items: SupportedLocale.values,
             icon: Icons.language_rounded,
+            iconSize: Sizes.s24.w,
             dropDownMenuItem: SupportedLocale.values.map<DropdownMenuItem<SupportedLocale>>((e) => DropdownMenuItem<SupportedLocale>(
               value: e,
               child: Row(
@@ -87,8 +88,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                   ),
                 ],
               ),
-            ),
-            ).toList(),
+            )).toList(),
             onChanged: (SupportedLocale? value) {
               ref.read(localeProvider.notifier).changeLanguage(value ?? SupportedLocale.pt);
             },
@@ -157,7 +157,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.login.capitalize(),
                     onPressed: () async {
-                      setState(() {});
+                      setState(() {}); /// refresh textformfield errors
                       if (_formKey.currentState!.validate()){
                         await ref.read(loginScreenControllerProvider.notifier).signInWithEmailAndPassword(email, password);
                       }
