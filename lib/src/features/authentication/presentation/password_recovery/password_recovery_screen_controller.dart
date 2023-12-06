@@ -12,7 +12,7 @@ class PasswordRecoveryScreenController extends StateNotifier<AsyncValue<void>>{
   Future<void> updatePassword({
     required String password,
     required void Function() onSuccess,
-  }) async {
+  })async{
     state = const AsyncValue<void>.loading();
     final newState = await AsyncValue.guard(() => authRepository.updatePassword(
       password: password,

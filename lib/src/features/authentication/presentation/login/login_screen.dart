@@ -9,6 +9,7 @@ import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/login/login_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
@@ -63,7 +64,12 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
       loginScreenControllerProvider,
-      (_, state) => state.showDialogError(context),
+      (_, state) {
+        final error = state.error != null ? state.error as AppException : null;
+        if(error?.code != AppExceptionTypes.emailNotConfirmed.name){
+          state.showDialogError(context);
+        }
+      },
     );
     final state = ref.watch(loginScreenControllerProvider);
     return MyScaffold(
@@ -161,7 +167,10 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                       if (_formKey.currentState!.validate()){
                         await ref.read(loginScreenControllerProvider.notifier).signInWithEmailAndPassword(
                           email: email,
-                          password: password
+                          password: password,
+                          onEmailNotConfirmed: (){
+                            context.pushNamed(AppRoute.confirmEmail.name);
+                          }
                         );
                       }
                     }

@@ -8,7 +8,9 @@
     "password": "palavra-passe",
     "confirmPassword": "confirmar palavra-passe",
 
-    "forgotPasswordSuccess": "Iniciámos o processo de reposição da palavra-passe da sua conta. Verifique a sua caixa de correio eletrónico associada a esta conta.",
+    "forgotPasswordSuccess": "Iniciámos o processo de reposição da palavra-passe da sua conta. Verifique a caixa de correio eletrónico associada a esta conta.",
+    "emailConfirmationSuccess": "Iniciámos o processo de confirmação da sua conta. Verifique a caixa de correio eletrónico associada a esta conta.",
+
 
     "firstnameValidation": "por favor ensira um primeiro nome válido",
     "lastnameValidation": "por favor ensira um último nome válido",
@@ -43,10 +45,14 @@
     "createYourNewPassword": "crie a sua nova palavra-passe",
     "recoverPassword": "recuperar palavra-passe",
     "submit": "submeter",
-    "emailRecoverMessage": "introduza o seu correio eletrónico e enviaremos uma ligação para redefinir a sua palavra-passe",
+    "emailRecoverMessage": "introduza o seu correio eletrónico e enviaremos uma ligação para redefinir a sua palavra-passe.",
     "goBack": "voltar",
     "ok":"ok",
     "successMessage": "sucesso!",
     "errorMessage": "oops, falhou!",
-    "recover": "recuperar"
+    "recover": "recuperar",
+    "emailConfirmation": "confirmação de email",
+    "emailConfirmationMessage": "introduza o seu correio eletrónico abaixo e irá receber uma ligação para confirmar a sua conta."
+
+
 }

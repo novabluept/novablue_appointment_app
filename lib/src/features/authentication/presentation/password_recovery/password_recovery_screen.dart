@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
@@ -16,7 +15,6 @@ import '../../../../common_widgets/my_button.dart';
 import '../../../../common_widgets/my_text.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
 import '../../../../constants/app_colors.dart';
-import '../../../../routing/app_routing.dart';
 import '../../../../utils/validations.dart';
 
 class PasswordRecoveryScreen extends ConsumerStatefulWidget {
@@ -27,7 +25,7 @@ class PasswordRecoveryScreen extends ConsumerStatefulWidget {
   _PasswordRecoveryScreenState createState() => _PasswordRecoveryScreenState();
 }
 
-class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen> {
+class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>{
 
   final _formKey = GlobalKey<FormState>();
 

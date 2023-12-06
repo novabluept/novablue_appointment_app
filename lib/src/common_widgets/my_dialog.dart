@@ -24,50 +24,54 @@ class MyDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: Sizes.s45.w),
-            padding: EdgeInsets.all(Sizes.s24.w),
-            decoration: BoxDecoration(
-              color: OtherColors.white,
-              borderRadius: BorderRadius.all(const Radius.circular(Sizes.s48).r),
-            ),
-            child: Material(
-              child: Column(
-                children: [
-                  SvgPicture.asset(type == DialogTypes.success ? 'images/main/success_image.svg' : 'images/main/failure_image.svg',width: Sizes.s180.w,height: Sizes.s185.h),
-                  SizedBox(height: Sizes.s32.h),
-                  MyText(
-                    type: TextTypes.h4,
-                    text: type == DialogTypes.success ? context.loc.successMessage.capitalize() : context.loc.errorMessage.capitalize(),
-                  ),
-                  gapH16,
-                  MyText(
-                    type: TextTypes.bodyLarge,
-                    text: label,
-                    textAlign: TextAlign.center,
-                  ),
-                  gapH32,
-                  MyButton(
-                    type: ButtonTypes.filledFullyRounded,
-                    text: context.loc.ok.capitalize(),
-                    onPressed: positiveButtonOnPressed
-                  ),
-                ],
+    return WillPopScope(
+      onWillPop: () => Future.value(false),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: Sizes.s45.w),
+              padding: EdgeInsets.all(Sizes.s24.w),
+              decoration: BoxDecoration(
+                color: OtherColors.white,
+                borderRadius: BorderRadius.all(const Radius.circular(Sizes.s48).r),
+              ),
+              child: Material(
+                child: Column(
+                  children: [
+                    SvgPicture.asset(type == DialogTypes.success ? 'images/main/success_image.svg' : 'images/main/failure_image.svg',width: Sizes.s180.w,height: Sizes.s185.h),
+                    SizedBox(height: Sizes.s32.h),
+                    MyText(
+                      type: TextTypes.h4,
+                      text: type == DialogTypes.success ? context.loc.successMessage.capitalize() : context.loc.errorMessage.capitalize(),
+                    ),
+                    gapH16,
+                    MyText(
+                      type: TextTypes.bodyLarge,
+                      text: label,
+                      textAlign: TextAlign.center,
+                    ),
+                    gapH32,
+                    MyButton(
+                      type: ButtonTypes.filledFullyRounded,
+                      text: context.loc.ok.capitalize(),
+                      onPressed: positiveButtonOnPressed
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-Future<void> showAlertDialog(BuildContext context,DialogTypes type, String label,Function() positiveButtonOnPressed) async {
+Future<void> showAlertDialog({barrierDismissible = false,required BuildContext context,required DialogTypes type,required String label,required Function() positiveButtonOnPressed}) async {
   showDialog(
+    barrierDismissible: barrierDismissible,
     context: context,
     builder: (BuildContext context) {
       return MyDialog(

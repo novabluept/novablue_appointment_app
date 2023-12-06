@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/email_confirmation/email_confirmation_screen.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/forgot_password/forgot_password.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/password_recovery/password_recovery.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/password_recovery/password_recovery_screen.dart';
 import 'package:novablue_appointment_app/src/routing/not_found_screen.dart';
 import 'package:novablue_appointment_app/src/routing/scaffold_with_nested_navigation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
@@ -106,7 +107,7 @@ final goRouterProvider = Provider((ref) {
             pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
               context: context,
               state: state,
-              child: Container(child: Text('confirm email')),
+              child: const EmailConfirmationScreen(),
             ),
           ),
           GoRoute(

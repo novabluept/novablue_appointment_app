@@ -1,6 +1,17 @@
 
 import '../localization/app_locale_notifier.dart';
 
+enum AppExceptionTypes{
+  unexpectedError,
+  invalidLoginCredentials,
+  emailAlreadyInUse,
+  weakPassword,
+  wrongPassword,
+  userNotFound,
+  emailNotConfirmed,
+  fileTooLarge
+}
+
 sealed class AppException implements Exception {
   AppException(this.code, this.message);
 
@@ -13,34 +24,34 @@ sealed class AppException implements Exception {
 
 /// General Exceptions
 class UnexpectedErrorException extends AppException {
-  UnexpectedErrorException(ref) : super('unexpected-error', ref.read(appLocalizationsProvider).unexpectedErrorException);
+  UnexpectedErrorException(ref) : super(AppExceptionTypes.unexpectedError.name, ref.read(appLocalizationsProvider).unexpectedErrorException);
 }
 
 /// Auth
 class InvalidLoginCredentialsException extends AppException {
-  InvalidLoginCredentialsException(ref) : super('invalid-login-credentials', ref.read(appLocalizationsProvider).invalidLoginCredentialsException);
+  InvalidLoginCredentialsException(ref) : super(AppExceptionTypes.invalidLoginCredentials.name, ref.read(appLocalizationsProvider).invalidLoginCredentialsException);
 }
 
 class EmailAlreadyInUseException extends AppException {
-  EmailAlreadyInUseException(ref) : super('email-already-in-use', ref.read(appLocalizationsProvider).emailAlreadyInUseException);
+  EmailAlreadyInUseException(ref) : super(AppExceptionTypes.emailAlreadyInUse.name, ref.read(appLocalizationsProvider).emailAlreadyInUseException);
 }
 
 class WeakPasswordException extends AppException {
-  WeakPasswordException(ref) : super('weak-password', ref.read(appLocalizationsProvider).weakPasswordException);
+  WeakPasswordException(ref) : super(AppExceptionTypes.weakPassword.name, ref.read(appLocalizationsProvider).weakPasswordException);
 }
 
 class WrongPasswordException extends AppException {
-  WrongPasswordException(ref) : super('wrong-password', ref.read(appLocalizationsProvider).wrongPasswordException);
+  WrongPasswordException(ref) : super(AppExceptionTypes.wrongPassword.name, ref.read(appLocalizationsProvider).wrongPasswordException);
 }
 
 class UserNotFoundException extends AppException {
-  UserNotFoundException(ref) : super('user-not-found', ref.read(appLocalizationsProvider).userNotFoundException);
+  UserNotFoundException(ref) : super(AppExceptionTypes.userNotFound.name, ref.read(appLocalizationsProvider).userNotFoundException);
 }
 
 class EmailNotConfirmedException extends AppException {
-  EmailNotConfirmedException(ref) : super('email-not-confirmed', ref.read(appLocalizationsProvider).emailNotConfirmedException);
+  EmailNotConfirmedException(ref) : super(AppExceptionTypes.emailNotConfirmed.name, ref.read(appLocalizationsProvider).emailNotConfirmedException);
 }
 
 class FileTooLargeException extends AppException {
-  FileTooLargeException(ref,fileMaxSizeInMegaBytes) : super('file-too-large', ref.read(appLocalizationsProvider).fileTooLargeException(fileMaxSizeInMegaBytes));
+  FileTooLargeException(ref,fileMaxSizeInMegaBytes) : super(AppExceptionTypes.fileTooLarge.name, ref.read(appLocalizationsProvider).fileTooLargeException(fileMaxSizeInMegaBytes));
 }

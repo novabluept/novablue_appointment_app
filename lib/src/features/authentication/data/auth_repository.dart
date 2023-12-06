@@ -16,12 +16,14 @@ abstract class AuthRepository {
   Future<void> signOut();
   Future<void> resetPasswordForEmail({required String email});
   Future<void> updatePassword({required String password});
+  Future<void> resend({required String email});
   Future<File?> chooseProfileImage();
 }
 
 class SupabaseAuthRepository implements AuthRepository{
 
-  SupabaseAuthRepository(this.ref,this._client);
+  final String loginCallback = 'io.supabase.novablue://login-callback/';
+  final String updatePasswordCallback = 'io.supabase.novablue://update-password-callback/';
 
   static String userTable() => 'user';
   static String userBucket() => 'users';
@@ -29,6 +31,8 @@ class SupabaseAuthRepository implements AuthRepository{
 
   final Ref ref;
   final SupabaseClient _client;
+
+  SupabaseAuthRepository(this.ref,this._client);
 
   @override
   Stream<User?> authStateChanges() async*{
@@ -48,7 +52,6 @@ class SupabaseAuthRepository implements AuthRepository{
   })async{
     await _client.storage.from(userBucket()).upload(userBucketFilePath(id), File(filePath))
       .catchError((e){
-        print(e);
         throw UnexpectedErrorException(ref);
       }
     );
@@ -101,7 +104,7 @@ class SupabaseAuthRepository implements AuthRepository{
     await _client.auth.signUp(
       email: email,
       password: password,
-      emailRedirectTo: 'io.supabase.novablue://login-callback/'
+      emailRedirectTo: loginCallback
     ).then((value)async{
       await _createUser(
         id: value.user!.id,
@@ -141,7 +144,7 @@ class SupabaseAuthRepository implements AuthRepository{
   Future<void> resetPasswordForEmail({required String email})async{
     await _client.auth.resetPasswordForEmail(
       email,
-      redirectTo: 'io.supabase.novablue://update-password-callback/'
+      redirectTo: updatePasswordCallback,
     ).catchError((e){
       throw UnexpectedErrorException(ref);
     });
@@ -153,7 +156,7 @@ class SupabaseAuthRepository implements AuthRepository{
       UserAttributes(password: password)
     ).catchError((e){
       throw UnexpectedErrorException(ref);
-    });;
+    });
   }
 
   @override
@@ -169,6 +172,17 @@ class SupabaseAuthRepository implements AuthRepository{
       }
     }
     return null;
+  }
+
+  @override
+  Future<void> resend({required String email}) async{
+    await _client.auth.resend(
+      email: email,
+      type: OtpType.signup,
+      emailRedirectTo: loginCallback
+    ).catchError((e){
+      throw UnexpectedErrorException(ref);
+    });
   }
 
 }

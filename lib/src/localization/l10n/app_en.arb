@@ -9,6 +9,8 @@
     "confirmPassword": "confirm password",
 
     "forgotPasswordSuccess": "We've initiated the password reset process for your account. Please check your email inbox associated with this account.",
+    "emailConfirmationSuccess": "We've started the process of confirming your account. Check the mailbox associated with this account.",
+
 
     "firstnameValidation": "please enter a valid first name",
     "lastnameValidation": "please enter a valid last name",
@@ -43,11 +45,12 @@
     "createYourNewPassword": "create your new password",
     "recoverPassword": "recover password",
     "submit": "submit",
-    "emailRecoverMessage": "enter your email address below, and we'll send you a link to reset your password",
+    "emailRecoverMessage": "enter your email address below, and we'll send you a link to reset your password.",
     "goBack": "go back",
     "ok":"ok",
     "successMessage": "success!",
     "errorMessage": "oops, failed!",
-    "recover": "recover"
-
+    "recover": "recover",
+    "emailConfirmation": "email confirmation",
+    "emailConfirmationMessage": "enter your email address below, and we'll send you a link to confirm your account."
 }

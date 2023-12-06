@@ -12,6 +12,7 @@ import 'package:novablue_appointment_app/src/localization/app_localizations_cont
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import '../../../../common_widgets/my_button.dart';
+import '../../../../common_widgets/my_dialog.dart';
 import '../../../../common_widgets/my_text.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
 import '../../../../constants/app_colors.dart';
@@ -187,7 +188,16 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                           email: widget.args.email,
                           phone: widget.args.phone,
                           phoneCode: widget.args.phoneCode,
-                          onSuccess: () => context.goNamed(AppRoute.login.name)
+                            onSuccess: () {
+                              showAlertDialog(
+                                context: context,
+                                type: DialogTypes.success,
+                                label: context.loc.emailConfirmationSuccess,
+                                positiveButtonOnPressed: () {
+                                  context.goNamed(AppRoute.login.name);
+                                }
+                              );
+                            }
                         );
                       }
                     }

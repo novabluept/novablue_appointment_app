@@ -17,17 +17,17 @@ import '../../../../common_widgets/my_text.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
 import '../../../../constants/app_colors.dart';
 import '../../../../routing/app_routing.dart';
-import 'forgot_password_screen_controller.dart';
+import 'email_confirmation_screen_controller.dart';
 import '../../../../utils/validations.dart';
 
-class ForgotPasswordScreen extends ConsumerStatefulWidget {
-  const ForgotPasswordScreen({super.key});
+class EmailConfirmationScreen extends ConsumerStatefulWidget {
+  const EmailConfirmationScreen({super.key});
 
   @override
-  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
+  _EmailConfirmationScreenState createState() => _EmailConfirmationScreenState();
 }
 
-class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
+class _EmailConfirmationScreenState extends ConsumerState<EmailConfirmationScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -53,14 +53,14 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
-      forgotPasswordScreenControllerProvider,
+      emailConfirmationScreenControllerProvider,
           (_, state) => state.showDialogError(context),
     );
-    final state = ref.watch(forgotPasswordScreenControllerProvider);
+    final state = ref.watch(emailConfirmationScreenControllerProvider);
     return MyScaffold(
       state: state,
       appBar: MyAppBar(
-        title: context.loc.recoverPassword.capitalize(),
+        title: context.loc.emailConfirmation.capitalize(),
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, 0),
           child: GestureDetector(
@@ -84,7 +84,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             gapH24,
             Align(
                 alignment: Alignment.centerLeft,
-                child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.emailRecoverMessage.capitalize())
+                child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.emailConfirmationMessage.capitalize())
             ),
             gapH24,
             Form(
@@ -118,13 +118,13 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                     onPressed: state.isLoading ? null : ()async{
                       setState(() {});
                       if (_formKey.currentState!.validate()){
-                        await ref.read(forgotPasswordScreenControllerProvider.notifier).resetPasswordForEmail(
+                        await ref.read(emailConfirmationScreenControllerProvider.notifier).resend(
                           email: email,
                           onSuccess: () {
                             showAlertDialog(
                               context: context,
                               type: DialogTypes.success,
-                              label: context.loc.forgotPasswordSuccess,
+                              label: context.loc.emailConfirmationSuccess,
                               positiveButtonOnPressed: () {
                                 context.goNamed(AppRoute.login.name);
                               }

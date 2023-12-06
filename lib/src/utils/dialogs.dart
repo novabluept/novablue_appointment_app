@@ -7,9 +7,14 @@ import 'package:novablue_appointment_app/src/common_widgets/my_dialog.dart';
 extension AsyncValueUI on AsyncValue {
   void showDialogError(BuildContext context) {
     if (!isLoading && hasError) {
-      showAlertDialog(context, DialogTypes.error, error.toString(), () {
-        context.pop();
-      });
+      showAlertDialog(
+        context: context,
+        type: DialogTypes.error,
+        label: error.toString(),
+        positiveButtonOnPressed: () {
+          context.pop();
+        }
+      );
     }
   }
 }

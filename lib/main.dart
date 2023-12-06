@@ -16,15 +16,15 @@ Future<void> main() async {
 
   usePathUrlStrategy();
 
-  await Supabase.initialize(url: SupabaseCredentials.url, anonKey: SupabaseCredentials.anonKey);
+  await Supabase.initialize(
+    localStorage: EmptyLocalStorage(),
+    url: SupabaseCredentials.url,
+    anonKey: SupabaseCredentials.anonKey
+  );
 
   await AppSharedPreference.init();
 
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerStatefulWidget {
