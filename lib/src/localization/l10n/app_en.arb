@@ -8,6 +8,8 @@
     "password": "password",
     "confirmPassword": "confirm password",
 
+    "forgotPasswordSuccess": "We've initiated the password reset process for your account. Please check your email inbox associated with this account.",
+
     "firstnameValidation": "please enter a valid first name",
     "lastnameValidation": "please enter a valid last name",
     "emailValidation": "please enter a valid email",
@@ -45,5 +47,7 @@
     "goBack": "go back",
     "ok":"ok",
     "successMessage": "success!",
-    "errorMessage": "oops, failed!"
+    "errorMessage": "oops, failed!",
+    "recover": "recover"
+
 }

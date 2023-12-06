@@ -14,7 +14,9 @@ class ForgotPasswordScreenController extends StateNotifier<AsyncValue<void>>{
     required void Function() onSuccess,
   }) async {
     state = const AsyncValue<void>.loading();
-    final newState = await AsyncValue.guard(() => authRepository.resetPasswordForEmail(email));
+    final newState = await AsyncValue.guard(() => authRepository.resetPasswordForEmail(
+      email: email,
+    ));
     if(mounted){
       state = newState;
       if(!state.hasError){

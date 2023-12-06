@@ -16,8 +16,9 @@ import '../../../../common_widgets/my_dialog.dart';
 import '../../../../common_widgets/my_text.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
 import '../../../../constants/app_colors.dart';
+import '../../../../routing/app_routing.dart';
 import 'forgot_password_screen_controller.dart';
-
+import '../../../../utils/validations.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -102,6 +103,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                       setState(() {_isEmailFocused = value;});
                     },
                     validator: (value){
+                      if(value == null || value.isEmpty || !Validations.isEmailValid(value)){
+                        _emailHasError = true;
+                        return '';
+                      }
+                      _emailHasError = false;
                       return null;
                     }
                   ),
@@ -109,14 +115,14 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.submit.capitalize(),
-                    onPressed: state.isLoading ? null : () async{
+                    onPressed: state.isLoading ? null : ()async{
                       setState(() {});
                       if (_formKey.currentState!.validate()){
                         await ref.read(forgotPasswordScreenControllerProvider.notifier).resetPasswordForEmail(
                           email: email,
                           onSuccess: () {
-                            showAlertDialog(context, DialogTypes.success, 'oalaa', () {
-                              context.pop();
+                            showAlertDialog(context, DialogTypes.success, context.loc.forgotPasswordSuccess, () {
+                              context.goNamed(AppRoute.login.name);
                             });
                           }
                         );

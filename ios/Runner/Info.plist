@@ -52,7 +52,7 @@
           <string>Editor</string>
           <key>CFBundleURLSchemes</key>
           <array>
-            <string>io.supabase.flutterquickstart</string>
+            <string>io.supabase.novablue</string>
           </array>
         </dict>
     </array>

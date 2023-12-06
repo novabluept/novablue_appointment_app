@@ -15,10 +15,17 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
                 <data
-                    android:scheme="io.supabase.flutterquickstart"
+                    android:scheme="io.supabase.novablue"
                     android:host="login-callback" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="io.supabase.novablue"
+                    android:host="update-password-callback" />
             </intent-filter>
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"

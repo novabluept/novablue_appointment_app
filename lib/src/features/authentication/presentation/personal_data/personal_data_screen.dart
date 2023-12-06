@@ -22,7 +22,6 @@ import '../../../../routing/app_routing.dart';
 import '../../../../utils/validations.dart';
 import '../create_password/create_password_screen.dart';
 
-
 class PersonalDataScreen extends ConsumerStatefulWidget {
   const PersonalDataScreen({super.key});
 
@@ -99,7 +98,7 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
             gapH24,
             MyAvatar(
               file: state.hasValue ? state.value : null, /// TODO: Arranjar forma de tirar este .hasValue. Vai passar por dedicar um provider para a funcao e outro para o valor obtido
-              onTap: () async{
+              onTap: ()async{
                 await ref.read(personalDataScreenControllerProvider.notifier).chooseProfilePicture();
               },
             ),
@@ -209,8 +208,8 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.next.capitalize(),
-                    onPressed: () async{
-                      setState(() {}); /// refresh textformfield errors
+                    onPressed: state.isLoading ? null : ()async{
+                      setState(() {});
                       if (_formKey.currentState!.validate()){
                         context.pushNamed(
                           AppRoute.createPassword.name,

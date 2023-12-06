@@ -11,9 +11,22 @@ class LoginScreenController extends StateNotifier<AsyncValue<void>>{
   LoginScreenController({required this.authRepository})
       : super(const AsyncValue<void>.data(null));
 
-  Future<void> signInWithEmailAndPassword(String email,String password) async {
+  Future<void> signInWithEmailAndPassword({
+    required String email,
+    required String password
+  })async{
     state = const AsyncValue<void>.loading();
-    state = await AsyncValue.guard(() => authRepository.signInWithEmailAndPassword(email, password));
+    state = await AsyncValue.guard(() => authRepository.signInWithEmailAndPassword(
+      email: email,
+      password: password
+    ));
+    print(state.error.toString());
+    if(!state.hasError){
+      // fazer o confirm email
+      /*{if(state.error?.code == ''){
+        //onSuccess();
+      }*/
+    }
   }
 
 }

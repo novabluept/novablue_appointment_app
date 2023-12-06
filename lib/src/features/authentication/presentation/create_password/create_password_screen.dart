@@ -61,6 +61,9 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
   bool _isPasswordFocused = false;
   bool _isConfirmPasswordFocused = false;
 
+  bool _isPasswordObscure = true;
+  bool _isConfirmPasswordObscure = true;
+
   String get password => _passwordController.text;
   String get confirmPassword => _confirmPasswordController.text;
 
@@ -121,8 +124,15 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                     text: context.loc.password.capitalize(),
                     errorText: context.loc.passwordValidation.capitalize(),
                     prefixIcon: IconlyBold.message,
+                    suffixIcon: _isPasswordObscure ? IconlyBold.hide : IconlyBold.show,
+                    onSuffixIconTap: (){
+                      setState(() {
+                        _isPasswordObscure ? _isPasswordObscure = false : _isPasswordObscure = true;
+                      });
+                    },
                     fieldHasError: _passwordHasError,
                     isFieldFocused: _isPasswordFocused,
+                    isTextObscure: _isPasswordObscure,
                     onFocusChange: (value) {
                       setState(() {_isPasswordFocused = value;});
                     },
@@ -141,8 +151,15 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                     text: context.loc.confirmPassword.capitalize(),
                     errorText: context.loc.confirmPasswordValidation.capitalize(),
                     prefixIcon: IconlyBold.message,
+                    suffixIcon: _isConfirmPasswordObscure ? IconlyBold.hide : IconlyBold.show,
+                    onSuffixIconTap: (){
+                      setState(() {
+                        _isConfirmPasswordObscure ? _isConfirmPasswordObscure = false : _isConfirmPasswordObscure = true;
+                      });
+                    },
                     fieldHasError: _confirmPasswordHasError,
                     isFieldFocused: _isConfirmPasswordFocused,
+                    isTextObscure: _isConfirmPasswordObscure,
                     onFocusChange: (value) {
                       setState(() {_isConfirmPasswordFocused = value;});
                     },
@@ -159,9 +176,11 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.signUp.capitalize(),
-                    onPressed: state.isLoading ? null : () async{
+                    onPressed: state.isLoading ? null : ()async{
+                      setState(() {});
                       if (_formKey.currentState!.validate()){
                         await ref.read(createPasswordScreenControllerProvider.notifier).createUserWithEmailAndPassword(
+                          password: password,
                           filePath: widget.args.filePath,
                           firstname: widget.args.firstname,
                           lastname: widget.args.lastname,

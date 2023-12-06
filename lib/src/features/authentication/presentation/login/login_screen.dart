@@ -12,7 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/login/login_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
-import '../../../../common_widgets/my_app_bar.dart';
+  import '../../../../common_widgets/my_app_bar.dart';
 import '../../../../common_widgets/my_dropdown_button.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
 import 'package:iconly/iconly.dart';
@@ -156,10 +156,13 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.login.capitalize(),
-                    onPressed: () async {
-                      setState(() {}); /// refresh textformfield errors
+                    onPressed: state.isLoading ? null : () async {
+                      setState(() {});
                       if (_formKey.currentState!.validate()){
-                        await ref.read(loginScreenControllerProvider.notifier).signInWithEmailAndPassword(email, password);
+                        await ref.read(loginScreenControllerProvider.notifier).signInWithEmailAndPassword(
+                          email: email,
+                          password: password
+                        );
                       }
                     }
                   ),

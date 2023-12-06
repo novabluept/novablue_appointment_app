@@ -8,6 +8,8 @@
     "password": "palavra-passe",
     "confirmPassword": "confirmar palavra-passe",
 
+    "forgotPasswordSuccess": "Iniciámos o processo de reposição da palavra-passe da sua conta. Verifique a sua caixa de correio eletrónico associada a esta conta.",
+
     "firstnameValidation": "por favor ensira um primeiro nome válido",
     "lastnameValidation": "por favor ensira um último nome válido",
     "phoneValidation": "por favor ensira um número de telemóvel válido",
@@ -45,5 +47,6 @@
     "goBack": "voltar",
     "ok":"ok",
     "successMessage": "sucesso!",
-    "errorMessage": "oops, falhou!"
+    "errorMessage": "oops, falhou!",
+    "recover": "recuperar"
 }

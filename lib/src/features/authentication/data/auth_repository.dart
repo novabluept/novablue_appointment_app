@@ -9,12 +9,13 @@ import '../../../exceptions/app_exceptions.dart';
 import '../domain/user_model.dart';
 
 abstract class AuthRepository {
-  Stream<User?>  authStateChanges();
+  Stream  authStateChanges();
   User? get currentUser;
-  Future<void> signInWithEmailAndPassword(String email, String password);
-  Future<void> createUserWithEmailAndPassword(String filePath,String firstname,String lastname,String email,String phone,String phoneCode);
+  Future<void> signInWithEmailAndPassword({required String email,required String password});
+  Future<void> createUserWithEmailAndPassword({required String password, required String filePath, required String firstname, required String lastname, required String email, required String phone, required String phoneCode});
   Future<void> signOut();
-  Future<void> resetPasswordForEmail(String email);
+  Future<void> resetPasswordForEmail({required String email});
+  Future<void> updatePassword({required String password});
   Future<File?> chooseProfileImage();
 }
 
@@ -22,15 +23,18 @@ class SupabaseAuthRepository implements AuthRepository{
 
   SupabaseAuthRepository(this.ref,this._client);
 
+  static String userTable() => 'user';
+  static String userBucket() => 'users';
+  static String userBucketFilePath(String id) => '/${id}/profileImage';
+
   final Ref ref;
   final SupabaseClient _client;
-
 
   @override
   Stream<User?> authStateChanges() async*{
     final authStream = _client.auth.onAuthStateChange;
-
     await for (final authState in authStream) {
+      ref.read(authChangeEventProvider.notifier).state = authState.event;
       yield authState.session?.user;
     }
   }
@@ -38,8 +42,11 @@ class SupabaseAuthRepository implements AuthRepository{
   @override
   User? get currentUser => _client.auth.currentUser;
 
-  Future<void> _uploadProfileImage(String id,String filePath) async{
-    await _client.storage.from('users').upload('/${id}/profileImage', File(filePath))
+  Future<void> _uploadProfileImage({
+    required String id,
+    required String filePath
+  })async{
+    await _client.storage.from(userBucket()).upload(userBucketFilePath(id), File(filePath))
       .catchError((e){
         print(e);
         throw UnexpectedErrorException(ref);
@@ -47,7 +54,15 @@ class SupabaseAuthRepository implements AuthRepository{
     );
   }
 
-  Future<void> _createUser(String id,String filePath,String firstname,String lastname,String email,String phone,String phoneCode) async{
+  Future<void> _createUser({
+    required String id,
+    required String filePath,
+    required String firstname,
+    required String lastname,
+    required String email,
+    required String phone,
+    required String phoneCode
+  })async{
     var user = UserModel(
       id: id,
       firstname: firstname,
@@ -58,8 +73,15 @@ class SupabaseAuthRepository implements AuthRepository{
       updatedAt: DateTime.now().toUtc().toIso8601String(),
     ).toJson();
 
-    await _client.from('user').insert(user)
-      .then((value) async => filePath != '' ? await _uploadProfileImage(id,filePath) : null)
+    await _client.from(userTable()).insert(user)
+      .then((value) async =>
+        filePath != '' ?
+        await _uploadProfileImage(
+          id: id,
+          filePath: filePath
+        )
+        : null
+      )
       .catchError((e){
       throw UnexpectedErrorException(ref);
       }
@@ -67,22 +89,39 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<void> createUserWithEmailAndPassword(String filePath,String firstname,String lastname,String email,String phone,String phoneCode) async{
+  Future<void> createUserWithEmailAndPassword({
+    required String password,
+    required String filePath,
+    required String firstname,
+    required String lastname,
+    required String email,
+    required String phone,
+    required String phoneCode
+  })async{
     await _client.auth.signUp(
-      email: 'johnaway4443@gmail.com',
-      password: '12345678',
-    ).then((value) async{
-      await _createUser(value.user!.id,filePath,firstname,lastname,email,phone,phoneCode);
+      email: email,
+      password: password,
+      emailRedirectTo: 'io.supabase.novablue://login-callback/'
+    ).then((value)async{
+      await _createUser(
+        id: value.user!.id,
+        filePath: filePath,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phone: phone,
+        phoneCode: phoneCode
+      );
     }).catchError((e){
       throw UnexpectedErrorException(ref);
     });
   }
 
   @override
-  Future<void> signInWithEmailAndPassword(String email, String password) async{
+  Future<void> signInWithEmailAndPassword({required String email,required String password})async{
     await _client.auth.signInWithPassword(
-      email: email, // 'miguelsilva20015111@gmail.com'
-      password: password, // '12345678'
+      email: email,
+      password: password,
     ).catchError((e){
       if(e.message == 'Invalid login credentials'){
         throw InvalidLoginCredentialsException(ref);
@@ -94,21 +133,31 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<void> signOut() async{
+  Future<void> signOut()async{
     await _client.auth.signOut();
   }
 
   @override
-  Future<void> resetPasswordForEmail(String email) async{
+  Future<void> resetPasswordForEmail({required String email})async{
     await _client.auth.resetPasswordForEmail(
-      email
+      email,
+      redirectTo: 'io.supabase.novablue://update-password-callback/'
     ).catchError((e){
       throw UnexpectedErrorException(ref);
     });
   }
 
   @override
-  Future<File?> chooseProfileImage() async{
+  Future<void> updatePassword({required String password}) async{
+    await _client.auth.updateUser(
+      UserAttributes(password: password)
+    ).catchError((e){
+      throw UnexpectedErrorException(ref);
+    });;
+  }
+
+  @override
+  Future<File?> chooseProfileImage()async{
     final file = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 80);
     if(file != null){
       var imagePath = await file.readAsBytes();
@@ -133,6 +182,8 @@ final authStateChangesProvider = StreamProvider((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.authStateChanges();
 });
+
+final authChangeEventProvider = StateProvider<AuthChangeEvent>((ref) => AuthChangeEvent.signedOut);
 
 
 

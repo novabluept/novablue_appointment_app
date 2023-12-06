@@ -10,6 +10,7 @@ class CreatePasswordScreenController extends StateNotifier<AsyncValue<void>>{
       : super(const AsyncValue<void>.data(null));
 
   Future<void> createUserWithEmailAndPassword({
+    required String password,
     required String filePath,
     required String firstname,
     required String lastname,
@@ -18,9 +19,16 @@ class CreatePasswordScreenController extends StateNotifier<AsyncValue<void>>{
     required String phoneCode,
     required void Function() onSuccess,
   }) async {
-    await Future.delayed(Duration(seconds: 5));
     state = const AsyncValue<void>.loading();
-    final newState = await AsyncValue.guard(() => authRepository.createUserWithEmailAndPassword(filePath,firstname,lastname,email,phone,phoneCode));
+    final newState = await AsyncValue.guard(() => authRepository.createUserWithEmailAndPassword(
+      password: password,
+      filePath: filePath,
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      phone: phone,
+      phoneCode: phoneCode
+    ));
     if(mounted){
       state = newState;
       if(!state.hasError){
@@ -29,7 +37,6 @@ class CreatePasswordScreenController extends StateNotifier<AsyncValue<void>>{
     }
   }
 }
-
 
 final createPasswordScreenControllerProvider = StateNotifierProvider.autoDispose<CreatePasswordScreenController,AsyncValue<void>>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
