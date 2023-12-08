@@ -62,12 +62,12 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
       appBar: MyAppBar(
         title: context.loc.recoverPassword.capitalize(),
         leading: Transform.translate(
-          offset: Offset(-Sizes.s16.w, 0),
+          offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(
-            onTap: (){
-              context.pop();
-            },
-            child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
+              onTap: (){
+                context.pop();
+              },
+              child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
           ),
         ),
       ),
@@ -83,8 +83,8 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             ),
             gapH24,
             Align(
-                alignment: Alignment.centerLeft,
-                child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.emailRecoverMessage.capitalize())
+              alignment: Alignment.centerLeft,
+              child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.emailRecoverMessage.capitalize())
             ),
             gapH24,
             Form(
@@ -122,12 +122,12 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                           email: email,
                           onSuccess: () {
                             showAlertDialog(
-                              context: context,
-                              type: DialogTypes.success,
-                              label: context.loc.forgotPasswordSuccess,
-                              positiveButtonOnPressed: () {
-                                context.goNamed(AppRoute.login.name);
-                              }
+                                context: context,
+                                type: DialogTypes.success,
+                                label: context.loc.forgotPasswordSuccess,
+                                positiveButtonOnPressed: () {
+                                  context.goNamed(AppRoute.login.name);
+                                }
                             );
                           }
                         );
@@ -143,4 +143,3 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     );
   }
 }
-

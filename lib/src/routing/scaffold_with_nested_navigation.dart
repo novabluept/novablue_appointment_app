@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:iconly/iconly.dart';
+import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
+import 'package:novablue_appointment_app/src/utils/formatters.dart';
 
 import '../common_widgets/my_text.dart';
 import '../constants/app_sizes.dart';
@@ -57,10 +59,22 @@ class ScaffoldWithNestedNavigation extends StatelessWidget {
                 type: BottomNavigationBarType.fixed,
                 selectedLabelStyle: BottomNavTextStyles.main,
                 unselectedLabelStyle: BottomNavTextStyles.main,
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(icon: Icon(IconlyLight.home,color: GreyScaleColors.grey500),activeIcon: Icon(IconlyBold.home,color: MainColors.primary),label: 'Home'),
-                  BottomNavigationBarItem(icon: Icon(IconlyLight.document,color: GreyScaleColors.grey500),activeIcon: Icon(IconlyBold.document,color: MainColors.primary),label: 'History'),
-                  BottomNavigationBarItem(icon: Icon(IconlyLight.profile,color: GreyScaleColors.grey500),activeIcon: Icon(IconlyBold.profile,color: MainColors.primary),label: 'Profile'),
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                      icon: Icon(IconlyLight.home,color: GreyScaleColors.grey500),
+                      activeIcon: Icon(IconlyBold.home,color: MainColors.primary),
+                      label: context.loc.home.capitalize()
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(IconlyLight.document,color: GreyScaleColors.grey500),
+                      activeIcon: Icon(IconlyBold.document,color: MainColors.primary),
+                      label: context.loc.history.capitalize()
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(IconlyLight.profile,color: GreyScaleColors.grey500),
+                      activeIcon: Icon(IconlyBold.profile,color: MainColors.primary),
+                      label: context.loc.profile.capitalize()
+                  ),
                 ],
                 currentIndex: navigationShell.currentIndex,
                 onTap: (int index) => _goBranch(index),

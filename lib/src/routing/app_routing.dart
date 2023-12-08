@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/email_confirmation/email_confirmation_screen.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/forgot_password/forgot_password.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/password_recovery/password_recovery_screen.dart';
 import 'package:novablue_appointment_app/src/routing/not_found_screen.dart';
 import 'package:novablue_appointment_app/src/routing/scaffold_with_nested_navigation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+import '../features/appointments/presentation/history/history_screen.dart';
 import '../features/authentication/data/auth_repository.dart';
 import '../features/authentication/presentation/create_password/create_password_screen.dart';
 import '../features/authentication/presentation/personal_data/personal_data_screen.dart';
+import '../features/authentication/presentation/profile/profile_screen.dart';
 import '../features/shops/presentation/shops_slidable_list/shops_slidable_list_screen.dart';
 import '../features/authentication/presentation/login/login_screen.dart';
 import 'go_router_refresh_stream.dart';
@@ -59,8 +61,8 @@ final goRouterProvider = Provider((ref) {
 
       final path = state.location;
 
-      print('\$\$ currentUser -> $currentUser');
-      print('\$\$ authChangeEvent -> $authChangeEvent');
+      //print('\$\$ currentUser -> $currentUser');
+      //print('\$\$ authChangeEvent -> $authChangeEvent');
 
       if(authChangeEvent == AuthChangeEvent.signedOut){
         if(path == '/' || path == '/profile'){
@@ -154,7 +156,7 @@ final goRouterProvider = Provider((ref) {
                   GoRoute(
                     name: AppRoute.history.name,
                     path: 'history',
-                    builder: (context,state) => Container(),
+                    builder: (context,state) => const HistoryScreen(),
                   ),
                 ],
               ),
@@ -163,17 +165,7 @@ final goRouterProvider = Provider((ref) {
                   GoRoute(
                     name: AppRoute.profile.name,
                     path: 'profile',
-                    builder: (context,state) => Container(
-                      color: Colors.black45,
-                      child: Center(
-                        child: TextButton(
-                          child: const Text('sign out'),
-                          onPressed: ()async{
-                            ref.read(authRepositoryProvider).signOut();
-                          }
-                        ),
-                      ),
-                    ),
+                    builder: (context,state) => const ProfileScreen(),
                   ),
                 ],
               ),

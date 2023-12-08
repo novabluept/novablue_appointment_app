@@ -21,13 +21,13 @@ class CreatePasswordScreenController extends StateNotifier<AsyncValue<void>>{
   }) async {
     state = const AsyncValue<void>.loading();
     final newState = await AsyncValue.guard(() => authRepository.createUserWithEmailAndPassword(
-      password: password,
-      filePath: filePath,
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      phone: phone,
-      phoneCode: phoneCode
+        password: password,
+        filePath: filePath,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phone: phone,
+        phoneCode: phoneCode
     ));
     if(mounted){
       state = newState;

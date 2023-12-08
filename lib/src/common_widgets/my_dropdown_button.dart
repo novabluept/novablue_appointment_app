@@ -48,11 +48,11 @@ class MyDropdownButton<T> extends StatelessWidget {
         children: [
           DropdownButton<T>(
             padding: EdgeInsets.zero,
-            underline: Container(),
+            underline: const SizedBox(),
             value: value,
             onChanged: onChanged,
             items: dropDownMenuItem,
-            icon: icon != null ? Icon(icon,size: iconSize,color: GreyScaleColors.grey500) : Container(),
+            icon: icon != null ? Icon(icon,size: iconSize,color: GreyScaleColors.grey500) : const SizedBox(),
           ),
         ],
       )

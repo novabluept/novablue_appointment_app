@@ -26,10 +26,10 @@ class PersonalDataScreen extends ConsumerStatefulWidget {
   const PersonalDataScreen({super.key});
 
   @override
-  _PersonalDataState createState() => _PersonalDataState();
+  _PersonalDataScreenState createState() => _PersonalDataScreenState();
 }
 
-class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
+class _PersonalDataScreenState extends ConsumerState<PersonalDataScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -82,7 +82,7 @@ class _PersonalDataState extends ConsumerState<PersonalDataScreen> {
       appBar: MyAppBar(
         title: context.loc.fillYourProfile.capitalize(),
         leading: Transform.translate(
-          offset: Offset(-Sizes.s16.w, 0),
+          offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(
               onTap: (){
                 context.pop();

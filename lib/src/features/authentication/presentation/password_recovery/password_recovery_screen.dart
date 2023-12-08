@@ -70,7 +70,7 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
       appBar: MyAppBar(
         title: context.loc.recoverPassword.capitalize(),
         leading: Transform.translate(
-          offset: Offset(-Sizes.s16.w, 0),
+          offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(
             onTap: () async{
               await ref.read(passwordRecoveryScreenControllerProvider.notifier).signOut();

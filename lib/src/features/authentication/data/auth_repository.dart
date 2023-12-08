@@ -2,11 +2,12 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:novablue_appointment_app/src/constants/app_file_size.dart';
+import 'package:novablue_appointment_app/src/features/authentication/domain/user_role_company_supabase.dart';
 import 'package:novablue_appointment_app/src/supabase_providers/providers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../exceptions/app_exceptions.dart';
-import '../domain/user_model.dart';
+import '../domain/user_supabase.dart';
 
 abstract class AuthRepository {
   Stream  authStateChanges();
@@ -17,6 +18,7 @@ abstract class AuthRepository {
   Future<void> resetPasswordForEmail({required String email});
   Future<void> updatePassword({required String password});
   Future<void> resend({required String email});
+  Future<UserRoleCompanySupabase> getRoles(String id);
   Future<File?> chooseProfileImage();
 }
 
@@ -66,7 +68,7 @@ class SupabaseAuthRepository implements AuthRepository{
     required String phone,
     required String phoneCode
   })async{
-    var user = UserModel(
+    var user = UserSupabase(
       id: id,
       firstname: firstname,
       lastname: lastname,
@@ -160,6 +162,23 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
+  Future<void> resend({required String email}) async{
+    await _client.auth.resend(
+      email: email,
+      type: OtpType.signup,
+      emailRedirectTo: loginCallback
+    ).catchError((e){
+      throw UnexpectedErrorException(ref);
+    });
+  }
+
+  @override
+  Future<UserRoleCompanySupabase> getRoles(String id) {
+    // TODO: implement getRoles
+    throw UnimplementedError();
+  }
+
+  @override
   Future<File?> chooseProfileImage()async{
     final file = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 80);
     if(file != null){
@@ -172,17 +191,6 @@ class SupabaseAuthRepository implements AuthRepository{
       }
     }
     return null;
-  }
-
-  @override
-  Future<void> resend({required String email}) async{
-    await _client.auth.resend(
-      email: email,
-      type: OtpType.signup,
-      emailRedirectTo: loginCallback
-    ).catchError((e){
-      throw UnexpectedErrorException(ref);
-    });
   }
 
 }

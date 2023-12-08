@@ -32,7 +32,7 @@ class MyScaffold extends StatelessWidget {
                 padding: edgeInsets ?? EdgeInsets.symmetric(horizontal: Sizes.s24.w),
                 child: body,
               ),
-              state.isLoading ? MyProgressIndicator() : Container()
+              state.isLoading ? MyProgressIndicator() : const SizedBox()
             ],
           )
         ),

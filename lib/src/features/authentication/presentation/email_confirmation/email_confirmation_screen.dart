@@ -62,7 +62,7 @@ class _EmailConfirmationScreenState extends ConsumerState<EmailConfirmationScree
       appBar: MyAppBar(
         title: context.loc.emailConfirmation.capitalize(),
         leading: Transform.translate(
-          offset: Offset(-Sizes.s16.w, 0),
+          offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(
             onTap: (){
               context.pop();
@@ -77,14 +77,14 @@ class _EmailConfirmationScreenState extends ConsumerState<EmailConfirmationScree
           children: [
             gapH71,
             SvgPicture.asset(
-              'images/app_info_blue/forgot_password_image.svg',
+              'images/app_info_blue/email_confirmation_image.svg',
               width: Sizes.s276.w,
               height: Sizes.s250.h
             ),
             gapH24,
             Align(
-                alignment: Alignment.centerLeft,
-                child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.emailConfirmationMessage.capitalize())
+              alignment: Alignment.centerLeft,
+              child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.emailConfirmationMessage.capitalize())
             ),
             gapH24,
             Form(
@@ -122,12 +122,12 @@ class _EmailConfirmationScreenState extends ConsumerState<EmailConfirmationScree
                           email: email,
                           onSuccess: () {
                             showAlertDialog(
-                              context: context,
-                              type: DialogTypes.success,
-                              label: context.loc.emailConfirmationSuccess,
-                              positiveButtonOnPressed: () {
-                                context.goNamed(AppRoute.login.name);
-                              }
+                                context: context,
+                                type: DialogTypes.success,
+                                label: context.loc.emailConfirmationSuccess,
+                                positiveButtonOnPressed: () {
+                                  context.goNamed(AppRoute.login.name);
+                                }
                             );
                           }
                         );
@@ -143,4 +143,3 @@ class _EmailConfirmationScreenState extends ConsumerState<EmailConfirmationScree
     );
   }
 }
-

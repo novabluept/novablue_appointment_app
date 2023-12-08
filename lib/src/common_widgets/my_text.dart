@@ -68,7 +68,7 @@ class MyText extends StatelessWidget {
       case TextTypes.bodyXSmall:
         return mainText(text,textAlign,FontFamilies.urbanist,fontSize ?? Sizes.s10,fontWeight ?? FontWeights.regular,color,overflow);
       default:
-        return Container();
+        return const SizedBox();
     }
   }
 

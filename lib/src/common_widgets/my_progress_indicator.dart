@@ -14,10 +14,10 @@ class MyProgressIndicator extends StatelessWidget {
       children: [
         BackdropFilter(
           filter: ImageFilter.blur(
-            sigmaX: 5.0,
-            sigmaY: 5.0,
+            sigmaX: Sizes.s5,
+            sigmaY: Sizes.s5,
           ),
-          child: Container(),
+          child: const SizedBox(),
         ),
         Center(
           child: SizedBox(

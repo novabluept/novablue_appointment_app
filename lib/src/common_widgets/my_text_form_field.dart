@@ -132,7 +132,7 @@ class MyTextFormField extends StatelessWidget {
               ),
             ],
           ),
-        ) : Container()
+        ) : const SizedBox()
       ],
     );
   }

@@ -27,10 +27,10 @@ class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends ConsumerState<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
@@ -78,7 +78,7 @@ class _LoginPageState extends ConsumerState<LoginScreen> {
         actions: [
           MyDropdownButton<SupportedLocale>(
             items: SupportedLocale.values,
-            icon: Icons.language_rounded,
+            icon: IconlyLight.more_circle,
             iconSize: Sizes.s24.w,
             dropDownMenuItem: SupportedLocale.values.map<DropdownMenuItem<SupportedLocale>>((e) => DropdownMenuItem<SupportedLocale>(
               value: e,

@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 
+import '../constants/app_sizes.dart';
+
 class MyAvatar extends StatelessWidget {
 
   final double pictureSize;
@@ -13,7 +15,7 @@ class MyAvatar extends StatelessWidget {
   final File? file;
   final Function()? onTap;
 
-  const MyAvatar({super.key, this.pictureSize = 200, this.editSize = 40, this.iconSize = 20, this.file, this.onTap});
+  const MyAvatar({super.key, this.pictureSize = Sizes.s200, this.editSize = Sizes.s40, this.iconSize = Sizes.s20, this.file, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class MyAvatar extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: CircleAvatar(
-          radius: 58.r,
+          radius: Sizes.s58.r,
           backgroundColor: GreyScaleColors.grey100,
           backgroundImage: file != null ? Image.file(
             file!,
@@ -37,7 +39,7 @@ class MyAvatar extends StatelessWidget {
                   width: editSize.w,
                   height: editSize.w,
                   child: CircleAvatar(
-                    radius: 18.r,
+                    radius: Sizes.s18.r,
                     backgroundColor: MainColors.primary,
                     child: Icon(IconlyBold.edit,color: OtherColors.white,size: iconSize.w),
                   ),

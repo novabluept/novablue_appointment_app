@@ -36,7 +36,7 @@ class MyButton extends StatelessWidget {
       case ButtonTypes.outlined:
         return mainButton(false,width!,height!,verticalPadding!,backgroundColor ?? OtherColors.transparent,foregroundColor!,text,Sizes.s100);
       default:
-        return Container();
+        return const SizedBox();
     }
   }
 

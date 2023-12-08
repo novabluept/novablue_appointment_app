@@ -52,7 +52,14 @@
     "errorMessage": "oops, falhou!",
     "recover": "recuperar",
     "emailConfirmation": "confirmação de email",
-    "emailConfirmationMessage": "introduza o seu correio eletrónico abaixo e irá receber uma ligação para confirmar a sua conta."
-
+    "emailConfirmationMessage": "introduza o seu correio eletrónico abaixo e irá receber uma ligação para confirmar a sua conta.",
+    "profile":"perfil",
+    "editProfile":"editar perfil",
+    "security":"segurança",
+    "language":"idioma",
+    "inviteFriends":"convidar amigos",
+    "logout":"sair",
+    "home": "início",
+    "history": "histórico"
 
 }

@@ -52,5 +52,13 @@
     "errorMessage": "oops, failed!",
     "recover": "recover",
     "emailConfirmation": "email confirmation",
-    "emailConfirmationMessage": "enter your email address below, and we'll send you a link to confirm your account."
+    "emailConfirmationMessage": "enter your email address below, and we'll send you a link to confirm your account.",
+    "profile":"profile",
+    "editProfile":"edit profile",
+    "security":"security",
+    "language":"language",
+    "inviteFriends":"invite friends",
+    "logout":"logout",
+    "home": "home",
+    "history": "history"
 }

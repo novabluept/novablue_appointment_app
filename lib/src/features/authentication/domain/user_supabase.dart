@@ -1,5 +1,5 @@
 
-class UserModel {
+class UserSupabase {
 
   final String id;
   final String firstname;
@@ -9,7 +9,7 @@ class UserModel {
   final String phoneCode;
   final String updatedAt;
 
-  const UserModel({
+  const UserSupabase({
     required this.id,
     required this.firstname,
     required this.lastname,
@@ -31,8 +31,8 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
+  factory UserSupabase.fromJson(Map<String, dynamic> json) {
+    return UserSupabase(
       id: json['id'] as String,
       firstname: json['first_name'] as String,
       lastname: json['last_name'] as String,
@@ -46,7 +46,7 @@ class UserModel {
   @override
   bool operator ==(Object other) =>
     identical(this, other) ||
-      other is UserModel &&
+      other is UserSupabase &&
         id == other.id &&
         firstname == other.firstname &&
         lastname == other.lastname &&
@@ -67,6 +67,6 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel{id: $id, firstname: $firstname, lastname: $lastname, email: $email, phone: $phone, phoneCode: $phoneCode, updatedAt: $updatedAt}';
+    return 'UserSupabase{id: $id, firstname: $firstname, lastname: $lastname, email: $email, phone: $phone, phoneCode: $phoneCode, updatedAt: $updatedAt}';
   }
 }
