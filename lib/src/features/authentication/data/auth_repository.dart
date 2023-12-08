@@ -28,6 +28,8 @@ class SupabaseAuthRepository implements AuthRepository{
   final String updatePasswordCallback = 'io.supabase.novablue://update-password-callback/';
 
   static String userTable() => 'user';
+  static String userRoleCompanyTable() => 'userRoleCompany';
+
   static String userBucket() => 'users';
   static String userBucketFilePath(String id) => '/${id}/profileImage';
 
@@ -78,7 +80,8 @@ class SupabaseAuthRepository implements AuthRepository{
       updatedAt: DateTime.now().toUtc().toIso8601String(),
     ).toJson();
 
-    await _client.from(userTable()).insert(user)
+    await _client.from(userTable())
+      .insert(user)
       .then((value) async =>
         filePath != '' ?
         await _uploadProfileImage(
@@ -86,9 +89,8 @@ class SupabaseAuthRepository implements AuthRepository{
           filePath: filePath
         )
         : null
-      )
-      .catchError((e){
-      throw UnexpectedErrorException(ref);
+      ).catchError((e){
+        throw UnexpectedErrorException(ref);
       }
     );
   }
@@ -173,9 +175,10 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<UserRoleCompanySupabase> getRoles(String id) {
-    // TODO: implement getRoles
-    throw UnimplementedError();
+  Future<UserRoleCompanySupabase> getRoles(String id) async{
+    return await _client.from(userRoleCompanyTable())
+      .select()
+      .match({ 'user_id': id });
   }
 
   @override
@@ -205,7 +208,9 @@ final authStateChangesProvider = StreamProvider((ref) {
   return authRepository.authStateChanges();
 });
 
-final authChangeEventProvider = StateProvider<AuthChangeEvent>((ref) => AuthChangeEvent.signedOut);
+final authChangeEventProvider = StateProvider<AuthChangeEvent>((ref){
+  return AuthChangeEvent.signedOut;
+});
 
 
 
