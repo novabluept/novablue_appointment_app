@@ -22,10 +22,10 @@ class LoginScreenController extends StateNotifier<AsyncValue<void>>{
       email: email,
       password: password
     ));
-    final error = state.error != null ? state.error as AppException : null;
+    /*final error = state.error != null ? state.error as AppException : null;
     if(error != null && error.code == AppExceptionTypes.emailNotConfirmed.name){
       onEmailNotConfirmed();
-    }
+    }*/
   }
 
 }

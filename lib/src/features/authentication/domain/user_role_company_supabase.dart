@@ -1,5 +1,5 @@
 
-enum userRoles{
+enum UserRoles{
   user,
   worker,
   admin,
@@ -8,14 +8,14 @@ enum userRoles{
 class UserRoleCompanySupabase {
 
   final int id;
-  final int userId;
-  final int companyId;
+  final String userId;
+  final int? companyId;
   final String role;
 
   UserRoleCompanySupabase({
     required this.id,
     required this.userId,
-    required this.companyId,
+    this.companyId,
     required this.role,
   });
 
@@ -31,8 +31,8 @@ class UserRoleCompanySupabase {
   factory UserRoleCompanySupabase.fromJson(Map<String, dynamic> json) {
     return UserRoleCompanySupabase(
       id: json['id'] as int,
-      userId: json['user_id'] as int,
-      companyId: json['company_id'] as int,
+      userId: json['user_id'] as String,
+      companyId: json['company_id'] != null ? json['company_id'] as int : null,
       role: json['role'] as String,
     );
   }

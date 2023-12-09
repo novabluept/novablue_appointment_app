@@ -74,7 +74,7 @@ class _PersonalDataScreenState extends ConsumerState<PersonalDataScreen> {
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<File?>>(
       personalDataScreenControllerProvider,
-          (_, state) => state.showDialogError(context),
+          (_, state) => state.showDialogError(context: context),
     );
     final state = ref.watch(personalDataScreenControllerProvider);
     return MyScaffold(
@@ -175,8 +175,7 @@ class _PersonalDataScreenState extends ConsumerState<PersonalDataScreen> {
                     prefixWidget: MyDropdownButton(
                       items: items,
                       value: phoneCode,
-                      icon: IconlyBold.arrow_down_2,
-                      iconSize: Sizes.s12.w,
+                      icon: Icon(IconlyBold.arrow_down_2,size: Sizes.s12.w,color: GreyScaleColors.grey500),
                       dropDownMenuItem: items.map((item) {
                         return DropdownMenuItem(
                           alignment: Alignment.center,

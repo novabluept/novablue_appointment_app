@@ -33,6 +33,7 @@
             "example": 2.0
         }
     },
+    "noUserRolesException": "Não foram encontrados cargos para este utilizador. Por favor, contacte o administrador.",
 
     "loginToYourAccount": "entre na sua conta",
     "login": "entrar",
@@ -60,6 +61,9 @@
     "inviteFriends":"convidar amigos",
     "logout":"sair",
     "home": "início",
-    "history": "histórico"
+    "history": "histórico",
+    "areYouSureYouWantToLogout": "De certeza que pretende terminar sessão?",
+    "back": "Voltar"
+
 
 }

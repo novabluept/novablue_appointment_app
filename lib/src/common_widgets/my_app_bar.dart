@@ -1,10 +1,15 @@
 
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import '../constants/app_sizes.dart';
+import 'my_blur_filter.dart';
+import 'my_progress_indicator.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
 
@@ -25,21 +30,25 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
         width: double.infinity,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Sizes.s24.w),
-          child: AppBar(
-            elevation: Sizes.s0,
-            scrolledUnderElevation: Sizes.s0,
-            titleSpacing: titleSpacing.w,
-            centerTitle: false,
-            leadingWidth: leadingWidth.w,
-            leading: leading,
-            actions: actions,
-            title: MyText(
-              type: TextTypes.h4,
-              text: title ?? '',
-            ),
-            bottom: bottom,
-            toolbarHeight: kToolbarHeight.h,
-          ),
+          child: Stack(
+            children: [
+              AppBar(
+                elevation: Sizes.s0,
+                scrolledUnderElevation: Sizes.s0,
+                titleSpacing: titleSpacing.w,
+                centerTitle: false,
+                leadingWidth: leadingWidth.w,
+                leading: leading,
+                actions: actions,
+                title: MyText(
+                  type: TextTypes.h4,
+                  text: title ?? '',
+                ),
+                bottom: bottom,
+                toolbarHeight: kToolbarHeight.h,
+              ),
+            ],
+          )
         ),
       ),
     );

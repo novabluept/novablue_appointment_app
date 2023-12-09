@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Sizes {
   static const s0 = 0.0;
   static const s1 = 1.0;
+  static const s1_5 = 1.5;
   static const s2 = 2.0;
   static const s4 = 4.0;
   static const s5 = 5.0;

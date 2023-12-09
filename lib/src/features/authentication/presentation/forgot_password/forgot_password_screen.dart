@@ -54,7 +54,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
       forgotPasswordScreenControllerProvider,
-          (_, state) => state.showDialogError(context),
+          (_, state) => state.showDialogError(context: context),
     );
     final state = ref.watch(forgotPasswordScreenControllerProvider);
     return MyScaffold(

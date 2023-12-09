@@ -55,3 +55,7 @@ class EmailNotConfirmedException extends AppException {
 class FileTooLargeException extends AppException {
   FileTooLargeException(ref,fileMaxSizeInMegaBytes) : super(AppExceptionTypes.fileTooLarge.name, ref.read(appLocalizationsProvider).fileTooLargeException(fileMaxSizeInMegaBytes));
 }
+
+class NoUserRolesException extends AppException {
+  NoUserRolesException(ref) : super(AppExceptionTypes.fileTooLarge.name, ref.read(appLocalizationsProvider).noUserRolesException);
+}

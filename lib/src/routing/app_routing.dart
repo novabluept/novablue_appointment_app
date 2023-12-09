@@ -10,6 +10,7 @@ import 'package:novablue_appointment_app/src/routing/scaffold_with_nested_naviga
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 import '../features/appointments/presentation/history/history_screen.dart';
 import '../features/authentication/data/auth_repository.dart';
+import '../features/authentication/domain/user_role_company_supabase.dart';
 import '../features/authentication/presentation/create_password/create_password_screen.dart';
 import '../features/authentication/presentation/personal_data/personal_data_screen.dart';
 import '../features/authentication/presentation/profile/profile_screen.dart';
@@ -50,19 +51,117 @@ enum AppRoute{
   profile,
 }
 
+List<StatefulShellBranch> branches(UserRoleCompanySupabase? currentUserRoleCompany){
+
+  if(currentUserRoleCompany?.role == UserRoles.user.name){
+    return [
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.home.name,
+            path: 'home',
+            builder: (context,state) => const HomeScreen(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.history.name,
+            path: 'history',
+            builder: (context,state) => const HistoryScreen(),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.profile.name,
+            path: 'profile',
+            builder: (context,state) => const ProfileScreen(),
+          ),
+        ],
+      ),
+    ];
+  }else if(currentUserRoleCompany?.role == UserRoles.worker.name){
+    return [
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.home.name,
+            path: 'home',
+            builder: (context,state) => Container(color: Colors.red.shade300,child: Text('Worker')),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.history.name,
+            path: 'history',
+            builder: (context,state) => Container(color: Colors.blue.shade300,child: Text('Worker')),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.profile.name,
+            path: 'profile',
+            builder: (context,state) => const ProfileScreen(),
+          ),
+        ],
+      ),
+    ];
+  }else{
+    return [
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.home.name,
+            path: 'home',
+            builder: (context,state) => Container(color: Colors.red.shade300,child: Text('Admin')),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.history.name,
+            path: 'history',
+            builder: (context,state) => Container(color: Colors.blue.shade300,child: Text('Admin')),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.profile.name,
+            path: 'profile',
+            builder: (context,state) => const ProfileScreen(),
+          ),
+        ],
+      ),
+    ];
+  }
+}
+
 
 final goRouterProvider = Provider((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
-  var authChangeEvent = ref.watch(authChangeEventProvider);
+  var authChangeEvent = ref.watch(currentAuthChangeEventProvider);
+  var currentUserRoleCompany = ref.watch(currentUserRoleCompanyProvider);
+
   return GoRouter(
     debugLogDiagnostics: true,
     redirect: (context,state) {
-      var currentUser = authRepository.currentUser;
+      //var currentUser = authRepository.currentUser;
 
       final path = state.location;
 
       //print('\$\$ currentUser -> $currentUser');
       //print('\$\$ authChangeEvent -> $authChangeEvent');
+      //print('\$\$ currentUserRoleCompany -> ${currentUserRoleCompany.role}');
 
       if(authChangeEvent == AuthChangeEvent.signedOut){
         if(path == '/' || path == '/profile'){
@@ -121,7 +220,7 @@ final goRouterProvider = Provider((ref) {
               child: const PersonalDataScreen(),
             ),
             routes: [
-            GoRoute(
+              GoRoute(
                 name: AppRoute.createPassword.name,
                 path: 'create-password',
                 pageBuilder: (context, state) {
@@ -141,35 +240,7 @@ final goRouterProvider = Provider((ref) {
             builder: (context, state, navigationShell) {
               return ScaffoldWithNestedNavigation(navigationShell: navigationShell);
             },
-            branches: [
-              StatefulShellBranch(
-                routes: [
-                  GoRoute(
-                    name: AppRoute.home.name,
-                    path: 'home',
-                    builder: (context,state) => const HomeScreen(),
-                  ),
-                ],
-              ),
-              StatefulShellBranch(
-                routes: [
-                  GoRoute(
-                    name: AppRoute.history.name,
-                    path: 'history',
-                    builder: (context,state) => const HistoryScreen(),
-                  ),
-                ],
-              ),
-              StatefulShellBranch(
-                routes: [
-                  GoRoute(
-                    name: AppRoute.profile.name,
-                    path: 'profile',
-                    builder: (context,state) => const ProfileScreen(),
-                  ),
-                ],
-              ),
-            ],
+            branches: branches(currentUserRoleCompany ?? null)
           ),
         ]
       ),

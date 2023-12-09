@@ -58,15 +58,15 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
       passwordRecoveryScreenControllerProvider,
-          (_, state) => state.showDialogError(context),
+          (_, state) => state.showDialogError(context: context),
     );
     final state = ref.watch(passwordRecoveryScreenControllerProvider);
     return MyScaffold(
+      state: state,
       onWillPop: () async{
         await ref.read(passwordRecoveryScreenControllerProvider.notifier).signOut();
         return false;
       },
-      state: state,
       appBar: MyAppBar(
         title: context.loc.recoverPassword.capitalize(),
         leading: Transform.translate(

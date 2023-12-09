@@ -9,7 +9,6 @@ import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/login/login_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
@@ -20,7 +19,7 @@ import 'package:iconly/iconly.dart';
 import '../../../../localization/app_locale_notifier.dart';
 import '../../../../localization/app_supported_locale.dart';
 import '../../../../routing/app_routing.dart';
-import '../../../../utils/dialogs.dart';
+import '../../../../utils/shared_prefrences.dart';
 import '../../../../utils/validations.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -65,10 +64,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.listen<AsyncValue<void>>(
       loginScreenControllerProvider,
       (_, state) {
-        final error = state.error != null ? state.error as AppException : null;
+        /*final error = state.error != null ? state.error as AppException : null;
         if(error?.code != AppExceptionTypes.emailNotConfirmed.name){
-          state.showDialogError(context);
-        }
+          state.showDialogError(context: context);
+        }*/
       },
     );
     final state = ref.watch(loginScreenControllerProvider);
@@ -78,8 +77,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         actions: [
           MyDropdownButton<SupportedLocale>(
             items: SupportedLocale.values,
-            icon: IconlyLight.more_circle,
-            iconSize: Sizes.s24.w,
+            icon: Row(
+              children: [
+                SvgPicture.asset(
+                  AppSharedPreference.getLocale() == Locale(SupportedLocale.pt.countryCode) ? 'images/flags/portugal.svg' : 'images/flags/united_kingdom.svg',
+                  width: Sizes.s24.w,
+                  height: Sizes.s18.h
+                ),
+                gapW4,
+                Icon(IconlyBold.arrow_down_2,size: Sizes.s12.w,color: GreyScaleColors.grey500)
+              ],
+            ),
             dropDownMenuItem: SupportedLocale.values.map<DropdownMenuItem<SupportedLocale>>((e) => DropdownMenuItem<SupportedLocale>(
               value: e,
               child: Row(
@@ -96,7 +104,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
             )).toList(),
             onChanged: (SupportedLocale? value) {
-              ref.read(localeProvider.notifier).changeLanguage(value ?? SupportedLocale.pt);
+              setState(() {
+                ref.read(localeProvider.notifier).changeLanguage(value ?? SupportedLocale.pt);
+              });
             },
           )
         ],

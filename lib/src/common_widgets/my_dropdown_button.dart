@@ -20,8 +20,7 @@ class MyDropdownButton<T> extends StatelessWidget {
   final List<T> items;
   final T? value;
   final String hint;
-  final IconData? icon;
-  final double? iconSize;
+  final Widget? icon;
   List<DropdownMenuItem<T>>? dropDownMenuItem;
   final void Function(T?) onChanged;
 
@@ -30,7 +29,6 @@ class MyDropdownButton<T> extends StatelessWidget {
     required this.items,
     this.value,
     this.icon,
-    this.iconSize,
     required this.dropDownMenuItem,
     required this.onChanged,
     this.hint = ''}
@@ -52,7 +50,7 @@ class MyDropdownButton<T> extends StatelessWidget {
             value: value,
             onChanged: onChanged,
             items: dropDownMenuItem,
-            icon: icon != null ? Icon(icon,size: iconSize,color: GreyScaleColors.grey500) : const SizedBox(),
+            icon: icon != null ? icon : const SizedBox(),
           ),
         ],
       )

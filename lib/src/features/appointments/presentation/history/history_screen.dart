@@ -29,7 +29,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
       profileScreenControllerProvider,
-          (_, state) => state.showDialogError(context),
+          (_, state) => state.showDialogError(context: context),
     );
     final state = ref.watch(profileScreenControllerProvider);
     return DefaultTabController(

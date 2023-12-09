@@ -82,7 +82,7 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
       createPasswordScreenControllerProvider,
-          (_, state) => state.showDialogError(context),
+          (_, state) => state.showDialogError(context: context),
     );
     final state = ref.watch(createPasswordScreenControllerProvider);
     return MyScaffold(

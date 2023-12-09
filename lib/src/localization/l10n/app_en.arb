@@ -33,6 +33,8 @@
             "example": 2.0
         }
     },
+    "noUserRolesException": "No roles found for this user. Please contact the administrator.",
+
 
     "loginToYourAccount": "login to your account",
     "login": "login",
@@ -60,5 +62,7 @@
     "inviteFriends":"invite friends",
     "logout":"logout",
     "home": "home",
-    "history": "history"
+    "history": "history",
+    "areYouSureYouWantToLogout": "Are you sure you want to logout?",
+    "back": "back"
 }

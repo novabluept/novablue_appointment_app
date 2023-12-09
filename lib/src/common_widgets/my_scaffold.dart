@@ -19,24 +19,24 @@ class MyScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: onWillPop,
-      child: Scaffold(
-        appBar: appBar,
-        resizeToAvoidBottomInset: true,
-        backgroundColor: OtherColors.white,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Container(
-                padding: edgeInsets ?? EdgeInsets.symmetric(horizontal: Sizes.s24.w),
-                child: body,
-              ),
-              state.isLoading ? MyProgressIndicator() : const SizedBox()
-            ],
-          )
+    return Stack(
+      children: [
+        WillPopScope(
+          onWillPop: onWillPop,
+          child: Scaffold(
+            appBar: appBar,
+            resizeToAvoidBottomInset: true,
+            backgroundColor: OtherColors.white,
+            body: SafeArea(
+                child: Container(
+                  padding: edgeInsets ?? EdgeInsets.symmetric(horizontal: Sizes.s24.w),
+                  child: body,
+                )
+            ),
+          ),
         ),
-      ),
+        state.isLoading ? MyProgressIndicator() : const SizedBox()
+      ],
     );
   }
 }

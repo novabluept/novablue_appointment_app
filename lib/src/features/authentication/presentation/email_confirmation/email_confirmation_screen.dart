@@ -54,7 +54,7 @@ class _EmailConfirmationScreenState extends ConsumerState<EmailConfirmationScree
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
       emailConfirmationScreenControllerProvider,
-          (_, state) => state.showDialogError(context),
+          (_, state) => state.showDialogError(context: context),
     );
     final state = ref.watch(emailConfirmationScreenControllerProvider);
     return MyScaffold(
