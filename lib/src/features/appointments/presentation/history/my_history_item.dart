@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import '../../../../common_widgets/my_text.dart';
-import '../../../../constants/app_colors.dart';
 import '../../../../constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -1,3 +1,4 @@
+
 enum SupportedLocale { pt, en }
 
 extension SupportedLocalExtension on SupportedLocale {

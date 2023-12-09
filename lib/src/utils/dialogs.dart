@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_dialog.dart';
-
 import '../constants/app_colors.dart';
 
 extension AsyncValueUI on AsyncValue {

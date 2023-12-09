@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/profile/profile_screen_controller.dart';
@@ -11,7 +10,6 @@ import 'package:novablue_appointment_app/src/localization/app_localizations_cont
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import '../../../../common_widgets/my_app_bar.dart';
-import '../../../../common_widgets/my_avatar.dart';
 import '../../../../common_widgets/my_scaffold.dart';
 import '../../../../common_widgets/my_text.dart';
 import 'my_history_item.dart';

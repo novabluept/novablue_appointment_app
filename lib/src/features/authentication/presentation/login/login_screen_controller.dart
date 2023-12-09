@@ -1,7 +1,5 @@
 
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
 
 import '../../data/auth_repository.dart';
 

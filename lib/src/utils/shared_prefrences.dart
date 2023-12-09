@@ -1,5 +1,4 @@
 
-import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../localization/app_supported_locale.dart';
 import 'package:flutter/material.dart';

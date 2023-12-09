@@ -1,15 +1,11 @@
 
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
-import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import '../constants/app_sizes.dart';
-import 'my_blur_filter.dart';
-import 'my_progress_indicator.dart';
+
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
 
