@@ -7,7 +7,7 @@ import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
-import '../constants/app_sizes.dart';
+import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'my_button.dart';
 
 enum DialogTypes {

@@ -42,6 +42,7 @@ class _MyAppState extends ConsumerState<MyApp>{
     final locale = ref.watch(localeProvider);
     return ScreenUtilInit(
       designSize: const Size(428, 926),
+      splitScreenMode: true,
       minTextAdapt: true,
       child: MaterialApp.router(
         routerConfig: goRouter,

@@ -8,19 +8,19 @@ import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_avatar.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_button.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_dropdown_button.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_text_form_field.dart';
+import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/password/create_password/create_password_screen.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/personal_data/personal_data_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
+import 'package:novablue_appointment_app/src/routing/app_routing.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
-import '../../../../common_widgets/my_button.dart';
-import '../../../../common_widgets/my_text_form_field.dart';
-import '../../../../constants/app_colors.dart';
-import '../../../../routing/app_routing.dart';
-import '../../../../utils/validations.dart';
-import '../create_password/create_password_screen.dart';
+import 'package:novablue_appointment_app/src/utils/validations.dart';
 
 class PersonalDataScreen extends ConsumerStatefulWidget {
   const PersonalDataScreen({super.key});
@@ -84,10 +84,10 @@ class _PersonalDataScreenState extends ConsumerState<PersonalDataScreen> {
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(
-              onTap: (){
-                context.pop();
-              },
-              child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
+            onTap: (){
+              context.pop();
+            },
+            child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
           ),
         ),
       ),
@@ -98,7 +98,7 @@ class _PersonalDataScreenState extends ConsumerState<PersonalDataScreen> {
             gapH24,
             MyAvatar(
               file: state.hasValue ? state.value : null, /// TODO: Arranjar forma de tirar este .hasValue. Vai passar por dedicar um provider para a funcao e outro para o valor obtido
-              onTap: ()async{
+              onTap: () async {
                 await ref.read(personalDataScreenControllerProvider.notifier).chooseProfilePicture();
               },
             ),
@@ -207,7 +207,7 @@ class _PersonalDataScreenState extends ConsumerState<PersonalDataScreen> {
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.next.capitalize(),
-                    onPressed: state.isLoading ? null : ()async{
+                    onPressed: state.isLoading ? null : () async {
                       setState(() {});
                       if (_formKey.currentState!.validate()){
                         context.pushNamed(

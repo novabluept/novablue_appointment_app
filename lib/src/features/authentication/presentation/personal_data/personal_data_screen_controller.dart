@@ -1,7 +1,7 @@
 
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/auth_repository.dart';
+import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 
 class PersonalDataScreenController extends StateNotifier<AsyncValue<File?>>{
 

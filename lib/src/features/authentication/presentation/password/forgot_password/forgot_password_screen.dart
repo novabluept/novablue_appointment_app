@@ -2,23 +2,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_button.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_dialog.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_svg.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_text_form_field.dart';
+import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
+import 'package:novablue_appointment_app/src/routing/app_routing.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
-import '../../../../common_widgets/my_button.dart';
-import '../../../../common_widgets/my_dialog.dart';
-import '../../../../common_widgets/my_text.dart';
-import '../../../../common_widgets/my_text_form_field.dart';
-import '../../../../constants/app_colors.dart';
-import '../../../../routing/app_routing.dart';
+import 'package:novablue_appointment_app/src/utils/validations.dart';
 import 'forgot_password_screen_controller.dart';
-import '../../../../utils/validations.dart';
+
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -64,10 +65,10 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(
-              onTap: (){
-                context.pop();
-              },
-              child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
+            onTap: (){
+              context.pop();
+            },
+            child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
           ),
         ),
       ),
@@ -76,10 +77,11 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             gapH71,
-            SvgPicture.asset(
-              'images/app_info_blue/forgot_password_image.svg',
+            MySvg(
+              colorFilter: MainColors.primary,
+              imagePath: 'images/app_info_blue/create_password_image.svg',
               width: Sizes.s276.w,
-              height: Sizes.s250.h
+              height: Sizes.s250.h,
             ),
             gapH24,
             Align(
@@ -115,19 +117,19 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   MyButton(
                     type: ButtonTypes.filledFullyRounded,
                     text: context.loc.submit.capitalize(),
-                    onPressed: state.isLoading ? null : ()async{
+                    onPressed: state.isLoading ? null : () async {
                       setState(() {});
                       if (_formKey.currentState!.validate()){
                         await ref.read(forgotPasswordScreenControllerProvider.notifier).resetPasswordForEmail(
                           email: email,
                           onSuccess: () {
                             showAlertDialog(
-                                context: context,
-                                type: DialogTypes.success,
-                                label: context.loc.forgotPasswordSuccess,
-                                positiveButtonOnPressed: () {
-                                  context.goNamed(AppRoute.login.name);
-                                }
+                              context: context,
+                              type: DialogTypes.success,
+                              label: context.loc.forgotPasswordSuccess,
+                              positiveButtonOnPressed: () {
+                                context.goNamed(AppRoute.login.name);
+                              }
                             );
                           }
                         );

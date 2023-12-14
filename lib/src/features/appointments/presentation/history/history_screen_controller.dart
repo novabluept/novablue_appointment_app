@@ -1,7 +1,5 @@
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-class ProfileScreenController extends StateNotifier<AsyncValue<void>>{
+/*class ProfileScreenController extends StateNotifier<AsyncValue<void>>{
 
   //final SupabaseAuthRepository authRepository;
 
@@ -23,4 +21,4 @@ final profileScreenControllerProvider = StateNotifierProvider.autoDispose<Profil
   //final authRepository = ref.watch(authRepositoryProvider);
   //return ProfileScreenController(authRepository: authRepository);
   return ProfileScreenController();
-});
+});*/

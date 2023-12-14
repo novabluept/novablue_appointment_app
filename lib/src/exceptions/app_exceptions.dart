@@ -1,5 +1,5 @@
 
-import '../localization/app_locale_notifier.dart';
+import 'package:novablue_appointment_app/src/localization/app_locale_notifier.dart';
 
 enum AppExceptionTypes{
   unexpectedError,
@@ -9,7 +9,8 @@ enum AppExceptionTypes{
   wrongPassword,
   userNotFound,
   emailNotConfirmed,
-  fileTooLarge
+  fileTooLarge,
+  noUserIdException
 }
 
 sealed class AppException implements Exception {
@@ -58,4 +59,8 @@ class FileTooLargeException extends AppException {
 
 class NoUserRolesException extends AppException {
   NoUserRolesException(ref) : super(AppExceptionTypes.fileTooLarge.name, ref.read(appLocalizationsProvider).noUserRolesException);
+}
+
+class NoUserIdException extends AppException {
+  NoUserIdException(ref) : super(AppExceptionTypes.noUserIdException.name, 'No user id');
 }

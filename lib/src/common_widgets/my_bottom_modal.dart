@@ -1,17 +1,24 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-
-
-import '../constants/app_colors.dart';
 import 'my_blur_filter.dart';
+import 'my_button.dart';
+import 'my_divider.dart';
+import 'my_text.dart';
 
 class MyBottomModal extends StatelessWidget {
 
+  final String title;
+  final Color titleColor;
   final Widget content;
+  final String negativeButtonTitle;
+  final Function() negativeButtonOnPressed;
+  final String positiveButtonTitle;
+  final Function() positiveButtonOnPressed;
 
-  const MyBottomModal({super.key, required this.content});
+  const MyBottomModal({super.key, required this.title, this.titleColor = OtherColors.black, required this.content, required this.negativeButtonTitle, required this.negativeButtonOnPressed, required this.positiveButtonTitle, required this.positiveButtonOnPressed,});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,43 @@ class MyBottomModal extends StatelessWidget {
                     ),
                   ),
                   gapH24,
-                  content
+                  Column(
+                    children: [
+                      MyText(
+                        type: TextTypes.h4,
+                        text: title,
+                        color: titleColor,
+                      ),
+                      gapH24,
+                      MyDivider(),
+                      gapH24,
+                      content,
+                      gapH48,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: MyButton(
+                              type: ButtonTypes.filledFullyRounded,
+                              backgroundColor: BackgroundColors.blue,
+                              foregroundColor: MainColors.primary,
+                              text: negativeButtonTitle,
+                              onPressed: negativeButtonOnPressed
+                            ),
+                          ),
+                          gapW12,
+                          Expanded(
+                            child: MyButton(
+                              type: ButtonTypes.filledFullyRounded,
+                              text: positiveButtonTitle,
+                              onPressed: positiveButtonOnPressed
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
                 ],
               ),
             )

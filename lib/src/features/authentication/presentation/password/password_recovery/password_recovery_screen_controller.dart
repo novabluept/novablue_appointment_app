@@ -1,6 +1,6 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/auth_repository.dart';
+import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 
 class PasswordRecoveryScreenController extends StateNotifier<AsyncValue<void>>{
 
@@ -12,7 +12,7 @@ class PasswordRecoveryScreenController extends StateNotifier<AsyncValue<void>>{
   Future<void> updatePassword({
     required String password,
     required void Function() onSuccess,
-  })async{
+  }) async {
     state = const AsyncValue<void>.loading();
     final newState = await AsyncValue.guard(() => authRepository.updatePassword(
       password: password,
@@ -32,7 +32,6 @@ class PasswordRecoveryScreenController extends StateNotifier<AsyncValue<void>>{
       state = newState;
     }
   }
-
 }
 
 final passwordRecoveryScreenControllerProvider = StateNotifierProvider.autoDispose<PasswordRecoveryScreenController,AsyncValue<void>>((ref) {

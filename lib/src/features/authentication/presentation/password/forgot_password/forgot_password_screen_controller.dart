@@ -1,6 +1,6 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/auth_repository.dart';
+import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 
 class ForgotPasswordScreenController extends StateNotifier<AsyncValue<void>>{
 
@@ -25,7 +25,6 @@ class ForgotPasswordScreenController extends StateNotifier<AsyncValue<void>>{
     }
   }
 }
-
 
 final forgotPasswordScreenControllerProvider = StateNotifierProvider.autoDispose<ForgotPasswordScreenController,AsyncValue<void>>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);

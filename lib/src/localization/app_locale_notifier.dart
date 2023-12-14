@@ -1,11 +1,10 @@
 
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novablue_appointment_app/src/localization/app_supported_locale.dart';
-import '../utils/shared_prefrences.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:novablue_appointment_app/src/utils/shared_prefrences.dart';
 
 class LocaleNotifier extends StateNotifier<Locale>{
   LocaleNotifier(): super(Locale(SupportedLocale.pt.countryCode)) {

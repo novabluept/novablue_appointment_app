@@ -1,11 +1,9 @@
 
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
-import '../constants/app_sizes.dart';
-
+import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
 
@@ -29,6 +27,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
           child: Stack(
             children: [
               AppBar(
+                systemOverlayStyle: SystemUiOverlayStyle.light,
                 elevation: Sizes.s0,
                 scrolledUnderElevation: Sizes.s0,
                 titleSpacing: titleSpacing.w,

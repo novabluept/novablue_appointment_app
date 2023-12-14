@@ -1,6 +1,6 @@
 
+import 'package:novablue_appointment_app/src/localization/app_supported_locale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../localization/app_supported_locale.dart';
 import 'package:flutter/material.dart';
 
 class AppSharedPreference {

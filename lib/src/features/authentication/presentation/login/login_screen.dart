@@ -9,18 +9,17 @@ import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/login/login_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
+import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
   import '../../../../common_widgets/my_app_bar.dart';
-import '../../../../common_widgets/my_dropdown_button.dart';
 import '../../../../common_widgets/my_text_form_field.dart';
 import 'package:iconly/iconly.dart';
-import '../../../../localization/app_locale_notifier.dart';
-import '../../../../localization/app_supported_locale.dart';
 import '../../../../routing/app_routing.dart';
-import '../../../../utils/shared_prefrences.dart';
 import '../../../../utils/validations.dart';
+import 'change_language_dropdown.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -64,10 +63,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.listen<AsyncValue<void>>(
       loginScreenControllerProvider,
       (_, state) {
-        /*final error = state.error != null ? state.error as AppException : null;
-        if(error?.code != AppExceptionTypes.emailNotConfirmed.name){
+        final error = state.error is AppException ? state.error as AppException : null;
+        if(error != null && error.code == AppExceptionTypes.emailNotConfirmed.name){
+          return;
+        }else{
           state.showDialogError(context: context);
-        }*/
+        }
+
       },
     );
     final state = ref.watch(loginScreenControllerProvider);
@@ -75,40 +77,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       state: state,
       appBar: MyAppBar(
         actions: [
-          MyDropdownButton<SupportedLocale>(
-            items: SupportedLocale.values,
-            icon: Row(
-              children: [
-                SvgPicture.asset(
-                  AppSharedPreference.getLocale() == Locale(SupportedLocale.pt.countryCode) ? 'images/flags/portugal.svg' : 'images/flags/united_kingdom.svg',
-                  width: Sizes.s24.w,
-                  height: Sizes.s18.h
-                ),
-                gapW4,
-                Icon(IconlyBold.arrow_down_2,size: Sizes.s12.w,color: GreyScaleColors.grey500)
-              ],
-            ),
-            dropDownMenuItem: SupportedLocale.values.map<DropdownMenuItem<SupportedLocale>>((e) => DropdownMenuItem<SupportedLocale>(
-              value: e,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  SvgPicture.asset(e.path,width: Sizes.s24.w,height: Sizes.s18.h),
-                  gapW4,
-                  MyText(
-                    type: TextTypes.bodyMedium,
-                    fontWeight: FontWeights.semiBold,
-                    text: e.name == SupportedLocale.pt.name ? context.loc.portuguese.capitalize() : context.loc.english.capitalize(),
-                  ),
-                ],
-              ),
-            )).toList(),
-            onChanged: (SupportedLocale? value) {
-              setState(() {
-                ref.read(localeProvider.notifier).changeLanguage(value ?? SupportedLocale.pt);
-              });
-            },
-          )
+          ChangeLanguageDropdown()
         ],
       ),
       body: SingleChildScrollView(

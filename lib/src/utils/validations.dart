@@ -1,5 +1,6 @@
 
-import '../common_widgets/my_dropdown_button.dart';
+
+import 'package:novablue_appointment_app/src/common_widgets/my_dropdown_button.dart';
 
 class Validations{
 

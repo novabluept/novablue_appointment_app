@@ -1,14 +1,13 @@
 
-import 'dart:ffi';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:novablue_appointment_app/src/constants/app_file_size.dart';
+import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
 import 'package:novablue_appointment_app/src/features/authentication/domain/user_role_company_supabase.dart';
+import 'package:novablue_appointment_app/src/features/authentication/domain/user_supabase.dart';
 import 'package:novablue_appointment_app/src/supabase_providers/providers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../exceptions/app_exceptions.dart';
-import '../domain/user_supabase.dart';
 
 abstract class AuthRepository {
   Stream  authStateChanges();
@@ -45,7 +44,9 @@ class SupabaseAuthRepository implements AuthRepository{
 
     await for (final authState in authStream) {
       if(ref.read(currentUserRoleCompanyProvider.notifier).state == null){
-        await _chooseSignInRole(id: authState.session!.user.id);
+        if(authState.event != AuthChangeEvent.signedOut){
+          await _chooseSignInRole(id: authState.session!.user.id);
+        }
       }
       ref.read(currentAuthChangeEventProvider.notifier).state = authState.event;
       yield authState.session?.user;
@@ -58,7 +59,7 @@ class SupabaseAuthRepository implements AuthRepository{
   Future<void> _uploadProfileImage({
     required String id,
     required String filePath
-  })async{
+  }) async {
     await _client.storage.from(userBucket()).upload(userBucketFilePath(id), File(filePath))
       .catchError((e){
         throw UnexpectedErrorException(ref);
@@ -74,30 +75,35 @@ class SupabaseAuthRepository implements AuthRepository{
     required String email,
     required String phone,
     required String phoneCode
-  })async{
-    var user = UserSupabase(
-      id: id,
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      phone: phone,
-      phoneCode: phoneCode,
-      updatedAt: DateTime.now().toUtc().toIso8601String(),
-    ).toJson();
+  }) async {
 
-    await _client.from(userTable())
-      .insert(user)
-      .then((value) async =>
-        filePath != '' ?
-        await _uploadProfileImage(
-          id: id,
-          filePath: filePath
-        )
-        : null
-      ).catchError((e){
-        throw UnexpectedErrorException(ref);
-      }
-    );
+    try{
+      var user = UserSupabase(
+        id: id,
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+        phone: phone,
+        phoneCode: phoneCode,
+        updatedAt: DateTime.now().toUtc().toIso8601String(),
+      ).toJson();
+
+      var userRoleCompany = UserRoleCompanySupabase(
+        id: 0,
+        userId: id,
+        rolePt: UserRoles.user.rolePt,
+        roleEn: UserRoles.user.roleEn,
+      ).toJson();
+
+      await _client.from(userTable())
+        .insert(user)
+        .then((value) async => filePath != '' ? await _uploadProfileImage(id: id, filePath: filePath): null
+      );
+
+      await _client.from(userRoleCompanyTable()).insert(userRoleCompany);
+    }catch(e){
+      throw UnexpectedErrorException(ref);
+    }
   }
 
   @override
@@ -109,12 +115,12 @@ class SupabaseAuthRepository implements AuthRepository{
     required String email,
     required String phone,
     required String phoneCode
-  })async{
+  }) async {
     await _client.auth.signUp(
       email: email,
       password: password,
       emailRedirectTo: loginCallback
-    ).then((value)async{
+    ).then((value) async {
       await _createUser(
         id: value.user!.id,
         filePath: filePath,
@@ -129,7 +135,7 @@ class SupabaseAuthRepository implements AuthRepository{
     });
   }
 
-  Future<void> _chooseSignInRole({required String id}) async{
+  Future<void> _chooseSignInRole({required String id}) async {
 
     List<UserRoleCompanySupabase> roles = await getRoles(id);
 
@@ -138,23 +144,23 @@ class SupabaseAuthRepository implements AuthRepository{
     }
 
     for (var role in roles) {
-      if (role.role == UserRoles.worker.name) {
+      if (role.roleEn == UserRoles.worker.roleEn) {
         ref.read(currentUserRoleCompanyProvider.notifier).state = role;
         return;
       }
     }
 
-    var userRole = roles.where((role) => role.role == UserRoles.user.name).first;
+    var userRole = roles.where((role) => role.roleEn == UserRoles.user.roleEn).first;
 
     ref.read(currentUserRoleCompanyProvider.notifier).state = userRole;
   }
 
   @override
-  Future<void> signInWithEmailAndPassword({required String email,required String password})async{
+  Future<void> signInWithEmailAndPassword({required String email,required String password}) async {
     await _client.auth.signInWithPassword(
       email: email,
       password: password,
-    ).then((value) async{
+    ).then((value) async {
       //await _chooseSignInRole(id: value.user!.id);
     }).catchError((e){
       if(e.message == 'Invalid login credentials'){
@@ -167,12 +173,12 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<void> signOut()async{
+  Future<void> signOut() async {
     await _client.auth.signOut();
   }
 
   @override
-  Future<void> resetPasswordForEmail({required String email})async{
+  Future<void> resetPasswordForEmail({required String email}) async {
     await _client.auth.resetPasswordForEmail(
       email,
       redirectTo: updatePasswordCallback,
@@ -182,7 +188,7 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<void> updatePassword({required String password}) async{
+  Future<void> updatePassword({required String password}) async {
     await _client.auth.updateUser(
       UserAttributes(password: password)
     ).catchError((e){
@@ -191,7 +197,7 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<void> resend({required String email}) async{
+  Future<void> resend({required String email}) async {
     await _client.auth.resend(
       email: email,
       type: OtpType.signup,
@@ -202,7 +208,12 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<List<UserRoleCompanySupabase>> getRoles(String id) async{
+  Future<List<UserRoleCompanySupabase>> getRoles(String id) async {
+
+    if(id == ''){
+      throw NoUserIdException(ref);
+    }
+
     try {
       final response = await _client
         .from(userRoleCompanyTable())
@@ -220,7 +231,7 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<File?> chooseProfileImage()async{
+  Future<File?> chooseProfileImage() async {
     final file = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 80);
     if(file != null){
       var imagePath = await file.readAsBytes();
@@ -250,12 +261,6 @@ final authStateChangesProvider = StreamProvider<User?>((ref) {
 
 final currentUserRoleCompanyProvider = StateProvider<UserRoleCompanySupabase?>((ref){
   return null;
-  /*return UserRoleCompanySupabase(
-    id: 0,
-    userId: '',
-    role: UserRoles.user.name,
-    companyId: null
-  );*/
 });
 
 final getRolesProvider = FutureProvider.autoDispose.family<List<UserRoleCompanySupabase>,String>((ref,id) {

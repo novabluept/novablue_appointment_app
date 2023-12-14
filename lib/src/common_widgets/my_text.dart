@@ -1,8 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../constants/app_colors.dart';
 
 class FontFamilies {
   static const urbanist = 'Urbanist';

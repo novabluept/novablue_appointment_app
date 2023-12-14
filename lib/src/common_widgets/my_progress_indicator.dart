@@ -1,9 +1,8 @@
 
 import 'package:flutter/material.dart';
-import '../constants/app_colors.dart';
-import '../constants/app_sizes.dart';
+import 'package:novablue_appointment_app/src/constants/app_colors.dart';
+import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'my_blur_filter.dart';
 
 class MyProgressIndicator extends StatelessWidget {

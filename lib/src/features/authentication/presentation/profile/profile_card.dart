@@ -1,12 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import '../../../../common_widgets/my_text.dart';
-import '../../../../constants/app_colors.dart';
-import '../../../../constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
+import 'package:novablue_appointment_app/src/constants/app_colors.dart';
+import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 
-class MyProfileItem extends StatelessWidget {
+class ProfileCard extends StatelessWidget {
 
   final Color? color;
   final IconData iconPrefix;
@@ -15,7 +15,7 @@ class MyProfileItem extends StatelessWidget {
   final double iconSize;
   final Function()? onTap;
 
-  const MyProfileItem({super.key,this.color = OtherColors.black, required this.iconPrefix, required this.label, this.iconSuffix = IconlyLight.arrow_right_2,this.iconSize = Sizes.s24,this.onTap});
+  const ProfileCard({super.key,this.color = OtherColors.black, required this.iconPrefix, required this.label, this.iconSuffix = IconlyLight.arrow_right_2,this.iconSize = Sizes.s24,this.onTap});
 
   @override
   Widget build(BuildContext context) {

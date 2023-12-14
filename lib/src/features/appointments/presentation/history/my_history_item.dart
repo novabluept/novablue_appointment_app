@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
-import '../../../../common_widgets/my_text.dart';
-import '../../../../constants/app_sizes.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
+import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyHistoryItem extends StatelessWidget {
@@ -69,7 +69,7 @@ class MyHistoryItem extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.topCenter,
-              child: Icon(IconlyLight.more_circle,size: Sizes.s24.w,)
+              child: Icon(IconlyLight.more_circle,size: Sizes.s24.w)
             )
           ],
         )

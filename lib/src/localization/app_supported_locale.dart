@@ -17,7 +17,21 @@ extension SupportedLocalExtension on SupportedLocale {
     return name;
   }
 
-  String get name {
+  String get namePt {
+    String name;
+    switch (this) {
+      case SupportedLocale.pt:
+        name = 'Português';
+        break;
+      case SupportedLocale.en:
+        name = 'Inglês';
+        break;
+
+    }
+    return name;
+  }
+
+  String get nameEn {
     String name;
     switch (this) {
       case SupportedLocale.pt:

@@ -1,7 +1,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../data/auth_repository.dart';
+import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
+import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 
 class LoginScreenController extends StateNotifier<AsyncValue<void>>{
 
@@ -14,20 +14,18 @@ class LoginScreenController extends StateNotifier<AsyncValue<void>>{
     required String email,
     required String password,
     required void Function() onEmailNotConfirmed,
-  })async{
+  }) async {
     state = const AsyncValue<void>.loading();
     state = await AsyncValue.guard(() => authRepository.signInWithEmailAndPassword(
       email: email,
       password: password
     ));
-    /*final error = state.error != null ? state.error as AppException : null;
+    final error = state.error is AppException ? state.error as AppException : null;
     if(error != null && error.code == AppExceptionTypes.emailNotConfirmed.name){
       onEmailNotConfirmed();
-    }*/
+    }
   }
-
 }
-
 
 final loginScreenControllerProvider = StateNotifierProvider.autoDispose<LoginScreenController,AsyncValue<void>>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);

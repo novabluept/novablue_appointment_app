@@ -1,6 +1,6 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/auth_repository.dart';
+import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 
 class CreatePasswordScreenController extends StateNotifier<AsyncValue<void>>{
 
@@ -21,13 +21,13 @@ class CreatePasswordScreenController extends StateNotifier<AsyncValue<void>>{
   }) async {
     state = const AsyncValue<void>.loading();
     final newState = await AsyncValue.guard(() => authRepository.createUserWithEmailAndPassword(
-        password: password,
-        filePath: filePath,
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        phone: phone,
-        phoneCode: phoneCode
+      password: password,
+      filePath: filePath,
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      phone: phone,
+      phoneCode: phoneCode
     ));
     if(mounted){
       state = newState;

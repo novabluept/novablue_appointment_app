@@ -5,20 +5,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_avatar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_bottom_modal.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_divider.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
+import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role_list/change_role_list_provider.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role_list/change_role_list_screen.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/profile/profile_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
+import 'package:novablue_appointment_app/src/routing/app_routing.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
-import '../../../../common_widgets/my_app_bar.dart';
-import '../../../../common_widgets/my_avatar.dart';
-import '../../../../common_widgets/my_button.dart';
-import '../../../../common_widgets/my_divider.dart';
-import '../../../../common_widgets/my_scaffold.dart';
-import '../../../../common_widgets/my_text.dart';
-import 'my_profile_item.dart';
+import 'profile_card.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -36,6 +39,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           (_, state) => state.showDialogError(context: context),
     );
     final state = ref.watch(profileScreenControllerProvider);
+    final id = ref.read(authRepositoryProvider).currentUser?.id;
+    final value = ref.watch(getRolesProvider(id ?? ''));
     return MyScaffold(
       state: state,
       appBar: MyAppBar(
@@ -46,16 +51,37 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         leadingWidth: Sizes.s28,
         titleSpacing: Sizes.s16,
         actions: [
-          GestureDetector(
-            child: Icon(IconlyLight.more_circle,size: Sizes.s24.w),
-            onTap: (){
-              context.showBottomModal(
-                context: context,
-                content: MyBottomModal(
-                  content: Container(),
-                )
-              );
-            },
+          value.when(
+            data: (items) => GestureDetector(
+              child: Icon(IconlyLight.more_circle,size: Sizes.s24.w),
+              onTap: () {
+                context.showBottomModal(
+                  context: context,
+                  content: MyBottomModal(
+                    title: 'Alterar cargo',
+                    content: ChangeRoleListScreen(items: items),
+                    negativeButtonTitle: 'Voltar',
+                    negativeButtonOnPressed: () {
+                      context.pop();
+                      ref.read(profileScreenControllerProvider.notifier).resetUserRoleCompany(ref);
+                    },
+                    positiveButtonTitle: 'Alterar',
+                    positiveButtonOnPressed: () async {
+                      final newRole = ref.read(tempUserRoleCompanyProvider);
+                      if(newRole != null){
+                        context.pop();
+                        await ref.read(profileScreenControllerProvider.notifier).setUserRoleCompany(ref,newRole);
+                      }
+                    },
+                  ),
+                  action: () {
+                    ref.read(profileScreenControllerProvider.notifier).resetUserRoleCompany(ref);
+                  }
+                );
+              },
+            ),
+            error: (e, st) => const SizedBox(),
+            loading: () => const SizedBox()
           )
         ],
       ),
@@ -87,84 +113,60 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               gapH24,
               MyDivider(),
               gapH24,
-              MyProfileItem(
+              ProfileCard(
                 iconPrefix: IconlyLight.profile,
                 label: context.loc.editProfile.capitalize(),
                 onTap: (){},
               ),
               gapH20,
-              MyProfileItem(
+              ProfileCard(
                 iconPrefix: IconlyLight.shield_done,
                 label: context.loc.security.capitalize(),
                 onTap: (){},
               ),
               gapH20,
-              MyProfileItem(
+              ProfileCard(
                 iconPrefix: IconlyLight.discovery,
                 label: context.loc.language.capitalize(),
-                onTap: (){},
+                onTap: (){
+                  context.pushNamed(AppRoute.changeLanguage.name);
+                },
               ),
               gapH20,
-              MyProfileItem(
+              /*ProfileCard(
                 iconPrefix: IconlyLight.user_1,
                 label: context.loc.inviteFriends.capitalize(),
                 onTap: (){},
               ),
-              gapH20,
-              MyProfileItem(
+              gapH20,*/
+              ProfileCard(
                 color: OtherColors.red,
                 iconPrefix: IconlyLight.logout,
                 label: context.loc.logout.capitalize(),
-                onTap: () async{
+                onTap: () async {
                   context.showBottomModal(
                     context: context,
                     content: MyBottomModal(
+                      title: 'Sair',
+                      titleColor: OtherColors.red,
                       content: Column(
                         children: [
-                          MyText(
-                            type: TextTypes.h4,
-                            text: context.loc.logout.capitalize(),
-                            color: OtherColors.red,
-                          ),
-                          gapH24,
-                          MyDivider(),
-                          gapH24,
                           MyText(
                             type: TextTypes.h5,
                             text: context.loc.areYouSureYouWantToLogout.capitalize(),
                             color: GreyScaleColors.grey900,
                             textAlign: TextAlign.center,
                           ),
-                          gapH24,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: MyButton(
-                                  type: ButtonTypes.filledFullyRounded,
-                                  backgroundColor: BackgroundColors.blue,
-                                  foregroundColor: MainColors.primary,
-                                  text: context.loc.back.capitalize(),
-                                  onPressed: (){
-                                    context.pop();
-                                  }
-                                ),
-                              ),
-                              gapW12,
-                              Expanded(
-                                child: MyButton(
-                                  type: ButtonTypes.filledFullyRounded,
-                                  text: context.loc.logout.capitalize(),
-                                  onPressed: () async{
-                                    await ref.read(profileScreenControllerProvider.notifier).signOut();
-                                  }
-                                ),
-                              ),
-                            ],
-                          ),
                         ],
-                      )
+                      ),
+                      negativeButtonTitle: 'Voltar',
+                      negativeButtonOnPressed: () {
+                        context.pop();
+                      },
+                      positiveButtonTitle: 'Sair',
+                      positiveButtonOnPressed: () async {
+                        await ref.read(profileScreenControllerProvider.notifier).signOut(ref);
+                      },
                     )
                   );
                 },

@@ -2,20 +2,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:novablue_appointment_app/src/features/appointments/presentation/history/history_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
+import 'package:novablue_appointment_app/src/features/authentication/domain/user_role_company_supabase.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/email_confirmation/email_confirmation_screen.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/forgot_password/forgot_password_screen.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/password_recovery/password_recovery_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/login/login_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/password/create_password/create_password_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/password/forgot_password/forgot_password_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/password/password_recovery/password_recovery_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/personal_data/personal_data_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/profile/profile_screen.dart';
+import 'package:novablue_appointment_app/src/features/shops/presentation/shops_slidable_list/shops_slidable_list_screen.dart';
 import 'package:novablue_appointment_app/src/routing/not_found_screen.dart';
 import 'package:novablue_appointment_app/src/routing/scaffold_with_nested_navigation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
-import '../features/appointments/presentation/history/history_screen.dart';
-import '../features/authentication/data/auth_repository.dart';
-import '../features/authentication/domain/user_role_company_supabase.dart';
-import '../features/authentication/presentation/create_password/create_password_screen.dart';
-import '../features/authentication/presentation/personal_data/personal_data_screen.dart';
-import '../features/authentication/presentation/profile/profile_screen.dart';
-import '../features/shops/presentation/shops_slidable_list/shops_slidable_list_screen.dart';
-import '../features/authentication/presentation/login/login_screen.dart';
+import '../features/language/change_language/change_language_screen.dart';
 import 'go_router_refresh_stream.dart';
 
 CustomTransitionPage buildPageWithDefaultTransition<T>({
@@ -49,11 +50,98 @@ enum AppRoute{
   home,
   history,
   profile,
+  changeLanguage,
 }
+
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
 List<StatefulShellBranch> branches(UserRoleCompanySupabase? currentUserRoleCompany){
 
-  if(currentUserRoleCompany?.role == UserRoles.user.name){
+  if(currentUserRoleCompany?.roleEn == UserRoles.worker.roleEn){
+    return [
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.home.name,
+            path: 'home',
+            builder: (context,state) => Container(color: Colors.red.shade300,child: Text('worker')),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.history.name,
+            path: 'history',
+            builder: (context,state) => Container(color: Colors.blue.shade300,child: Text('worker')),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.profile.name,
+            path: 'profile',
+            builder: (context,state) => const ProfileScreen(),
+              routes: [
+                GoRoute(
+                  name: AppRoute.changeLanguage.name,
+                  path: 'change-language',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+                    context: context,
+                    state: state,
+                    child: const ChangeLanguageScreen(),
+                  ),
+                ),
+              ]
+          ),
+        ],
+      ),
+    ];
+  }else if(currentUserRoleCompany?.roleEn == UserRoles.admin.roleEn){
+    return [
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.home.name,
+            path: 'home',
+            builder: (context,state) => Container(color: Colors.red.shade300,child: Text('admin')),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.history.name,
+            path: 'history',
+            builder: (context,state) => Container(color: Colors.blue.shade300,child: Text('admin')),
+          ),
+        ],
+      ),
+      StatefulShellBranch(
+        routes: [
+          GoRoute(
+            name: AppRoute.profile.name,
+            path: 'profile',
+            builder: (context,state) => const ProfileScreen(),
+            routes: [
+              GoRoute(
+                name: AppRoute.changeLanguage.name,
+                path: 'change-language',
+                parentNavigatorKey: _rootNavigatorKey,
+                pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+                  context: context,
+                  state: state,
+                  child: const ChangeLanguageScreen(),
+                ),
+              ),
+            ]
+          ),
+        ],
+      ),
+    ];
+  }else{
     return [
       StatefulShellBranch(
         routes: [
@@ -79,66 +167,18 @@ List<StatefulShellBranch> branches(UserRoleCompanySupabase? currentUserRoleCompa
             name: AppRoute.profile.name,
             path: 'profile',
             builder: (context,state) => const ProfileScreen(),
-          ),
-        ],
-      ),
-    ];
-  }else if(currentUserRoleCompany?.role == UserRoles.worker.name){
-    return [
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            name: AppRoute.home.name,
-            path: 'home',
-            builder: (context,state) => Container(color: Colors.red.shade300,child: Text('Worker')),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            name: AppRoute.history.name,
-            path: 'history',
-            builder: (context,state) => Container(color: Colors.blue.shade300,child: Text('Worker')),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            name: AppRoute.profile.name,
-            path: 'profile',
-            builder: (context,state) => const ProfileScreen(),
-          ),
-        ],
-      ),
-    ];
-  }else{
-    return [
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            name: AppRoute.home.name,
-            path: 'home',
-            builder: (context,state) => Container(color: Colors.red.shade300,child: Text('Admin')),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            name: AppRoute.history.name,
-            path: 'history',
-            builder: (context,state) => Container(color: Colors.blue.shade300,child: Text('Admin')),
-          ),
-        ],
-      ),
-      StatefulShellBranch(
-        routes: [
-          GoRoute(
-            name: AppRoute.profile.name,
-            path: 'profile',
-            builder: (context,state) => const ProfileScreen(),
+            routes: [
+              GoRoute(
+                name: AppRoute.changeLanguage.name,
+                path: 'change-language',
+                parentNavigatorKey: _rootNavigatorKey,
+                pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+                  context: context,
+                  state: state,
+                  child: const ChangeLanguageScreen(),
+                ),
+              ),
+            ]
           ),
         ],
       ),
@@ -153,6 +193,7 @@ final goRouterProvider = Provider((ref) {
   var currentUserRoleCompany = ref.watch(currentUserRoleCompanyProvider);
 
   return GoRouter(
+    navigatorKey: _rootNavigatorKey,
     debugLogDiagnostics: true,
     redirect: (context,state) {
       //var currentUser = authRepository.currentUser;

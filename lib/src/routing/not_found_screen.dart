@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../constants/app_sizes.dart';
+import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
+
 import 'app_routing.dart';
 
 class NotFoundScreen extends StatelessWidget {
