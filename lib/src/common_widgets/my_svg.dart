@@ -16,14 +16,14 @@ class MySvg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRect(
+    /*return ClipRect(
       child: ColorFiltered(
         colorFilter: ColorFilter.mode(colorFilter.withOpacity(0.8), BlendMode.hue),
         child: Container(
           decoration: BoxDecoration(
               color: OtherColors.white,
               border: Border.all(width: Sizes.s1.w,color: OtherColors.white)
-          ),
+          ),)
           child: SvgPicture.asset(
             imagePath,
             width: width,
@@ -31,6 +31,30 @@ class MySvg extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }*/
+    return Stack(
+      children: [
+        ClipRect(
+          child: ColorFiltered(
+            colorFilter: ColorFilter.mode(colorFilter.withOpacity(0.8), BlendMode.hue),
+            child: Container(
+              color: OtherColors.white,
+              child: SvgPicture.asset(
+                imagePath,
+                width: width,
+                height: height,
+              ),
+            ),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: OtherColors.white,
+            border: Border.all(width: Sizes.s5.w,color: OtherColors.white)
+          ),
+        )
+      ],
     );
   }
 }

@@ -31,6 +31,7 @@ extension bottomModal on BuildContext {
       isDismissible: false,
       backgroundColor: OtherColors.transparent,
       elevation: 0,
+      constraints: BoxConstraints(minWidth: double.infinity),
       builder: (context) {
         return WillPopScope(
           onWillPop: () async{

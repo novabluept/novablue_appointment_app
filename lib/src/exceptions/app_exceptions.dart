@@ -7,6 +7,7 @@ enum AppExceptionTypes{
   emailAlreadyInUse,
   weakPassword,
   wrongPassword,
+  samePassword,
   userNotFound,
   emailNotConfirmed,
   fileTooLarge,
@@ -45,6 +46,10 @@ class WrongPasswordException extends AppException {
   WrongPasswordException(ref) : super(AppExceptionTypes.wrongPassword.name, ref.read(appLocalizationsProvider).wrongPasswordException);
 }
 
+class SamePasswordException extends AppException {
+  SamePasswordException(ref) : super(AppExceptionTypes.samePassword.name, ref.read(appLocalizationsProvider).samePasswordException);
+}
+
 class UserNotFoundException extends AppException {
   UserNotFoundException(ref) : super(AppExceptionTypes.userNotFound.name, ref.read(appLocalizationsProvider).userNotFoundException);
 }
@@ -59,8 +64,4 @@ class FileTooLargeException extends AppException {
 
 class NoUserRolesException extends AppException {
   NoUserRolesException(ref) : super(AppExceptionTypes.fileTooLarge.name, ref.read(appLocalizationsProvider).noUserRolesException);
-}
-
-class NoUserIdException extends AppException {
-  NoUserIdException(ref) : super(AppExceptionTypes.noUserIdException.name, 'No user id');
 }

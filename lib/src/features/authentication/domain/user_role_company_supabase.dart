@@ -48,6 +48,7 @@ class UserRoleCompanySupabase {
   final int? companyId;
   final String rolePt;
   final String roleEn;
+  final bool active;
 
 
   UserRoleCompanySupabase({
@@ -56,6 +57,7 @@ class UserRoleCompanySupabase {
     this.companyId,
     required this.rolePt,
     required this.roleEn,
+    required this.active,
   });
 
   Map<String, dynamic> toJson() {
@@ -64,6 +66,7 @@ class UserRoleCompanySupabase {
       'company_id': this.companyId,
       'role_pt': this.rolePt,
       'role_en': this.roleEn,
+      'active': this.active
     };
   }
 
@@ -74,7 +77,7 @@ class UserRoleCompanySupabase {
       companyId: json['company_id'] != null ? json['company_id'] as int : null,
       rolePt: json['role_pt'] as String,
       roleEn: json['role_en'] as String,
-
+      active: json['active'] as bool,
     );
   }
 
@@ -86,8 +89,14 @@ class UserRoleCompanySupabase {
       userId == other.userId &&
       companyId == other.companyId &&
       rolePt == other.rolePt &&
-      roleEn == other.roleEn;
+      roleEn == other.roleEn &&
+      active == other.active;
 
   @override
-  int get hashCode => id.hashCode ^ userId.hashCode ^ companyId.hashCode ^ rolePt.hashCode ^ roleEn.hashCode;
+  int get hashCode => id.hashCode ^ userId.hashCode ^ companyId.hashCode ^ rolePt.hashCode ^ roleEn.hashCode ^ active.hashCode;
+
+  @override
+  String toString() {
+    return 'UserRoleCompanySupabase{id: $id, userId: $userId, companyId: $companyId, rolePt: $rolePt, roleEn: $roleEn, active: $active}';
+  }
 }

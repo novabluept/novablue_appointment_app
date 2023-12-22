@@ -24,6 +24,7 @@
     "emailAlreadyInUseException": "Este correio eletrónico já se encontra em uso.",
     "weakPasswordException": "Palavra-passe demasiado fraca.",
     "wrongPasswordException": "Palavra-passe errada.",
+    "samePasswordException": "A nova palavra-passe deve ser diferente da palavra-passe antiga.",
     "userNotFoundException": "Utilizador não encontrado.",
     "emailNotConfirmedException": "O email não está confirmado. Por favor, verifique a caixa de entrada do seu correio eletrónico.",
     "fileTooLargeException": "O ficheiro é demasiado grande. O tamanho máximo permitido é {fileMaxSizeInMegaBytes} MB.",

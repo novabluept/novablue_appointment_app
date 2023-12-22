@@ -5,21 +5,27 @@ import 'package:novablue_appointment_app/src/constants/app_file_size.dart';
 import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
 import 'package:novablue_appointment_app/src/features/authentication/domain/user_role_company_supabase.dart';
 import 'package:novablue_appointment_app/src/features/authentication/domain/user_supabase.dart';
+import 'package:novablue_appointment_app/src/routing/scaffold_with_nested_navigation/scaffold_with_nested_navigation_provider.dart';
 import 'package:novablue_appointment_app/src/supabase_providers/providers.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+
 abstract class AuthRepository {
-  Stream  authStateChanges();
   User? get currentUser;
+  Stream<User?> watchUserSessionChanges();
+  Stream<AuthChangeEvent?> watchEventChanges();
+  Stream<UserRoleCompanySupabase> watchActiveUserRoleCompany({required String id});
+  Future<File?> chooseProfileImage();
   Future<void> signInWithEmailAndPassword({required String email,required String password});
   Future<void> createUserWithEmailAndPassword({required String password, required String filePath, required String firstname, required String lastname, required String email, required String phone, required String phoneCode});
   Future<void> signOut();
   Future<void> resetPasswordForEmail({required String email});
   Future<void> updatePassword({required String password});
   Future<void> resend({required String email});
-  Future<List<UserRoleCompanySupabase>> getRoles(String id);
-  Future<File?> chooseProfileImage();
+  Future<List<UserRoleCompanySupabase>> getUserRoles({required String id});
+  Future<void> updateActiveUserRole({required String id,required UserRoleCompanySupabase previousRole,required UserRoleCompanySupabase nextRole});
+
 }
 
 class SupabaseAuthRepository implements AuthRepository{
@@ -39,22 +45,61 @@ class SupabaseAuthRepository implements AuthRepository{
   SupabaseAuthRepository(this.ref,this._client);
 
   @override
-  Stream<User?> authStateChanges() async*{
+  User? get currentUser => _client.auth.currentUser;
+
+  @override
+  Stream<User?> watchUserSessionChanges() async*{
     final authStream = _client.auth.onAuthStateChange;
 
     await for (final authState in authStream) {
-      if(ref.read(currentUserRoleCompanyProvider.notifier).state == null){
-        if(authState.event != AuthChangeEvent.signedOut){
-          await _chooseSignInRole(id: authState.session!.user.id);
-        }
-      }
-      ref.read(currentAuthChangeEventProvider.notifier).state = authState.event;
       yield authState.session?.user;
     }
   }
 
   @override
-  User? get currentUser => _client.auth.currentUser;
+  Stream<AuthChangeEvent?> watchEventChanges() async*{
+    final authStream = _client.auth.onAuthStateChange;
+
+    await for (final authState in authStream) {
+      yield authState.event;
+    }
+  }
+
+  @override
+  Stream<UserRoleCompanySupabase> watchActiveUserRoleCompany({required String id}) {
+
+    return _client
+      .from(userRoleCompanyTable())
+      .stream(primaryKey: ['id'])
+      .eq('user_id', id)
+      .map((event) {
+        List<UserRoleCompanySupabase> list = event.map((item) => UserRoleCompanySupabase.fromJson(item)).toList();
+
+        for(var role in list){
+          if(role.active){
+            return role;
+          }
+        }
+
+        return UserRoleCompanySupabase(id: 0, userId: id, rolePt: UserRoles.user.rolePt, roleEn: UserRoles.user.roleEn, active: true);
+    });
+
+  }
+
+  @override
+  Future<File?> chooseProfileImage() async {
+    final file = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 80);
+    if(file != null){
+      var imagePath = await file.readAsBytes();
+      var fileSize = imagePath.length;
+      if(fileSize <= fileMaxSizeInBytes){
+        return File(file.path);
+      }else if(fileSize > fileMaxSizeInBytes){
+        throw FileTooLargeException(ref,fileMaxSizeInMegaBytes);
+      }
+    }
+    return null;
+  }
 
   Future<void> _uploadProfileImage({
     required String id,
@@ -93,6 +138,7 @@ class SupabaseAuthRepository implements AuthRepository{
         userId: id,
         rolePt: UserRoles.user.rolePt,
         roleEn: UserRoles.user.roleEn,
+        active: true
       ).toJson();
 
       await _client.from(userTable())
@@ -135,26 +181,6 @@ class SupabaseAuthRepository implements AuthRepository{
     });
   }
 
-  Future<void> _chooseSignInRole({required String id}) async {
-
-    List<UserRoleCompanySupabase> roles = await getRoles(id);
-
-    if(roles.isEmpty){
-      throw UnexpectedErrorException(ref);
-    }
-
-    for (var role in roles) {
-      if (role.roleEn == UserRoles.worker.roleEn) {
-        ref.read(currentUserRoleCompanyProvider.notifier).state = role;
-        return;
-      }
-    }
-
-    var userRole = roles.where((role) => role.roleEn == UserRoles.user.roleEn).first;
-
-    ref.read(currentUserRoleCompanyProvider.notifier).state = userRole;
-  }
-
   @override
   Future<void> signInWithEmailAndPassword({required String email,required String password}) async {
     await _client.auth.signInWithPassword(
@@ -183,6 +209,7 @@ class SupabaseAuthRepository implements AuthRepository{
       email,
       redirectTo: updatePasswordCallback,
     ).catchError((e){
+      print('error -> ${e.toString()}');
       throw UnexpectedErrorException(ref);
     });
   }
@@ -192,6 +219,10 @@ class SupabaseAuthRepository implements AuthRepository{
     await _client.auth.updateUser(
       UserAttributes(password: password)
     ).catchError((e){
+      print('error -> ${e.toString()}');
+      if(e.message == 'New password should be different from the old password.'){
+        throw SamePasswordException(ref);
+      }
       throw UnexpectedErrorException(ref);
     });
   }
@@ -208,12 +239,7 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<List<UserRoleCompanySupabase>> getRoles(String id) async {
-
-    if(id == ''){
-      throw NoUserIdException(ref);
-    }
-
+  Future<List<UserRoleCompanySupabase>> getUserRoles({required String id}) async {
     try {
       final response = await _client
         .from(userRoleCompanyTable())
@@ -224,26 +250,34 @@ class SupabaseAuthRepository implements AuthRepository{
 
       return userRoles;
     } catch (error) {
-      print(error.toString());
-      // Handle the error or throw it again if needed
       throw error;
     }
   }
 
   @override
-  Future<File?> chooseProfileImage() async {
-    final file = await ImagePicker().pickImage(source: ImageSource.gallery,imageQuality: 80);
-    if(file != null){
-      var imagePath = await file.readAsBytes();
-      var fileSize = imagePath.length;
-      if(fileSize <= fileMaxSizeInBytes){
-        return File(file.path);
-      }else if(fileSize > fileMaxSizeInBytes){
-        throw FileTooLargeException(ref,fileMaxSizeInMegaBytes);
-      }
+  Future<void> updateActiveUserRole({required String id,required UserRoleCompanySupabase previousRole,required UserRoleCompanySupabase nextRole}) async{
+    try {
+
+      // Reset bottom navigation index
+      ref.read(currentIndexProvider.notifier).state = 0;
+
+      // Update the previous role to not active
+      await _client
+        .from(userRoleCompanyTable())
+        .update({'active': false})
+        .match({'id': previousRole.id});
+
+      // Update the next role to active
+      await _client
+        .from(userRoleCompanyTable())
+        .update({'active': true})
+        .match({'id': nextRole.id});
+    } catch (error) {
+      throw error;
     }
-    return null;
   }
+
+
 
 }
 
@@ -252,22 +286,26 @@ final authRepositoryProvider = Provider<SupabaseAuthRepository>((ref) {
   return SupabaseAuthRepository(ref,client);
 });
 
-final currentAuthChangeEventProvider = StateProvider<AuthChangeEvent?>((ref){return null;});
 
-final authStateChangesProvider = StreamProvider<User?>((ref) {
+final watchUserSessionChangesProvider = StreamProvider<User?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
-  return authRepository.authStateChanges();
+  return authRepository.watchUserSessionChanges();
 });
 
-final currentUserRoleCompanyProvider = StateProvider<UserRoleCompanySupabase?>((ref){
-  return null;
+final watchEventChangesProvider = StreamProvider<AuthChangeEvent?>((ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  return authRepository.watchEventChanges();
+});
+
+final watchActiveUserRoleCompanyProvider = StreamProvider.family<UserRoleCompanySupabase,String>((ref,id) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  return authRepository.watchActiveUserRoleCompany(id: id);
 });
 
 final getRolesProvider = FutureProvider.autoDispose.family<List<UserRoleCompanySupabase>,String>((ref,id) {
   final authRepository = ref.watch(authRepositoryProvider);
-  return authRepository.getRoles(id);
+  return authRepository.getUserRoles(id: id);
 });
-
 
 
 

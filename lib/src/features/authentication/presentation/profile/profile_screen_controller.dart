@@ -2,10 +2,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 import 'package:novablue_appointment_app/src/features/authentication/domain/user_role_company_supabase.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role_list/change_role_list_provider.dart';
-
-import '../../../../routing/scaffold_with_nested_navigation_provider.dart';
-
+import 'package:novablue_appointment_app/src/routing/refresh_service/refresh_service_provider.dart';
+import 'package:novablue_appointment_app/src/routing/scaffold_with_nested_navigation/scaffold_with_nested_navigation_provider.dart';
 
 class ProfileScreenController extends StateNotifier<AsyncValue<void>>{
 
@@ -16,15 +14,10 @@ class ProfileScreenController extends StateNotifier<AsyncValue<void>>{
   Future<void> signOut(WidgetRef ref) async {
     state = const AsyncValue<void>.loading();
     ref.read(currentIndexProvider.notifier).state = 0;
-    final newState = await AsyncValue.guard(() => authRepository.signOut().then((value) => ref.read(currentUserRoleCompanyProvider.notifier).state = null));
-    print(ref.read(currentUserRoleCompanyProvider.notifier).state);
+    final newState = await AsyncValue.guard(() => authRepository.signOut());
     if(mounted){
       state = newState;
     }
-  }
-
-  void resetUserRoleCompany(WidgetRef ref){
-    ref.read(tempUserRoleCompanyProvider.notifier).state = ref.read(currentUserRoleCompanyProvider);
   }
 
   Future<void> setUserRoleCompany(WidgetRef ref,UserRoleCompanySupabase value) async{

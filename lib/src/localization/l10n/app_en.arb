@@ -24,6 +24,7 @@
     "emailAlreadyInUseException": "Email already in use.",
     "weakPasswordException": "Password is too weak.",
     "wrongPasswordException": "Wrong password.",
+    "samePasswordException": "New password should be different from the old password.",
     "userNotFoundException": "User not found.",
     "emailNotConfirmedException": "The email is not confirmed. Please check your email inbox.",
     "fileTooLargeException": "The file is too large. Allowed maximum size is {fileMaxSizeInMegaBytes} MB.",

@@ -10,10 +10,7 @@ import 'language_card.dart';
 
 class LanguagesGrid extends ConsumerStatefulWidget {
 
-  final List<SupportedLocale> items;
-  final Locale selectedValue;
-
-  const LanguagesGrid({super.key, required this.items, required this.selectedValue});
+  const LanguagesGrid({super.key});
 
   @override
   _LanguagesGridState createState() => _LanguagesGridState();
@@ -23,18 +20,23 @@ class _LanguagesGridState extends ConsumerState<LanguagesGrid> {
 
   @override
   Widget build(BuildContext context) {
-    var language = AppSharedPreference.getLocale();
+    var languagesList = SupportedLocale.values;
+    final selectedValue = AppSharedPreference.getLocale();
+
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: widget.items.length,
+      itemCount: languagesList.length,
       itemBuilder: (context, index) {
+        final language = languagesList[index];
         return LanguageCard(
-          item: widget.items[index],
-          selectedValue: widget.selectedValue,
           language: language,
+          selectedValue: selectedValue,
           onChanged: (value) {
-            ref.read(changeLanguageScreenControllerProvider.notifier).changeLanguage(ref,value);
-            context.pop();
+            ref.read(changeLanguageScreenControllerProvider.notifier).changeLanguage(
+              ref: ref,
+              locale: value,
+              onSuccess: () => context.pop(),
+            );
           },
         );
       },

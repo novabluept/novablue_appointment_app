@@ -11,10 +11,15 @@ class ChangeLanguageScreenController extends StateNotifier<AsyncValue<void>>{
 
   ChangeLanguageScreenController({required this.authRepository}) : super(const AsyncValue<void>.data(null));
 
-  void changeLanguage(WidgetRef ref,Object locale){
+  void changeLanguage({
+    required WidgetRef ref,
+    required Object locale,
+    required void Function() onSuccess,
+  }){
     final newValue = locale as Locale;
     final savedValue = newValue.languageCode == SupportedLocale.pt.countryCode ? SupportedLocale.pt : SupportedLocale.en;
     ref.read(localeProvider.notifier).changeLanguage(savedValue);
+    onSuccess();
   }
 }
 

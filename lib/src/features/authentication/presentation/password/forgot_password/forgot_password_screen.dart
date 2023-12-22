@@ -79,7 +79,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             gapH71,
             MySvg(
               colorFilter: MainColors.primary,
-              imagePath: 'images/app_info_blue/create_password_image.svg',
+              imagePath: 'images/undraw/forgot_password_image.svg',
               width: Sizes.s276.w,
               height: Sizes.s250.h,
             ),

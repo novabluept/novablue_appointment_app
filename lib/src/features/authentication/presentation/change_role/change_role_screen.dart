@@ -1,38 +1,36 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role/roles_grid.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
-import 'change_language_screen_controller.dart';
-import 'languages_grid.dart';
+import 'change_role_screen_controller.dart';
 
-class ChangeLanguageScreen extends ConsumerStatefulWidget {
+class ChangeRoleScreen extends ConsumerStatefulWidget {
 
-  const ChangeLanguageScreen({super.key});
+  const ChangeRoleScreen({super.key});
 
   @override
-  _ChangeLanguageScreenState createState() => _ChangeLanguageScreenState();
+  _ChangeRoleScreenState createState() => _ChangeRoleScreenState();
 }
 
-class _ChangeLanguageScreenState extends ConsumerState<ChangeLanguageScreen> {
+class _ChangeRoleScreenState extends ConsumerState<ChangeRoleScreen> {
 
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
-      changeLanguageScreenControllerProvider,
-          (_, state) => state.showDialogError(context: context),
+      changeRoleScreenControllerProvider,
+        (_, state) => state.showDialogError(context: context),
     );
-    final state = ref.watch(changeLanguageScreenControllerProvider);
     return MyScaffold(
-      state: state,
       appBar: MyAppBar(
-        title: 'Mudar idioma',
+        title: 'Mudar cargo',
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(
@@ -43,7 +41,7 @@ class _ChangeLanguageScreenState extends ConsumerState<ChangeLanguageScreen> {
           ),
         ),
       ),
-      body: LanguagesGrid()
+      body: RolesGrid()
     );
   }
 }

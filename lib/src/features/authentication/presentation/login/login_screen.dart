@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_button.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_text_form_field.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,13 +14,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/login/login_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
+import 'package:novablue_appointment_app/src/routing/app_routing.dart';
+import 'package:novablue_appointment_app/src/routing/refresh_service/refresh_service_provider.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
-  import '../../../../common_widgets/my_app_bar.dart';
-import '../../../../common_widgets/my_text_form_field.dart';
 import 'package:iconly/iconly.dart';
-import '../../../../routing/app_routing.dart';
-import '../../../../utils/validations.dart';
+import 'package:novablue_appointment_app/src/utils/validations.dart';
 import 'change_language_dropdown.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -144,6 +145,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     onPressed: state.isLoading ? null : () async {
                       setState(() {});
                       if (_formKey.currentState!.validate()){
+                        ref.read(currentUserRoleCompanyProvider.notifier).state = null;
                         await ref.read(loginScreenControllerProvider.notifier).signInWithEmailAndPassword(
                           email: email,
                           password: password,

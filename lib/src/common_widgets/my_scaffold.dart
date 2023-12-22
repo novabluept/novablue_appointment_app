@@ -14,7 +14,7 @@ class MyScaffold extends StatelessWidget {
   final Widget body;
   final EdgeInsets? edgeInsets;
 
-  const MyScaffold({super.key,this.onWillPop,required this.state,this.appBar, required this.body, this.edgeInsets});
+  const MyScaffold({super.key,this.onWillPop,this.state,this.appBar, required this.body, this.edgeInsets});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class MyScaffold extends StatelessWidget {
             ),
           ),
         ),
-        state!.isLoading ? MyProgressIndicator() : const SizedBox()
+        state != null ? state!.isLoading ? MyProgressIndicator() : const SizedBox() : const SizedBox()
       ],
     );
   }

@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
@@ -14,8 +13,6 @@ import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role_list/change_role_list_provider.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role_list/change_role_list_screen.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/profile/profile_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/routing/app_routing.dart';
@@ -39,8 +36,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           (_, state) => state.showDialogError(context: context),
     );
     final state = ref.watch(profileScreenControllerProvider);
-    final id = ref.read(authRepositoryProvider).currentUser?.id;
-    final value = ref.watch(getRolesProvider(id ?? ''));
     return MyScaffold(
       state: state,
       appBar: MyAppBar(
@@ -51,7 +46,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         leadingWidth: Sizes.s28,
         titleSpacing: Sizes.s16,
         actions: [
-          value.when(
+          /*value.when(
             data: (items) => GestureDetector(
               child: Icon(IconlyLight.more_circle,size: Sizes.s24.w),
               onTap: () {
@@ -82,7 +77,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
             error: (e, st) => const SizedBox(),
             loading: () => const SizedBox()
-          )
+          )*/
         ],
       ),
       body: SingleChildScrollView(
@@ -130,6 +125,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 label: context.loc.language.capitalize(),
                 onTap: (){
                   context.pushNamed(AppRoute.changeLanguage.name);
+                },
+              ),
+              gapH20,
+              ProfileCard(
+                iconPrefix: IconlyLight.swap,
+                label: 'Alterar cargo',
+                onTap: (){
+                 context.pushNamed(AppRoute.changeRole.name);
                 },
               ),
               gapH20,

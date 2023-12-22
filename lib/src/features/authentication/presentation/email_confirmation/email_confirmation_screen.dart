@@ -79,7 +79,7 @@ class _EmailConfirmationScreenState extends ConsumerState<EmailConfirmationScree
             gapH71,
             MySvg(
               colorFilter: MainColors.primary,
-              imagePath: 'images/app_info_blue/email_confirmation_image.svg',
+              imagePath: 'images/undraw/email_confirmation_image.svg',
               width: Sizes.s276.w,
               height: Sizes.s250.h
             ),

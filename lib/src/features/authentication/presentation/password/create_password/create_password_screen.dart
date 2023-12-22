@@ -106,7 +106,7 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
             gapH71,
             MySvg(
               colorFilter: MainColors.primary,
-              imagePath: 'images/app_info_blue/create_password_image.svg',
+              imagePath: 'images/undraw/create_password_image.svg',
               width: Sizes.s329.w,
               height: Sizes.s250.h
             ),

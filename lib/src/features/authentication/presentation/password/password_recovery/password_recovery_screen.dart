@@ -87,7 +87,7 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
             gapH71,
             MySvg(
               colorFilter: MainColors.primary,
-              imagePath: 'images/app_info_blue/recover_password_image.svg',
+              imagePath: 'images/undraw/recover_password_image.svg',
               width: Sizes.s329.w,
               height: Sizes.s250.h
             ),
