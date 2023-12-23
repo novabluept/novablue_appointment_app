@@ -166,8 +166,8 @@ final goRouterProvider = Provider((ref) {
     },
     refreshListenable: GoRouterRefreshStream(
       Rx.combineLatest2(
-        RefreshService(ref).outputStream,
-        RefreshService(ref).outputStreamSecond,
+        RefreshService(ref).userRoleStream,
+        RefreshService(ref).eventStream,
         (a, b) {
           print('\n\n');
           print('a -> ${a.toString()}');

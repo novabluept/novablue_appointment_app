@@ -35,23 +35,31 @@ class MySvg extends StatelessWidget {
   }*/
     return Stack(
       children: [
-        ClipRect(
-          child: ColorFiltered(
-            colorFilter: ColorFilter.mode(colorFilter.withOpacity(0.8), BlendMode.hue),
-            child: Container(
-              color: OtherColors.white,
-              child: SvgPicture.asset(
-                imagePath,
+        Align(
+          alignment: Alignment.center,
+          child: ClipRect(
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(colorFilter.withOpacity(0.8), BlendMode.hue),
+              child: Container(
+                color: OtherColors.white,
                 width: width,
                 height: height,
+                child: SvgPicture.asset(
+                  imagePath,
+                ),
               ),
             ),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: OtherColors.white,
-            border: Border.all(width: Sizes.s5.w,color: OtherColors.white)
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: width,
+            height: height,
+            decoration: BoxDecoration(
+              //color: OtherColors.red,
+              border: Border.all(width: Sizes.s1.w,color: OtherColors.white)
+            ),
           ),
         )
       ],

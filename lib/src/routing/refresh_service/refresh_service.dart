@@ -9,11 +9,11 @@ import '../../features/authentication/domain/user_role_company_supabase.dart';
 class RefreshService {
 
   final Ref ref;
-  StreamSubscription<UserRoleCompanySupabase?>? _subscription;
-  StreamSubscription<AuthChangeEvent?>? _subscriptionSecond;
+  StreamSubscription<UserRoleCompanySupabase?>? _userRoleSubscription;
+  StreamSubscription<AuthChangeEvent?>? _eventSubscription;
 
-  StreamController<UserRoleCompanySupabase?> _outputStreamController = StreamController<UserRoleCompanySupabase?>();
-  StreamController<AuthChangeEvent?> _outputStreamControllerSecond = StreamController<AuthChangeEvent?>();
+  StreamController<UserRoleCompanySupabase?> _userRoleStreamController = StreamController<UserRoleCompanySupabase?>();
+  StreamController<AuthChangeEvent?> _eventStreamController = StreamController<AuthChangeEvent?>();
 
 
   RefreshService(this.ref) {
@@ -23,7 +23,7 @@ class RefreshService {
   void _init() {
     ref.listen<AsyncValue<AuthChangeEvent?>>(watchEventChangesProvider, (previous, next) {
       final event = next.value;
-      _subscription?.cancel();
+      _userRoleSubscription?.cancel();
       if (event != null) {
         getAuthEvent();
       }
@@ -31,47 +31,47 @@ class RefreshService {
 
     ref.listen<AsyncValue<User?>>(watchUserSessionChangesProvider, (previous, next) {
       final user = next.value;
-      _subscription?.cancel();
+      _userRoleSubscription?.cancel();
       if (user != null) {
         getActiveUserRoleCompany(user.id);
       }else{
-        _outputStreamController.add(null);
+        _userRoleStreamController.add(null);
       }
     });
   }
 
   getAuthEvent(){
-    _subscriptionSecond = ref
+    _eventSubscription = ref
         .read(authRepositoryProvider)
         .watchEventChanges()
         .listen((event) async {
       ref.read(currentAuthChangeEventProvider.notifier).state = event;
-      _outputStreamControllerSecond.add(event);
+      _eventStreamController.add(event);
     });
   }
 
   getActiveUserRoleCompany(String id){
-    _subscription = ref
+    _userRoleSubscription = ref
       .read(authRepositoryProvider)
       .watchActiveUserRoleCompany(id: id)
       .listen((role) async {
         final user = ref.read(authRepositoryProvider).currentUser;
         if (user != null) {
           ref.read(currentUserRoleCompanyProvider.notifier).state = role;
-          _outputStreamController.add(role);
+          _userRoleStreamController.add(role);
         }
     });
   }
 
 
   void dispose() {
-    _subscription?.cancel();
-    _subscriptionSecond?.cancel();
-    _outputStreamController.close();
-    _outputStreamControllerSecond.close();
+    _userRoleSubscription?.cancel();
+    _eventSubscription?.cancel();
+    _userRoleStreamController.close();
+    _eventStreamController.close();
   }
 
-  Stream<UserRoleCompanySupabase?> get outputStream => _outputStreamController.stream;
-  Stream<AuthChangeEvent?> get outputStreamSecond => _outputStreamControllerSecond.stream;
+  Stream<UserRoleCompanySupabase?> get userRoleStream => _userRoleStreamController.stream;
+  Stream<AuthChangeEvent?> get eventStream => _eventStreamController.stream;
 
 }
