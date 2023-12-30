@@ -1,9 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../constants/app_colors.dart';
-import '../constants/app_sizes.dart';
 
 class MySvg extends StatelessWidget {
 
@@ -23,7 +21,7 @@ class MySvg extends StatelessWidget {
           decoration: BoxDecoration(
               color: OtherColors.white,
               border: Border.all(width: Sizes.s1.w,color: OtherColors.white)
-          ),)
+          ))
           child: SvgPicture.asset(
             imagePath,
             width: width,
@@ -33,36 +31,22 @@ class MySvg extends StatelessWidget {
       ),
     );
   }*/
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.center,
-          child: ClipRect(
-            child: ColorFiltered(
-              colorFilter: ColorFilter.mode(colorFilter.withOpacity(0.8), BlendMode.hue),
-              child: Container(
-                color: OtherColors.white,
-                width: width,
-                height: height,
-                child: SvgPicture.asset(
-                  imagePath,
-                ),
-              ),
+    return Container(
+      color: OtherColors.white,
+      width: width,
+      height: height,
+      child: ClipRect(
+        child: ColorFiltered(
+          colorFilter: ColorFilter.mode(MainColors.primary, BlendMode.hue),
+          child: Container(
+            color: OtherColors.white,
+            child: SvgPicture.asset(
+              imagePath,
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            width: width,
-            height: height,
-            decoration: BoxDecoration(
-              //color: OtherColors.red,
-              border: Border.all(width: Sizes.s1.w,color: OtherColors.white)
-            ),
-          ),
-        )
-      ],
+      ),
     );
   }
+
 }

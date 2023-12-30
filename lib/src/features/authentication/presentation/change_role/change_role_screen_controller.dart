@@ -10,14 +10,12 @@ class ChangeRoleScreenController extends StateNotifier<AsyncValue<void>>{
   ChangeRoleScreenController({required this.authRepository}) : super(const AsyncValue<void>.data(null));
 
   Future<void> updateActiveUserRole({
-    required String id,
     required UserRoleCompanySupabase previousRole,
     required UserRoleCompanySupabase nextRole,
     required void Function() onSuccess,
   }) async {
     state = const AsyncValue<void>.loading();
     final newState = await AsyncValue.guard(() => authRepository.updateActiveUserRole(
-      id: '',
       previousRole: previousRole,
       nextRole: nextRole
     ));

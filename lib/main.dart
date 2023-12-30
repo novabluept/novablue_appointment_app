@@ -17,7 +17,9 @@ Future<void> main() async {
   usePathUrlStrategy();
 
   await Supabase.initialize(
-    localStorage: EmptyLocalStorage(),
+    authOptions: FlutterAuthClientOptions(
+      localStorage: const EmptyLocalStorage(),
+    ),
     url: SupabaseCredentials.url,
     anonKey: SupabaseCredentials.anonKey
   );

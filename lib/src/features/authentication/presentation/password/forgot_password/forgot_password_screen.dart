@@ -5,21 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
-import 'package:novablue_appointment_app/src/common_widgets/my_button.dart';
-import 'package:novablue_appointment_app/src/common_widgets/my_dialog.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_svg.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
-import 'package:novablue_appointment_app/src/common_widgets/my_text_form_field.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/password/forgot_password/forgot_password_form.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
-import 'package:novablue_appointment_app/src/routing/app_routing.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
-import 'package:novablue_appointment_app/src/utils/validations.dart';
 import 'forgot_password_screen_controller.dart';
-
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -29,27 +24,6 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
-
-  final _formKey = GlobalKey<FormState>();
-
-  final _emailController = TextEditingController();
-
-  bool _emailHasError = false;
-
-  bool _isEmailFocused = false;
-
-  String get email => _emailController.text;
-
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,56 +63,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.emailRecoverMessage.capitalize())
             ),
             gapH24,
-            Form(
-              key: _formKey,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Column(
-                children: [
-                  MyTextFormField(
-                    textEditingController: _emailController,
-                    text: context.loc.email.capitalize(),
-                    errorText: context.loc.emailValidation.capitalize(),
-                    prefixIcon: IconlyBold.message,
-                    fieldHasError: _emailHasError,
-                    isFieldFocused: _isEmailFocused,
-                    onFocusChange: (value) {
-                      setState(() {_isEmailFocused = value;});
-                    },
-                    validator: (value){
-                      if(value == null || value.isEmpty || !Validations.isEmailValid(value)){
-                        _emailHasError = true;
-                        return '';
-                      }
-                      _emailHasError = false;
-                      return null;
-                    }
-                  ),
-                  gapH24,
-                  MyButton(
-                    type: ButtonTypes.filledFullyRounded,
-                    text: context.loc.submit.capitalize(),
-                    onPressed: state.isLoading ? null : () async {
-                      setState(() {});
-                      if (_formKey.currentState!.validate()){
-                        await ref.read(forgotPasswordScreenControllerProvider.notifier).resetPasswordForEmail(
-                          email: email,
-                          onSuccess: () {
-                            showAlertDialog(
-                              context: context,
-                              type: DialogTypes.success,
-                              label: context.loc.forgotPasswordSuccess,
-                              positiveButtonOnPressed: () {
-                                context.goNamed(AppRoute.login.name);
-                              }
-                            );
-                          }
-                        );
-                      }
-                    },
-                  ),
-                ],
-              ),
-            )
+            ForgotPasswordForm(state: state)
           ],
         ),
       ),

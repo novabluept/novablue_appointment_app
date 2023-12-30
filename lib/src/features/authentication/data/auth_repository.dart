@@ -7,9 +7,8 @@ import 'package:novablue_appointment_app/src/features/authentication/domain/user
 import 'package:novablue_appointment_app/src/features/authentication/domain/user_supabase.dart';
 import 'package:novablue_appointment_app/src/routing/scaffold_with_nested_navigation/scaffold_with_nested_navigation_provider.dart';
 import 'package:novablue_appointment_app/src/supabase_providers/providers.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 abstract class AuthRepository {
   User? get currentUser;
@@ -23,8 +22,10 @@ abstract class AuthRepository {
   Future<void> resetPasswordForEmail({required String email});
   Future<void> updatePassword({required String password});
   Future<void> resend({required String email});
+  Future<UserSupabase> getUserData({required String id});
+  Future<void> updateUserData({required String id,required Map<String,dynamic> updatedData});
   Future<List<UserRoleCompanySupabase>> getUserRoles({required String id});
-  Future<void> updateActiveUserRole({required String id,required UserRoleCompanySupabase previousRole,required UserRoleCompanySupabase nextRole});
+  Future<void> updateActiveUserRole({required UserRoleCompanySupabase previousRole,required UserRoleCompanySupabase nextRole});
 
 }
 
@@ -238,6 +239,36 @@ class SupabaseAuthRepository implements AuthRepository{
     });
   }
 
+
+  @override
+  Future<void> updateUserData({required String id,required Map<String,dynamic> updatedData}) async{
+    try{
+      await _client
+        .from(userTable())
+        .update(updatedData)
+        .eq('id', id);
+    }catch (error) {
+      throw error;
+    }
+
+  }
+
+  @override
+  Future<UserSupabase> getUserData({required String id}) async{
+    try {
+      final response = await _client
+        .from(userTable())
+        .select()
+        .match({'id': id});
+
+      UserSupabase userData = response.map((model) => UserSupabase.fromJson(model)).single;
+
+      return userData;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   @override
   Future<List<UserRoleCompanySupabase>> getUserRoles({required String id}) async {
     try {
@@ -255,7 +286,7 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<void> updateActiveUserRole({required String id,required UserRoleCompanySupabase previousRole,required UserRoleCompanySupabase nextRole}) async{
+  Future<void> updateActiveUserRole({required UserRoleCompanySupabase previousRole,required UserRoleCompanySupabase nextRole}) async{
     try {
 
       // Reset bottom navigation index
@@ -276,9 +307,6 @@ class SupabaseAuthRepository implements AuthRepository{
       throw error;
     }
   }
-
-
-
 }
 
 final authRepositoryProvider = Provider<SupabaseAuthRepository>((ref) {
@@ -300,6 +328,11 @@ final watchEventChangesProvider = StreamProvider<AuthChangeEvent?>((ref) {
 final watchActiveUserRoleCompanyProvider = StreamProvider.family<UserRoleCompanySupabase,String>((ref,id) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.watchActiveUserRoleCompany(id: id);
+});
+
+final getUserDataProvider = FutureProvider.autoDispose.family<UserSupabase,String>((ref,id) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  return authRepository.getUserData(id: id);
 });
 
 final getRolesProvider = FutureProvider.autoDispose.family<List<UserRoleCompanySupabase>,String>((ref,id) {

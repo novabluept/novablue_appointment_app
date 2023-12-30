@@ -28,8 +28,8 @@ class MyDialog extends StatelessWidget {
     return Stack(
       children: [
         MyBlurFilter(),
-        WillPopScope(
-          onWillPop: () => Future.value(false),
+        PopScope(
+          canPop: false,
           child: Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,

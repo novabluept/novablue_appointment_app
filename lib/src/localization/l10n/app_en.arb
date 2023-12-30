@@ -65,5 +65,17 @@
     "home": "home",
     "history": "history",
     "areYouSureYouWantToLogout": "Are you sure you want to logout?",
-    "back": "back"
+    "back": "back",
+
+    "upcoming": "upcomming",
+    "completed": "completed",
+    "cancelled": "cancelled",
+    "role": "role",
+    "changeRole": "change role",
+    "changeLanguage": "change language",
+    "changePassword": "change password",
+    "change": "change"
+
+
+
 }

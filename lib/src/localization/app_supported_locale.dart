@@ -12,7 +12,6 @@ extension SupportedLocalExtension on SupportedLocale {
       case SupportedLocale.en:
         name = 'en';
         break;
-
     }
     return name;
   }
@@ -45,16 +44,16 @@ extension SupportedLocalExtension on SupportedLocale {
     return name;
   }
 
-  String get path {
-    String path;
+  String get icon {
+    String icon;
     switch(this){
       case SupportedLocale.pt:
-        path = 'images/flags/portugal.svg';
+        icon = '🇵🇹';
         break;
       case SupportedLocale.en:
-        path = 'images/flags/united_kingdom.svg';
+        icon = '🇬🇧';
         break;
     }
-    return path;
+    return icon;
   }
 }

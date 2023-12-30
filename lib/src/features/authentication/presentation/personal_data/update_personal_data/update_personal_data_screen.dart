@@ -8,33 +8,30 @@ import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role/roles_grid.dart';
-import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/personal_data/update_personal_data/update_personal_data_form.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
-import 'package:novablue_appointment_app/src/utils/formatters.dart';
-import 'change_role_screen_controller.dart';
+import 'update_personal_data_screen_controller.dart';
 
-class ChangeRoleScreen extends ConsumerStatefulWidget {
-
-  const ChangeRoleScreen({super.key});
+class UpdatePersonalDataScreen extends ConsumerStatefulWidget {
+  const UpdatePersonalDataScreen({super.key});
 
   @override
-  _ChangeRoleScreenState createState() => _ChangeRoleScreenState();
+  _UpdatePersonalDataScreenState createState() => _UpdatePersonalDataScreenState();
 }
 
-class _ChangeRoleScreenState extends ConsumerState<ChangeRoleScreen> {
+class _UpdatePersonalDataScreenState extends ConsumerState<UpdatePersonalDataScreen> {
 
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
-      changeRoleScreenControllerProvider,
-        (_, state) => state.showDialogError(context: context),
+      updatePersonalDataScreenControllerProvider,
+          (_, state) => state.showDialogError(context: context),
     );
-    final state = ref.watch(changeRoleScreenControllerProvider);
+    final state = ref.watch(updatePersonalDataScreenControllerProvider);
     return MyScaffold(
       state: state,
       appBar: MyAppBar(
-        title: context.loc.changeRole.capitalize(),
+        title: 'Editar perfil',
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(
@@ -45,9 +42,7 @@ class _ChangeRoleScreenState extends ConsumerState<ChangeRoleScreen> {
           ),
         ),
       ),
-      body: RolesGrid()
+      body: UpdatePersonalDataForm()
     );
   }
 }
-
-

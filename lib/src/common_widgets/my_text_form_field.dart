@@ -88,13 +88,11 @@ class MyTextFormField extends StatelessWidget {
         Focus(
           onFocusChange: onFocusChange,
           child: TextFormField(
-            //readOnly: true ? true : false,
             controller: textEditingController,
             cursorColor: MainColors.primary,
             style: TextFormFieldTextStyles.main,
             obscureText: isTextObscure,
             obscuringCharacter: TextFormFieldCustomCharacter.circle,
-            //onTap: isDate ? showDateDialog : null,
             decoration: InputDecoration(
               fillColor: isFieldFocused ? BackgroundColors.blue : GreyScaleColors.grey100,
               filled: true,

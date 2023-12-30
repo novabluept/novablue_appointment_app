@@ -64,7 +64,17 @@
     "home": "início",
     "history": "histórico",
     "areYouSureYouWantToLogout": "De certeza que pretende terminar sessão?",
-    "back": "Voltar"
+    "back": "Voltar",
+
+    "upcoming": "em breve",
+    "completed": "completado",
+    "cancelled": "cancelado",
+    "role": "cargo",
+    "changeRole": "alterar cargo",
+    "changeLanguage": "alterar idioma",
+    "changePassword": "alterar palavra-passe",
+    "change": "alterar"
+
 
 
 }

@@ -17,6 +17,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
   const MyAppBar({super.key,this.title,this.leading,this.leadingWidth = Sizes.s56,this.titleSpacing = -Sizes.s24, this.actions,this.bottom});
 
   @override
+  Size get preferredSize => Size.fromHeight(bottom != null ? kToolbarHeight.h * 2.2 : kToolbarHeight.h);
+
+  @override
   Widget build(BuildContext context) {
     return PreferredSize(
       preferredSize: preferredSize,
@@ -48,7 +51,4 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget  {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(bottom != null ? kToolbarHeight.h * 2.2 : kToolbarHeight.h);
 }

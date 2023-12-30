@@ -1,6 +1,6 @@
 
 
-import 'package:novablue_appointment_app/src/common_widgets/my_dropdown_button.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_phone_dropdown_button.dart';
 
 class Validations{
 
@@ -18,13 +18,13 @@ class Validations{
     RegExp regex;
 
     if (countryCode == PhoneCountryCode.pt.code) {
-      regex = RegExp(r"^9[1236][0-9]{7}$");
+      regex = RegExp(r"^9[1236]\d{7}$");
       return regex.hasMatch(value);
     } else if (countryCode == PhoneCountryCode.fr.code) {
-      regex = RegExp(r"^[1-9](\d{2}){4}$");
+      regex = RegExp(r"^[67]\d{8}$");
       return regex.hasMatch(value);
     } else if (countryCode == PhoneCountryCode.es.code) {
-      regex = RegExp(r"^(6[0-9]|7[1-9])[0-9]{8}$");
+      regex = RegExp(r"^[6-9]\d{8}$");
       return regex.hasMatch(value);
     }
 

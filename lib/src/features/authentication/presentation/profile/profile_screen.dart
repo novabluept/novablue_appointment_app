@@ -12,7 +12,6 @@ import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/profile/profile_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/routing/app_routing.dart';
@@ -111,27 +110,31 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ProfileCard(
                 iconPrefix: IconlyLight.profile,
                 label: context.loc.editProfile.capitalize(),
-                onTap: (){},
+                onTap: () {
+                  context.pushNamed(AppRoute.updatePersonalData.name);
+                },
               ),
               gapH20,
               ProfileCard(
                 iconPrefix: IconlyLight.shield_done,
                 label: context.loc.security.capitalize(),
-                onTap: (){},
+                onTap: () {
+                  context.pushNamed(AppRoute.updatePassword.name);
+                },
               ),
               gapH20,
               ProfileCard(
                 iconPrefix: IconlyLight.discovery,
                 label: context.loc.language.capitalize(),
-                onTap: (){
+                onTap: () {
                   context.pushNamed(AppRoute.changeLanguage.name);
                 },
               ),
               gapH20,
               ProfileCard(
                 iconPrefix: IconlyLight.swap,
-                label: 'Alterar cargo',
-                onTap: (){
+                label: context.loc.role.capitalize(),
+                onTap: () {
                  context.pushNamed(AppRoute.changeRole.name);
                 },
               ),
@@ -150,7 +153,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   context.showBottomModal(
                     context: context,
                     content: MyBottomModal(
-                      title: 'Sair',
+                      title: context.loc.logout.capitalize(),
                       titleColor: OtherColors.red,
                       content: Column(
                         children: [
@@ -162,11 +165,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ),
                         ],
                       ),
-                      negativeButtonTitle: 'Voltar',
+                      negativeButtonTitle: context.loc.back.capitalize(),
                       negativeButtonOnPressed: () {
                         context.pop();
                       },
-                      positiveButtonTitle: 'Sair',
+                      positiveButtonTitle: context.loc.logout.capitalize(),
                       positiveButtonOnPressed: () async {
                         await ref.read(profileScreenControllerProvider.notifier).signOut(ref);
                       },

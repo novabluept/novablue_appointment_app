@@ -6,40 +6,39 @@ import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
-import 'package:novablue_appointment_app/src/common_widgets/my_svg.dart';
-import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/password/update_password/update_password_form.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/password/update_password/update_password_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
-import 'email_confirmation_form.dart';
-import 'email_confirmation_screen_controller.dart';
 
-class EmailConfirmationScreen extends ConsumerStatefulWidget {
-  const EmailConfirmationScreen({super.key});
+class UpdatePasswordScreen extends ConsumerStatefulWidget {
+
+  const UpdatePasswordScreen({super.key});
 
   @override
-  _EmailConfirmationScreenState createState() => _EmailConfirmationScreenState();
+  _UpdatePasswordScreenState createState() => _UpdatePasswordScreenState();
 }
 
-class _EmailConfirmationScreenState extends ConsumerState<EmailConfirmationScreen> {
+class _UpdatePasswordScreenState extends ConsumerState<UpdatePasswordScreen>{
 
   @override
   Widget build(BuildContext context) {
     ref.listen<AsyncValue<void>>(
-      emailConfirmationScreenControllerProvider,
+      updatePasswordScreenControllerProvider,
           (_, state) => state.showDialogError(context: context),
     );
-    final state = ref.watch(emailConfirmationScreenControllerProvider);
+    final state = ref.watch(updatePasswordScreenControllerProvider);
     return MyScaffold(
       state: state,
       appBar: MyAppBar(
-        title: context.loc.emailConfirmation.capitalize(),
+        title: context.loc.changePassword.capitalize(),
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(
-            onTap: (){
+            onTap: () async {
               context.pop();
             },
             child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
@@ -50,20 +49,8 @@ class _EmailConfirmationScreenState extends ConsumerState<EmailConfirmationScree
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            gapH71,
-            MySvg(
-              colorFilter: MainColors.primary,
-              imagePath: 'images/undraw/email_confirmation_image.svg',
-              width: Sizes.s276.w,
-              height: Sizes.s250.h
-            ),
             gapH24,
-            Align(
-              alignment: Alignment.centerLeft,
-              child: MyText(type: TextTypes.bodyLarge,fontWeight: FontWeights.medium, text: context.loc.emailConfirmationMessage.capitalize())
-            ),
-            gapH24,
-            EmailConfirmationForm(state: state)
+            UpdatePasswordForm(state: state)
           ],
         ),
       ),

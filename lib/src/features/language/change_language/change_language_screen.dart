@@ -8,7 +8,9 @@ import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
+import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import 'change_language_screen_controller.dart';
 import 'languages_grid.dart';
 
@@ -32,7 +34,7 @@ class _ChangeLanguageScreenState extends ConsumerState<ChangeLanguageScreen> {
     return MyScaffold(
       state: state,
       appBar: MyAppBar(
-        title: 'Mudar idioma',
+        title: context.loc.changeLanguage.capitalize(),
         leading: Transform.translate(
           offset: Offset(-Sizes.s16.w, Sizes.s0),
           child: GestureDetector(

@@ -1,5 +1,6 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:novablue_appointment_app/src/constants/app_duration.dart';
 import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 import 'package:novablue_appointment_app/src/features/authentication/domain/user_role_company_supabase.dart';
 import 'package:novablue_appointment_app/src/routing/refresh_service/refresh_service_provider.dart';
@@ -24,7 +25,7 @@ class ProfileScreenController extends StateNotifier<AsyncValue<void>>{
     ref.read(isBottomLoadingProvider.notifier).state = true;
     state = const AsyncValue<void>.loading();
     ref.read(currentUserRoleCompanyProvider) != value ? ref.read(currentIndexProvider.notifier).state = 0 : null;
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: fakeAsyncDelayMilliseconds));
     ref.read(currentUserRoleCompanyProvider.notifier).state = value;
     state = const AsyncValue<void>.data(null);
     ref.read(isBottomLoadingProvider.notifier).state = false;

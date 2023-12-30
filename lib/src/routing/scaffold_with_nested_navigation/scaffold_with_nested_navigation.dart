@@ -94,10 +94,8 @@ class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNeste
     var currentUserRoleCompany = ref.watch(currentUserRoleCompanyProvider);
     var currentIndex = ref.watch(currentIndexProvider);
 
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
+    return PopScope(
+      canPop: false,
       child: Scaffold(
         body: widget.navigationShell,
         bottomNavigationBar: Padding(
@@ -133,90 +131,71 @@ class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNeste
   List<BottomNavigationBarItem> _bottomNavigationBarItems(BuildContext context, UserRoleCompanySupabase? currentUserRoleCompany){
 
 
-    if(currentUserRoleCompany?.roleEn == UserRoles.user.roleEn){
+    if(currentUserRoleCompany?.roleEn == UserRoles.worker.roleEn){
       return [
         BottomNavigationBarItem(
-            icon: Icon(IconlyLight.home,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.home,color: MainColors.primary),
-            label: context.loc.home.capitalize()
+          icon: Icon(IconlyLight.home,color: GreyScaleColors.grey500),
+          activeIcon: Icon(IconlyBold.home,color: MainColors.primary),
+          label: context.loc.home.capitalize()
         ),
         BottomNavigationBarItem(
-            icon: Icon(IconlyLight.document,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.document,color: MainColors.primary),
-            label: context.loc.history.capitalize()
+          icon: Icon(IconlyLight.swap,color: GreyScaleColors.grey500),
+          activeIcon: Icon(IconlyBold.swap,color: MainColors.primary),
+          label: 'worker'
         ),
         BottomNavigationBarItem(
-            icon: Icon(IconlyLight.profile,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.profile,color: MainColors.primary),
-            label: context.loc.profile.capitalize()
+          icon: Icon(IconlyLight.document,color: GreyScaleColors.grey500),
+          activeIcon: Icon(IconlyBold.document,color: MainColors.primary),
+          label: context.loc.history.capitalize()
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(IconlyLight.profile,color: GreyScaleColors.grey500),
+          activeIcon: Icon(IconlyBold.profile,color: MainColors.primary),
+          label: context.loc.profile.capitalize()
         ),
       ];
-    }else if(currentUserRoleCompany?.roleEn == UserRoles.worker.roleEn){
+    }else if(currentUserRoleCompany?.roleEn == UserRoles.admin.roleEn){
       return [
         BottomNavigationBarItem(
-            icon: Icon(IconlyLight.home,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.home,color: MainColors.primary),
-            label: context.loc.home.capitalize()
+          icon: Icon(IconlyLight.home,color: GreyScaleColors.grey500),
+          activeIcon: Icon(IconlyBold.home,color: MainColors.primary),
+          label: context.loc.home.capitalize()
         ),
         BottomNavigationBarItem(
-            icon: Icon(IconlyLight.swap,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.swap,color: MainColors.primary),
-            label: 'worker'
+          icon: Icon(IconlyLight.swap,color: GreyScaleColors.grey500),
+          activeIcon: Icon(IconlyBold.swap,color: MainColors.primary),
+          label: 'admin'
         ),
         BottomNavigationBarItem(
-            icon: Icon(IconlyLight.document,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.document,color: MainColors.primary),
-            label: context.loc.history.capitalize()
+          icon: Icon(IconlyLight.document,color: GreyScaleColors.grey500),
+          activeIcon: Icon(IconlyBold.document,color: MainColors.primary),
+          label: context.loc.history.capitalize()
         ),
         BottomNavigationBarItem(
-            icon: Icon(IconlyLight.profile,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.profile,color: MainColors.primary),
-            label: context.loc.profile.capitalize()
+          icon: Icon(IconlyLight.profile,color: GreyScaleColors.grey500),
+          activeIcon: Icon(IconlyBold.profile,color: MainColors.primary),
+          label: context.loc.profile.capitalize()
         ),
       ];
     }else{
       return [
         BottomNavigationBarItem(
-            icon: Icon(IconlyLight.home,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.home,color: MainColors.primary),
-            label: context.loc.home.capitalize()
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(IconlyLight.swap,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.swap,color: MainColors.primary),
-            label: 'admin'
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(IconlyLight.document,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.document,color: MainColors.primary),
-            label: context.loc.history.capitalize()
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(IconlyLight.profile,color: GreyScaleColors.grey500),
-            activeIcon: Icon(IconlyBold.profile,color: MainColors.primary),
-            label: context.loc.profile.capitalize()
-        ),
-      ];
-
-    }
-
-    /*return [
-      BottomNavigationBarItem(
           icon: Icon(IconlyLight.home,color: GreyScaleColors.grey500),
           activeIcon: Icon(IconlyBold.home,color: MainColors.primary),
           label: context.loc.home.capitalize()
-      ),
-      BottomNavigationBarItem(
+        ),
+        BottomNavigationBarItem(
           icon: Icon(IconlyLight.document,color: GreyScaleColors.grey500),
           activeIcon: Icon(IconlyBold.document,color: MainColors.primary),
           label: context.loc.history.capitalize()
-      ),
-      BottomNavigationBarItem(
+        ),
+        BottomNavigationBarItem(
           icon: Icon(IconlyLight.profile,color: GreyScaleColors.grey500),
           activeIcon: Icon(IconlyBold.profile,color: MainColors.primary),
           label: context.loc.profile.capitalize()
-      ),
-    ];*/
+        ),
+      ];
+    }
   }
 }
 

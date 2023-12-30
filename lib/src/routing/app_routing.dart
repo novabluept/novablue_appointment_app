@@ -9,14 +9,17 @@ import 'package:novablue_appointment_app/src/features/authentication/presentatio
 import 'package:novablue_appointment_app/src/features/authentication/presentation/password/create_password/create_password_screen.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/password/forgot_password/forgot_password_screen.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/password/password_recovery/password_recovery_screen.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/personal_data/personal_data_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/password/update_password/update_password_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/personal_data/create_personal_data/create_personal_data_screen.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/personal_data/update_personal_data/update_personal_data_screen.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/profile/profile_screen.dart';
+import 'package:novablue_appointment_app/src/features/shops/presentation/shops_slidable_list/shops_slidable_list_screen.dart';
 import 'package:novablue_appointment_app/src/routing/not_found_screen.dart';
 import 'package:novablue_appointment_app/src/routing/refresh_service/refresh_service_provider.dart';
 import 'package:novablue_appointment_app/src/routing/scaffold_with_nested_navigation/scaffold_with_nested_navigation.dart';
 import 'package:novablue_appointment_app/src/routing/refresh_service/refresh_service.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' hide Provider;
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../features/language/change_language/change_language_screen.dart';
 import 'go_router_refresh_stream.dart';
 
@@ -42,8 +45,8 @@ CustomTransitionPage buildPageWithDefaultTransition<T>({
 }
 
 enum AppRoute{
-  admin,
-  worker,
+  admin, // temp
+  worker, // temp
   login,
   forgotPassword,
   passwordRecovery,
@@ -55,6 +58,8 @@ enum AppRoute{
   profile,
   changeLanguage,
   changeRole,
+  updatePassword,
+  updatePersonalData,
 }
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -67,7 +72,7 @@ List<StatefulShellBranch> branches(){
         GoRoute(
           name: AppRoute.home.name,
           path: 'home',
-          builder: (context,state) => Container(color: Colors.red.shade300,child: Text('home')),
+          builder: (context,state) => ShopsSlidableListScreen(),
         ),
       ],
     ),
@@ -106,6 +111,26 @@ List<StatefulShellBranch> branches(){
           builder: (context,state) => const ProfileScreen(),
           routes: [
             GoRoute(
+              name: AppRoute.updatePersonalData.name,
+              path: 'update-personal-data',
+              parentNavigatorKey: _rootNavigatorKey,
+              pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+                context: context,
+                state: state,
+                child: const UpdatePersonalDataScreen(),
+              ),
+            ),
+            GoRoute(
+              name: AppRoute.updatePassword.name,
+              path: 'update-password',
+              parentNavigatorKey: _rootNavigatorKey,
+              pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+                context: context,
+                state: state,
+                child: const UpdatePasswordScreen(),
+              ),
+            ),
+            GoRoute(
               name: AppRoute.changeLanguage.name,
               path: 'change-language',
               parentNavigatorKey: _rootNavigatorKey,
@@ -138,7 +163,7 @@ final goRouterProvider = Provider((ref) {
     debugLogDiagnostics: true,
     redirect: (context,state) {
 
-      final path = state.location;
+      final path = state.matchedLocation;
 
       var authChangeEvent = ref.read(currentAuthChangeEventProvider);
       //var currentUserRoleCompany = ref.read(currentUserRoleCompanyProvider);
@@ -151,12 +176,16 @@ final goRouterProvider = Provider((ref) {
       print('path -> ${path}');
 
       if(authChangeEvent == AuthChangeEvent.signedOut){
-        if(path == '/' || path == '/profile' || path == '/password-recovery'){
+        if(path == '/' || path == '/profile' || path == '/password-recovery' || path == '/profile/update-password'){
           return '/';
         }
       }else if(authChangeEvent == AuthChangeEvent.passwordRecovery){
         return '/password-recovery';
-      }else if(authChangeEvent == AuthChangeEvent.signedIn){
+      }/*else if(authChangeEvent == AuthChangeEvent.userUpdated){
+        if(path == '/profile/update-password'){
+          return '/';
+        }
+      }*/else if(authChangeEvent == AuthChangeEvent.signedIn){
         if(path == '/'){
           return '/home';
         }
@@ -169,10 +198,10 @@ final goRouterProvider = Provider((ref) {
         RefreshService(ref).userRoleStream,
         RefreshService(ref).eventStream,
         (a, b) {
-          print('\n\n');
+          /*print('\n\n');
           print('a -> ${a.toString()}');
           print('b -> ${b.toString()}');
-          print('\n\n');
+          print('\n\n');*/
         }
       )
     ),
@@ -215,7 +244,7 @@ final goRouterProvider = Provider((ref) {
             pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
               context: context,
               state: state,
-              child: const PersonalDataScreen(),
+              child: const CreatePersonalDataScreen(),
             ),
             routes: [
               GoRoute(

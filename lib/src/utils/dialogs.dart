@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_dialog.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 
-
 extension AsyncValueUI on AsyncValue {
   void showDialogError({required BuildContext context}) {
     if (!isLoading && hasError) {
@@ -28,18 +27,27 @@ extension bottomModal on BuildContext {
       isScrollControlled: true,
       useRootNavigator: true,
       enableDrag: false,
-      isDismissible: false,
+      isDismissible: true,
       backgroundColor: OtherColors.transparent,
       elevation: 0,
       constraints: BoxConstraints(minWidth: double.infinity),
       builder: (context) {
-        return WillPopScope(
-          onWillPop: () async{
-            return false;
-          },
+        return PopScope(
+          canPop: false,
           child: content
         );
       }
     ).whenComplete(() => action);
+  }
+
+  void showPopupMenu({required BuildContext context,required RelativeRect position,required List<PopupMenuEntry<int>> items}) async {
+    await showMenu(
+      color: OtherColors.white,
+      surfaceTintColor: OtherColors.white,
+      context: context,
+      elevation: 8.0,
+      position: position,
+      items: items,
+    );
   }
 }

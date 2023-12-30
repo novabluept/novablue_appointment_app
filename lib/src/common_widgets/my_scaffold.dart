@@ -8,24 +8,25 @@ import 'my_progress_indicator.dart';
 
 class MyScaffold extends StatelessWidget {
 
-  final Future<bool> Function()? onWillPop;
+  final Function(bool)? onPopInvoked;
   final AsyncValue<void>? state;
   final PreferredSizeWidget? appBar;
+  final Color? backgroundColor;
   final Widget body;
   final EdgeInsets? edgeInsets;
 
-  const MyScaffold({super.key,this.onWillPop,this.state,this.appBar, required this.body, this.edgeInsets});
+  const MyScaffold({super.key,this.onPopInvoked,this.state,this.appBar,this.backgroundColor, required this.body, this.edgeInsets});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        WillPopScope(
-          onWillPop: onWillPop,
+        PopScope(
+          onPopInvoked: onPopInvoked,
           child: Scaffold(
             appBar: appBar,
             resizeToAvoidBottomInset: true,
-            backgroundColor: OtherColors.white,
+            backgroundColor: backgroundColor ?? OtherColors.white,
             body: SafeArea(
               child: Padding(
                 padding: edgeInsets ?? EdgeInsets.symmetric(horizontal: Sizes.s24.w),
