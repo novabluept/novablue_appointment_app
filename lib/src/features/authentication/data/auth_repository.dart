@@ -1,5 +1,6 @@
 
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:novablue_appointment_app/src/constants/app_file_size.dart';
 import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
@@ -26,7 +27,6 @@ abstract class AuthRepository {
   Future<void> updateUserData({required String id,required Map<String,dynamic> updatedData});
   Future<List<UserRoleCompanySupabase>> getUserRoles({required String id});
   Future<void> updateActiveUserRole({required UserRoleCompanySupabase previousRole,required UserRoleCompanySupabase nextRole});
-
 }
 
 class SupabaseAuthRepository implements AuthRepository{
@@ -187,9 +187,7 @@ class SupabaseAuthRepository implements AuthRepository{
     await _client.auth.signInWithPassword(
       email: email,
       password: password,
-    ).then((value) async {
-      //await _chooseSignInRole(id: value.user!.id);
-    }).catchError((e){
+    ).catchError((e){
       if(e.message == 'Invalid login credentials'){
         throw InvalidLoginCredentialsException(ref);
       }else if(e.message == 'Email not confirmed'){
@@ -210,7 +208,7 @@ class SupabaseAuthRepository implements AuthRepository{
       email,
       redirectTo: updatePasswordCallback,
     ).catchError((e){
-      print('error -> ${e.toString()}');
+      debugPrint('error -> ${e.toString()}');
       throw UnexpectedErrorException(ref);
     });
   }
@@ -220,7 +218,7 @@ class SupabaseAuthRepository implements AuthRepository{
     await _client.auth.updateUser(
       UserAttributes(password: password)
     ).catchError((e){
-      print('error -> ${e.toString()}');
+      debugPrint('error -> ${e.toString()}');
       if(e.message == 'New password should be different from the old password.'){
         throw SamePasswordException(ref);
       }
@@ -248,7 +246,7 @@ class SupabaseAuthRepository implements AuthRepository{
         .update(updatedData)
         .eq('id', id);
     }catch (error) {
-      throw error;
+      throw UnexpectedErrorException(ref);
     }
 
   }
@@ -265,7 +263,7 @@ class SupabaseAuthRepository implements AuthRepository{
 
       return userData;
     } catch (error) {
-      throw error;
+      throw UnexpectedErrorException(ref);
     }
   }
 
@@ -281,7 +279,7 @@ class SupabaseAuthRepository implements AuthRepository{
 
       return userRoles;
     } catch (error) {
-      throw error;
+      throw UnexpectedErrorException(ref);
     }
   }
 
@@ -304,7 +302,7 @@ class SupabaseAuthRepository implements AuthRepository{
         .update({'active': true})
         .match({'id': nextRole.id});
     } catch (error) {
-      throw error;
+      throw UnexpectedErrorException(ref);
     }
   }
 }
@@ -313,7 +311,6 @@ final authRepositoryProvider = Provider<SupabaseAuthRepository>((ref) {
   final client = ref.watch(supabaseClientProvider);
   return SupabaseAuthRepository(ref,client);
 });
-
 
 final watchUserSessionChangesProvider = StreamProvider<User?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);

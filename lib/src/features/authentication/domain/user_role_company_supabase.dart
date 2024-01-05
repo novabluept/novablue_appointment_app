@@ -50,7 +50,6 @@ class UserRoleCompanySupabase {
   final String roleEn;
   final bool active;
 
-
   UserRoleCompanySupabase({
     required this.id,
     required this.userId,

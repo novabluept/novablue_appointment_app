@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../constants/app_colors.dart';
+import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 
 class MySvg extends StatelessWidget {
 
@@ -14,23 +14,6 @@ class MySvg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*return ClipRect(
-      child: ColorFiltered(
-        colorFilter: ColorFilter.mode(colorFilter.withOpacity(0.8), BlendMode.hue),
-        child: Container(
-          decoration: BoxDecoration(
-              color: OtherColors.white,
-              border: Border.all(width: Sizes.s1.w,color: OtherColors.white)
-          ))
-          child: SvgPicture.asset(
-            imagePath,
-            width: width,
-            height: height,
-          ),
-        ),
-      ),
-    );
-  }*/
     return Container(
       color: OtherColors.white,
       width: width,

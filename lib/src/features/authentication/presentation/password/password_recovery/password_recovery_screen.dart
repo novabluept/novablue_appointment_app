@@ -39,15 +39,12 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
       },
       appBar: MyAppBar(
         title: context.loc.recoverPassword.capitalize(),
-        leading: Transform.translate(
-          offset: Offset(-Sizes.s16.w, Sizes.s0),
-          child: GestureDetector(
-            onTap: () async {
-              await ref.read(passwordRecoveryScreenControllerProvider.notifier).signOut();
-            },
-            child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
-          ),
-        ),
+        leading: IconButton(
+          icon: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black),
+          onPressed: () async{
+            await ref.read(passwordRecoveryScreenControllerProvider.notifier).signOut();
+          },
+        )
       ),
       body: SingleChildScrollView(
         child: Column(

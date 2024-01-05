@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
@@ -39,10 +40,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       state: state,
       appBar: MyAppBar(
         title: context.loc.profile.capitalize(),
-        leading: SvgPicture.asset(
-          'images/main/logo_medica.svg',
+        leading: Padding(
+          padding: EdgeInsets.only(right: Sizes.s4.w),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: SvgPicture.asset(
+              width: Sizes.s28.w,
+              height: Sizes.s28.w,
+              'images/logos/medica_icon.svg'
+            )
+          ),
         ),
-        leadingWidth: Sizes.s28,
         titleSpacing: Sizes.s16,
         actions: [
           /*value.when(

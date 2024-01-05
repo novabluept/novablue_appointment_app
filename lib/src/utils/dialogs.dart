@@ -26,16 +26,13 @@ extension bottomModal on BuildContext {
       context: context,
       isScrollControlled: true,
       useRootNavigator: true,
-      enableDrag: false,
+      enableDrag: true,
       isDismissible: true,
       backgroundColor: OtherColors.transparent,
       elevation: 0,
       constraints: BoxConstraints(minWidth: double.infinity),
       builder: (context) {
-        return PopScope(
-          canPop: false,
-          child: content
-        );
+        return content;
       }
     ).whenComplete(() => action);
   }

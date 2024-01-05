@@ -46,7 +46,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       state: state,
       appBar: MyAppBar(
         actions: [
-          ChangeLanguageDropdown()
+          Padding(
+            padding: EdgeInsets.only(right: Sizes.s24.w),
+            child: ChangeLanguageDropdown()
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -54,7 +57,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           children: [
             gapH64,
             SvgPicture.asset(
-              'images/main/logo_medica.svg',
+              'images/logos/medica_icon.svg',
               width: Sizes.s140.w,
               height: Sizes.s140.h
             ),

@@ -168,12 +168,12 @@ final goRouterProvider = Provider((ref) {
       var authChangeEvent = ref.read(currentAuthChangeEventProvider);
       //var currentUserRoleCompany = ref.read(currentUserRoleCompanyProvider);
 
-      /*print('\n\n');
-      print(' % & % & authChangeEvent -> ${authChangeEvent.toString()}');
-      print(' % & % & currentUserRoleCompany -> ${currentUserRoleCompany.toString()}');
-      print('\n\n');*/
+      /*debugPrint('\n\n');
+      debugPrint(' % & % & authChangeEvent -> ${authChangeEvent.toString()}');
+      debugPrint(' % & % & currentUserRoleCompany -> ${currentUserRoleCompany.toString()}');
+      debugPrint('\n\n');*/
 
-      print('path -> ${path}');
+      debugPrint('path -> ${path}');
 
       if(authChangeEvent == AuthChangeEvent.signedOut){
         if(path == '/' || path == '/profile' || path == '/password-recovery' || path == '/profile/update-password'){
@@ -198,10 +198,10 @@ final goRouterProvider = Provider((ref) {
         RefreshService(ref).userRoleStream,
         RefreshService(ref).eventStream,
         (a, b) {
-          /*print('\n\n');
-          print('a -> ${a.toString()}');
-          print('b -> ${b.toString()}');
-          print('\n\n');*/
+          /*debugPrint('\n\n');
+          debugPrint('a -> ${a.toString()}');
+          debugPrint('b -> ${b.toString()}');
+          debugPrint('\n\n');*/
         }
       )
     ),

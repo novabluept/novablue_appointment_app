@@ -47,7 +47,6 @@ class MyButton extends StatelessWidget {
       height: height.h,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          //padding: EdgeInsets.symmetric(vertical: verticalPadding.h),
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius).r,

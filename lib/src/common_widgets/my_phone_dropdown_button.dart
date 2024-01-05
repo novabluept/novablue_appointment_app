@@ -46,7 +46,7 @@ class MyPhoneDropdownButton extends StatelessWidget {
             double top = offset.dy;
             context.showPopupMenu(
               context: context,
-              position: RelativeRect.fromLTRB(Sizes.s24.w, top, right, 0),
+              position: RelativeRect.fromLTRB(Sizes.s24.w, top, right, Sizes.s0),
               items: [
                 PopupMenuItem(
                   value: 1,
@@ -59,6 +59,12 @@ class MyPhoneDropdownButton extends StatelessWidget {
                         type: TextTypes.bodyMedium,
                         fontWeight: FontWeights.semiBold,
                         text: PhoneCountryCode.pt.icon,
+                      ),
+                      gapW4,
+                      MyText(
+                        type: TextTypes.bodyMedium,
+                        fontWeight: FontWeights.semiBold,
+                        text: PhoneCountryCode.pt.code,
                       ),
                     ],
                   ),
@@ -75,6 +81,12 @@ class MyPhoneDropdownButton extends StatelessWidget {
                         fontWeight: FontWeights.semiBold,
                         text: PhoneCountryCode.es.icon,
                       ),
+                      gapW4,
+                      MyText(
+                        type: TextTypes.bodyMedium,
+                        fontWeight: FontWeights.semiBold,
+                        text: PhoneCountryCode.es.code,
+                      ),
                     ],
                   ),
                   onTap: onTapEs,
@@ -90,6 +102,12 @@ class MyPhoneDropdownButton extends StatelessWidget {
                         fontWeight: FontWeights.semiBold,
                         text: PhoneCountryCode.fr.icon,
                       ),
+                      gapW4,
+                      MyText(
+                        type: TextTypes.bodyMedium,
+                        fontWeight: FontWeights.semiBold,
+                        text: PhoneCountryCode.fr.code,
+                      ),
                     ],
                   ),
                   onTap: onTapFr,
@@ -101,27 +119,4 @@ class MyPhoneDropdownButton extends StatelessWidget {
       ],
     );
   }
-
-  /*@override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        splashColor: OtherColors.transparent,
-        highlightColor: OtherColors.transparent,
-        hoverColor: OtherColors.transparent,
-      ),
-      child: Stack(
-        children: [
-          DropdownButton<T>(
-            padding: EdgeInsets.zero,
-            underline: const SizedBox(),
-            value: value,
-            onChanged: onChanged,
-            items: dropDownMenuItem,
-            icon: icon != null ? icon : const SizedBox(),
-          ),
-        ],
-      )
-    );
-  }*/
 }

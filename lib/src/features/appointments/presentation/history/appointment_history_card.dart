@@ -81,11 +81,11 @@ class AppointmentHistoryCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -151,8 +151,8 @@ class AppointmentHistoryCard extends StatelessWidget {
                     ],
                   );
                 },
-              )
-            )
+              ),
+            ),
           ],
         )
       ),

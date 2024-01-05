@@ -9,7 +9,7 @@ import 'my_text.dart';
 class TextFormFieldTextStyles {
   static var main = TextStyle(fontFamily: FontFamilies.urbanist, fontSize: Sizes.s14.sp, fontWeight: FontWeights.medium,color: OtherColors.black);
   static var placeHolder = TextStyle(fontFamily: FontFamilies.urbanist, fontSize: Sizes.s14.sp, fontWeight: FontWeights.medium,color: GreyScaleColors.grey500);
-  static var error = TextStyle(fontFamily: FontFamilies.urbanist, fontSize: Sizes.s0.sp,color: MainColors.primary,height: 0);
+  static var error = TextStyle(fontFamily: FontFamilies.urbanist, fontSize: Sizes.s0,color: MainColors.primary,height: 0);
 }
 
 class TextFormFieldBorderStyles {

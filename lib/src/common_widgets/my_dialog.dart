@@ -58,9 +58,9 @@ class MyDialog extends StatelessWidget {
                         ),
                         gapH32,
                         MyButton(
-                            type: ButtonTypes.filledFullyRounded,
-                            text: context.loc.ok.capitalize(),
-                            onPressed: positiveButtonOnPressed
+                          type: ButtonTypes.filledFullyRounded,
+                          text: context.loc.ok.capitalize(),
+                          onPressed: positiveButtonOnPressed
                         ),
                       ],
                     ),

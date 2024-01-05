@@ -35,15 +35,12 @@ class _UpdatePasswordScreenState extends ConsumerState<UpdatePasswordScreen>{
       state: state,
       appBar: MyAppBar(
         title: context.loc.changePassword.capitalize(),
-        leading: Transform.translate(
-          offset: Offset(-Sizes.s16.w, Sizes.s0),
-          child: GestureDetector(
-            onTap: () async {
-              context.pop();
-            },
-            child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
-          ),
-        ),
+        leading: IconButton(
+          icon: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black),
+          onPressed: (){
+            context.pop();
+          },
+        )
       ),
       body: SingleChildScrollView(
         child: Column(

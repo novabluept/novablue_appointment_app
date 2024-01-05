@@ -12,7 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+ WidgetsFlutterBinding.ensureInitialized();
 
   usePathUrlStrategy();
 

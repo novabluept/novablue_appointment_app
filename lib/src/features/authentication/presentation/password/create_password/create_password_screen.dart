@@ -58,15 +58,12 @@ class _CreatePasswordScreenState extends ConsumerState<CreatePasswordScreen> {
       state: state,
       appBar: MyAppBar(
         title: context.loc.createPassword.capitalize(),
-        leading: Transform.translate(
-          offset: Offset(-Sizes.s16.w, Sizes.s0),
-          child: GestureDetector(
-            onTap: (){
-              context.pop();
-            },
-            child: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black)
-          ),
-        ),
+        leading: IconButton(
+          icon: Icon(IconlyLight.arrow_left, size: Sizes.s20.w, color: OtherColors.black),
+          onPressed: (){
+            context.pop();
+          },
+        )
       ),
       body: SingleChildScrollView(
         child: Column(

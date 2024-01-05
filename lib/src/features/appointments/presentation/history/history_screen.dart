@@ -38,13 +38,21 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         edgeInsets: EdgeInsets.zero,
         appBar: MyAppBar(
           title: context.loc.history.capitalize(),
-          leading: SvgPicture.asset(
-            'images/main/logo_medica.svg',
+          leading: Padding(
+            padding: EdgeInsets.only(right: Sizes.s4.w),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: SvgPicture.asset(
+                width: Sizes.s28.w,
+                height: Sizes.s28.w,
+                'images/logos/medica_icon.svg'
+              )
+            ),
           ),
-          leadingWidth: Sizes.s28,
           titleSpacing: Sizes.s16,
           bottom: MyDecoratedTabBar(
             tabBar: TabBar(
+              padding: EdgeInsets.symmetric(horizontal: Sizes.s24.w),
               labelStyle: TextStyle(
                 fontFamily: 'Urbanist',
                 fontSize: Sizes.s18.sp,
@@ -90,15 +98,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
             HistoryTab(),
             HistoryTab(),
           ],
-        ), /* SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              gapH24,
-              MyHistoryItem(),
-            ],
-          )
-        ),*/
+        ),
       ),
     );
   }

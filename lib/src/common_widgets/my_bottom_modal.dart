@@ -29,21 +29,21 @@ class MyBottomModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: EdgeInsets.only(left: 24.w,top: 12.h,right: 24.w,bottom: 48.h),
+              padding: EdgeInsets.only(left: Sizes.s24.w,top: Sizes.s12.h,right: Sizes.s24.w,bottom: Sizes.s48.h),
               decoration: BoxDecoration(
                 color: OtherColors.white,
-                borderRadius: BorderRadius.only(topLeft: const Radius.circular(48).r,topRight: const Radius.circular(48).r),
+                borderRadius: BorderRadius.only(topLeft: const Radius.circular(Sizes.s48).r,topRight: const Radius.circular(Sizes.s48).r),
               ),
               child: Column(
                 children: [
                   Align(
                     alignment: Alignment.center,
                     child: Container(
-                      width: 40.w,
-                      height: 4.h,
+                      width: Sizes.s40.w,
+                      height: Sizes.s4.h,
                       decoration: BoxDecoration(
                         color: GreyScaleColors.grey300,
-                        borderRadius: BorderRadius.only(topLeft: const Radius.circular(48).r,topRight: const Radius.circular(48).r),
+                        borderRadius: BorderRadius.only(topLeft: const Radius.circular(Sizes.s48).r,topRight: const Radius.circular(Sizes.s48).r),
                       ),
                     ),
                   ),
