@@ -27,6 +27,7 @@ dependencies:
   rxdart: ^0.27.7
   shimmer: ^3.0.0
   flutter_native_splash: ^2.3.9
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -38,6 +39,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - images/icons/
     - images/logos/
     - images/undraw/
     - images/main/
@@ -50,14 +52,26 @@ flutter:
         - asset: fonts/Urbanist-Bold.ttf
         - asset: fonts/Urbanist-SemiBold.ttf
 
+# dart run flutter_native_splash:create
+# dart run flutter_native_splash:remove
 flutter_native_splash:
   android: true
   ios: true
   web: false
 
   color: "#ffffff"
-  image: images/logos/medica_horizontal.png # This should be 1152×1152 pixels, and fit within a circle 768 pixels in diameter.
+  image: images/app_icons/medica/icon_splash.png # This should be 1152×1152 pixels, and fit within a circle 768 pixels in diameter.
 
   android_12:
     color: "#ffffff"
-    image: images/logos/medica_horizontal.png # This should be 1152×1152 pixels, and fit within a circle 768 pixels in diameter.
+    image: images/app_icons/medica/icon_splash.png # This should be 1152×1152 pixels, and fit within a circle 768 pixels in diameter.
+
+# dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  min_sdk_android: 21
+  image_path: "images/app_icons/medica/icon.png"
+  adaptive_icon_background: "images/app_icons/medica/icon_background.png"
+  adaptive_icon_foreground: "images/app_icons/medica/icon_foreground.png"
