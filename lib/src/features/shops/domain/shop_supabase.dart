@@ -15,8 +15,11 @@ class ShopSupabase {
   final String streetName;
   final String streetNumber;
   final String postalCode;
+  /// Additional fields
+  String? shopImageUrl;
+  String? companyImageUrl;
 
-  const ShopSupabase({
+  ShopSupabase({
     required this.id,
     required this.companyId,
     required this.name,
@@ -26,6 +29,8 @@ class ShopSupabase {
     required this.streetName,
     required this.streetNumber,
     required this.postalCode,
+    this.shopImageUrl = null,
+    this.companyImageUrl = null,
   });
 
   Map<String, dynamic> toJson() {

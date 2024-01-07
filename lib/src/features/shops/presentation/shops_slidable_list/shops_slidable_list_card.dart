@@ -1,19 +1,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconly/iconly.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_button.dart';
+import 'package:novablue_appointment_app/src/common_widgets/my_image_network.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:novablue_appointment_app/src/features/shops/domain/shop_supabase.dart';
+import 'package:novablue_appointment_app/src/routing/app_routing.dart';
 
-class ShopCard extends StatelessWidget {
+class ShopsSlidableListCard extends StatelessWidget {
 
   final ShopSupabase shop;
   final Function(Object?)? onTap;
 
-  const ShopCard({super.key,required this.shop,this.onTap});
+  const ShopsSlidableListCard({super.key,required this.shop,this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +30,11 @@ class ShopCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: Sizes.s6.w),
       child: Column(
         children: [
-          ClipRRect(
+          MyImageNetwork(
+            url: shop.shopImageUrl!,
+            width: double.infinity,
+            height: Sizes.s175.h,
             borderRadius: BorderRadius.only(topLeft: Radius.circular(Sizes.s10.r),topRight: Radius.circular(Sizes.s10.r)),
-            child: Image.network(
-              width: double.infinity,
-              height: Sizes.s175.h,
-              'https://cdn11.bigcommerce.com/s-h7l2pcerei/product_images/uploaded_images/ssb-lakeview-2.jpg',
-              fit: BoxFit.cover
-            )
           ),
           Container(
             height: Sizes.s175.h,
@@ -47,18 +47,11 @@ class ShopCard extends StatelessWidget {
                 Flexible(
                   child: Row(
                     children: [
-                      SizedBox(
+                      MyImageNetwork(
+                        url: shop.companyImageUrl!,
                         width: Sizes.s45.w,
                         height: Sizes.s45.w,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(Sizes.s10.r)),
-                          child: Image.network(
-                            width: double.infinity,
-                            height: Sizes.s175.h,
-                            'https://img.freepik.com/premium-vector/barbershop-logo-design_304830-106.jpg?w=740',
-                            fit: BoxFit.fitWidth
-                          )
-                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(Sizes.s10.r)),
                       ),
                       gapW8,
                       Flexible(
@@ -89,7 +82,6 @@ class ShopCard extends StatelessWidget {
                                 ),
                               ],
                             )
-
                           ],
                         ),
                       )
@@ -97,12 +89,20 @@ class ShopCard extends StatelessWidget {
                   ),
                 ),
                 gapH8,
-                Flexible(
-                  child: MyButton(
-                    type: ButtonTypes.filledRounded,
-                    text: 'Book now',
-                    onPressed: (){}
-                  )
+                MyButton(
+                  type: ButtonTypes.filledRounded,
+                  text: 'Book now',
+                  onPressed: () {
+                    context.pushNamed(
+                      AppRoute.shopWorkers.name,
+                      pathParameters: {
+                        'shopId': shop.id.toString(),
+                      },
+                      extra: {
+                        'shopName': shop.name,
+                      }
+                    );
+                  }
                 )
               ],
             ),

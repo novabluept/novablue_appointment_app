@@ -5,24 +5,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:novablue_appointment_app/src/features/shops/data/shops_repository.dart';
-import 'package:novablue_appointment_app/src/features/shops/presentation/shops_slidable_list/shop_card.dart';
+import 'package:novablue_appointment_app/src/features/shops/presentation/shops_slidable_list/shops_slidable_list_card.dart';
+import 'package:novablue_appointment_app/src/features/shops/presentation/shops_slidable_list/shops_slidable_list_card_loader.dart';
+import 'shops_slidable_list_browse_card.dart';
 
-import 'browse_shops_card.dart';
+class ShopsSlidableListGrid extends ConsumerStatefulWidget {
 
-class ShopsGrid extends ConsumerStatefulWidget {
-
-  const ShopsGrid({super.key});
+  const ShopsSlidableListGrid({super.key});
 
   @override
-  _ShopsGridState createState() => _ShopsGridState();
+  _ShopsSlidableListGridState createState() => _ShopsSlidableListGridState();
 }
 
-class _ShopsGridState extends ConsumerState<ShopsGrid> {
+class _ShopsSlidableListGridState extends ConsumerState<ShopsSlidableListGrid> {
 
   @override
   Widget build(BuildContext context) {
 
-    //final language = AppSharedPreference.getLocale();
     final shopsListValue = ref.watch(getShopsProvider);
 
     return shopsListValue.when(
@@ -39,15 +38,27 @@ class _ShopsGridState extends ConsumerState<ShopsGrid> {
           itemBuilder: (context,index) {
             final shop = index != shops.length ? shops[index] : null;
             return index != shops.length ?
-              ShopCard(
+              ShopsSlidableListCard(
                 shop: shop!
               ) :
-              BrowseShopsCard();
+              ShopsSlidableListBrowseCard();
           },
         )
       ),
       error: (e, st) => const SizedBox(),
-      loading: () => const SizedBox(),
+      loading: () => SizedBox(
+        height: Sizes.s350.h,
+        child: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: 2,
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          padding: EdgeInsets.symmetric(horizontal: Sizes.s12.w),
+          itemBuilder: (context,index) {
+            return ShopsSlidableListCardLoader();
+          },
+        )
+      ),
     );
   }
 }

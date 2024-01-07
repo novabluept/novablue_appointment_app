@@ -36,7 +36,7 @@ class ScaffoldWithNestedNavigation extends ConsumerStatefulWidget {
 
 class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNestedNavigation> {
 
-  void _goBranch(int index,UserRoleCompanySupabase? currentUserRoleCompany) {
+  void _goBranch(int index,UserRoleCompanyShopSupabase? currentUserRoleCompany) {
 
     if(ref.read(isBottomLoadingProvider.notifier).state){
       return;
@@ -128,7 +128,7 @@ class _ScaffoldWithNestedNavigationState extends ConsumerState<ScaffoldWithNeste
     );
   }
 
-  List<BottomNavigationBarItem> _bottomNavigationBarItems(BuildContext context, UserRoleCompanySupabase? currentUserRoleCompany){
+  List<BottomNavigationBarItem> _bottomNavigationBarItems(BuildContext context, UserRoleCompanyShopSupabase? currentUserRoleCompany){
 
 
     if(currentUserRoleCompany?.roleEn == UserRoles.worker.roleEn){

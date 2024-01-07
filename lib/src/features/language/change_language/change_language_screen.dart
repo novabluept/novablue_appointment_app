@@ -12,7 +12,7 @@ import 'package:novablue_appointment_app/src/localization/app_localizations_cont
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 import 'change_language_screen_controller.dart';
-import 'languages_grid.dart';
+import 'change_language_grid.dart';
 
 class ChangeLanguageScreen extends ConsumerStatefulWidget {
 
@@ -42,7 +42,7 @@ class _ChangeLanguageScreenState extends ConsumerState<ChangeLanguageScreen> {
           },
         )
       ),
-      body: LanguagesGrid()
+      body: ChangeLanguageGrid()
     );
   }
 }

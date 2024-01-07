@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'appointment_history_card.dart';
+import 'appointments_history_card.dart';
 
-class HistoryTab extends StatelessWidget {
+class AppointmentsHistoryGrid extends StatelessWidget {
 
-  const HistoryTab({super.key});
+  const AppointmentsHistoryGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class HistoryTab extends StatelessWidget {
       separatorBuilder: (BuildContext context, int index) => gapH24,
       itemBuilder: (context, index) {
         //final language = languagesList[index];
-        return AppointmentHistoryCard();
+        return AppointmentsHistoryCard();
       },
     );
   }

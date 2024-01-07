@@ -6,8 +6,8 @@ import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 
-class BrowseShopsCard extends StatelessWidget {
-  const BrowseShopsCard({super.key});
+class ShopsSlidableListBrowseCard extends StatelessWidget {
+  const ShopsSlidableListBrowseCard({super.key});
 
   @override
   Widget build(BuildContext context) {

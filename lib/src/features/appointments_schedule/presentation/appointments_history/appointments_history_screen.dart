@@ -9,20 +9,20 @@ import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_text.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'package:novablue_appointment_app/src/features/appointments/presentation/history/history_tab.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/profile/profile_screen_controller.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
+import 'appointments_history_grid.dart';
 
-class HistoryScreen extends ConsumerStatefulWidget {
-  const HistoryScreen({super.key});
+class AppointmentsHistoryScreen extends ConsumerStatefulWidget {
+  const AppointmentsHistoryScreen({super.key});
 
   @override
-  _HistoryScreenState createState() => _HistoryScreenState();
+  _AppointmentsHistoryState createState() => _AppointmentsHistoryState();
 }
 
-class _HistoryScreenState extends ConsumerState<HistoryScreen> {
+class _AppointmentsHistoryState extends ConsumerState<AppointmentsHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +94,9 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
         ),
         body: TabBarView(
           children: <Widget>[
-            HistoryTab(),
-            HistoryTab(),
-            HistoryTab(),
+            AppointmentsHistoryGrid(),
+            AppointmentsHistoryGrid(),
+            AppointmentsHistoryGrid(),
           ],
         ),
       ),

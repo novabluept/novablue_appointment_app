@@ -7,6 +7,6 @@ final currentAuthChangeEventProvider = StateProvider<AuthChangeEvent?>((ref){
   return null;
 });
 
-final currentUserRoleCompanyProvider = StateProvider<UserRoleCompanySupabase?>((ref){
+final currentUserRoleCompanyProvider = StateProvider<UserRoleCompanyShopSupabase?>((ref){
   return null;
 });

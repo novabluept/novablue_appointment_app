@@ -7,16 +7,17 @@ class UserSupabase {
   final String email;
   final String phone;
   final String phoneCode;
-  final String updatedAt;
+  /// Additional fields
+  String? userImageUrl;
 
-  const UserSupabase({
+  UserSupabase({
     required this.id,
     required this.firstname,
     required this.lastname,
     required this.email,
     required this.phone,
     required this.phoneCode,
-    required this.updatedAt,
+    this.userImageUrl = null,
   });
 
   Map<String, dynamic> toJson() {
@@ -27,7 +28,6 @@ class UserSupabase {
       'email': email,
       'phone': phone,
       'phone_code': phoneCode,
-      'updated_at': updatedAt,
     };
   }
 
@@ -39,7 +39,6 @@ class UserSupabase {
       email: json['email'] as String,
       phone: json['phone'] as String,
       phoneCode: json['phone_code'] as String,
-      updatedAt: json['updated_at'] as String,
     );
   }
 
@@ -52,8 +51,7 @@ class UserSupabase {
         lastname == other.lastname &&
         email == other.email &&
         phone == other.phone &&
-        phoneCode == other.phoneCode &&
-        updatedAt == other.updatedAt;
+        phoneCode == other.phoneCode;
 
   @override
   int get hashCode =>
@@ -62,11 +60,10 @@ class UserSupabase {
     lastname.hashCode ^
     email.hashCode ^
     phone.hashCode ^
-    phoneCode.hashCode ^
-    updatedAt.hashCode;
+    phoneCode.hashCode;
 
   @override
   String toString() {
-    return 'UserSupabase{id: $id, firstname: $firstname, lastname: $lastname, email: $email, phone: $phone, phoneCode: $phoneCode, updatedAt: $updatedAt}';
+    return 'UserSupabase{id: $id, firstname: $firstname, lastname: $lastname, email: $email, phone: $phone, phoneCode: $phoneCode}';
   }
 }

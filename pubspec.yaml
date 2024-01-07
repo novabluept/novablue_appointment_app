@@ -51,5 +51,13 @@ flutter:
         - asset: fonts/Urbanist-SemiBold.ttf
 
 flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+
   color: "#ffffff"
-  image: images/logos/medica_horizontal.png # Image should be 1152x1152 with resolution 400
+  image: images/logos/medica_horizontal.png # This should be 1152×1152 pixels, and fit within a circle 768 pixels in diameter.
+
+  android_12:
+    color: "#ffffff"
+    image: images/logos/medica_horizontal.png # This should be 1152×1152 pixels, and fit within a circle 768 pixels in diameter.

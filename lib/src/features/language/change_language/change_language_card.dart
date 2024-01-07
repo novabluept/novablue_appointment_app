@@ -8,13 +8,13 @@ import 'package:novablue_appointment_app/src/localization/app_localizations_cont
 import 'package:novablue_appointment_app/src/localization/app_supported_locale.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
 
-class LanguageCard extends StatelessWidget {
+class ChangeLanguageCard extends StatelessWidget {
 
   final SupportedLocale language;
   final Locale? selectedValue;
   final Function(dynamic)? onChanged;
 
-  const LanguageCard({super.key, required this.language,required this.selectedValue,required this.onChanged});
+  const ChangeLanguageCard({super.key, required this.language,required this.selectedValue,required this.onChanged});
 
   @override
   Widget build(BuildContext context) {

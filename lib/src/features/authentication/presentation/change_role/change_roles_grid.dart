@@ -7,21 +7,21 @@ import 'package:go_router/go_router.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:novablue_appointment_app/src/features/authentication/data/auth_repository.dart';
 import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role/change_role_screen_controller.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role/role_card.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role/role_card_loader.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role/change_role_card.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role/change_role_card_loader.dart';
 import 'package:novablue_appointment_app/src/routing/app_routing.dart';
 import 'package:novablue_appointment_app/src/routing/refresh_service/refresh_service_provider.dart';
 import 'package:novablue_appointment_app/src/utils/shared_prefrences.dart';
 
-class RolesGrid extends ConsumerStatefulWidget {
+class ChangeRolesGrid extends ConsumerStatefulWidget {
 
-  const RolesGrid({super.key});
+  const ChangeRolesGrid({super.key});
 
   @override
-  _ChangeRoleGridState createState() => _ChangeRoleGridState();
+  _ChangeRolesGridState createState() => _ChangeRolesGridState();
 }
 
-class _ChangeRoleGridState extends ConsumerState<RolesGrid> {
+class _ChangeRolesGridState extends ConsumerState<ChangeRolesGrid> {
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _ChangeRoleGridState extends ConsumerState<RolesGrid> {
         separatorBuilder: (BuildContext context, int index) => gapH24,
         itemBuilder: (context, index) {
           final role = roles[index];
-          return RoleCard(
+          return ChangeRoleCard(
             role: role,
             language: language,
             onChanged: (value) async{
@@ -63,7 +63,7 @@ class _ChangeRoleGridState extends ConsumerState<RolesGrid> {
         itemCount: 8,
         separatorBuilder: (BuildContext context, int index) => gapH24,
         itemBuilder: (context, index) {
-          return RoleCardLoader();
+          return ChangeRoleCardLoader();
         },
       ),
     );

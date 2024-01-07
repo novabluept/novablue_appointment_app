@@ -1,6 +1,5 @@
 
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:novablue_appointment_app/src/constants/app_file_size.dart';
 import 'package:novablue_appointment_app/src/exceptions/app_exceptions.dart';
@@ -15,7 +14,7 @@ abstract class AuthRepository {
   User? get currentUser;
   Stream<User?> watchUserSessionChanges();
   Stream<AuthChangeEvent?> watchEventChanges();
-  Stream<UserRoleCompanySupabase> watchActiveUserRoleCompany({required String id});
+  Stream<UserRoleCompanyShopSupabase> watchActiveUserRoleCompanyShop({required String id});
   Future<File?> chooseProfileImage();
   Future<void> signInWithEmailAndPassword({required String email,required String password});
   Future<void> createUserWithEmailAndPassword({required String password, required String filePath, required String firstname, required String lastname, required String email, required String phone, required String phoneCode});
@@ -25,8 +24,8 @@ abstract class AuthRepository {
   Future<void> resend({required String email});
   Future<UserSupabase> getUserData({required String id});
   Future<void> updateUserData({required String id,required Map<String,dynamic> updatedData});
-  Future<List<UserRoleCompanySupabase>> getUserRoles({required String id});
-  Future<void> updateActiveUserRole({required UserRoleCompanySupabase previousRole,required UserRoleCompanySupabase nextRole});
+  Future<List<UserRoleCompanyShopSupabase>> getUserRoles({required String id});
+  Future<void> updateActiveUserRole({required UserRoleCompanyShopSupabase previousRole,required UserRoleCompanyShopSupabase nextRole});
 }
 
 class SupabaseAuthRepository implements AuthRepository{
@@ -35,10 +34,11 @@ class SupabaseAuthRepository implements AuthRepository{
   final String updatePasswordCallback = 'io.supabase.novablue://update-password-callback/';
 
   static String userTable() => 'user';
-  static String userRoleCompanyTable() => 'user_role_company';
+  static String userRoleCompanyShopTable() => 'user_role_company_shop';
 
   static String userBucket() => 'users';
-  static String userBucketFilePath(String id) => '/${id}/profileImage';
+  static String insertUserBucketFilePath(String id) => '/${id}/userImage';
+  static String selectUserBucketFilePath(String id) => '${id}/userImage';
 
   final Ref ref;
   final SupabaseClient _client;
@@ -67,14 +67,14 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Stream<UserRoleCompanySupabase> watchActiveUserRoleCompany({required String id}) {
+  Stream<UserRoleCompanyShopSupabase> watchActiveUserRoleCompanyShop({required String id}) {
 
     return _client
-      .from(userRoleCompanyTable())
+      .from(userRoleCompanyShopTable())
       .stream(primaryKey: ['id'])
       .eq('user_id', id)
       .map((event) {
-        List<UserRoleCompanySupabase> list = event.map((item) => UserRoleCompanySupabase.fromJson(item)).toList();
+        List<UserRoleCompanyShopSupabase> list = event.map((item) => UserRoleCompanyShopSupabase.fromJson(item)).toList();
 
         for(var role in list){
           if(role.active){
@@ -82,7 +82,7 @@ class SupabaseAuthRepository implements AuthRepository{
           }
         }
 
-        return UserRoleCompanySupabase(id: 0, userId: id, rolePt: UserRoles.user.rolePt, roleEn: UserRoles.user.roleEn, active: true);
+        return UserRoleCompanyShopSupabase(id: 0, userId: id, rolePt: UserRoles.user.rolePt, roleEn: UserRoles.user.roleEn, active: true);
     });
 
   }
@@ -106,7 +106,7 @@ class SupabaseAuthRepository implements AuthRepository{
     required String id,
     required String filePath
   }) async {
-    await _client.storage.from(userBucket()).upload(userBucketFilePath(id), File(filePath))
+    await _client.storage.from(userBucket()).upload(insertUserBucketFilePath(id), File(filePath))
       .catchError((e){
         throw UnexpectedErrorException(ref);
       }
@@ -131,10 +131,9 @@ class SupabaseAuthRepository implements AuthRepository{
         email: email,
         phone: phone,
         phoneCode: phoneCode,
-        updatedAt: DateTime.now().toUtc().toIso8601String(),
       ).toJson();
 
-      var userRoleCompany = UserRoleCompanySupabase(
+      var userRoleCompany = UserRoleCompanyShopSupabase(
         id: 0,
         userId: id,
         rolePt: UserRoles.user.rolePt,
@@ -147,7 +146,7 @@ class SupabaseAuthRepository implements AuthRepository{
         .then((value) async => filePath != '' ? await _uploadProfileImage(id: id, filePath: filePath): null
       );
 
-      await _client.from(userRoleCompanyTable()).insert(userRoleCompany);
+      await _client.from(userRoleCompanyShopTable()).insert(userRoleCompany);
     }catch(e){
       throw UnexpectedErrorException(ref);
     }
@@ -208,7 +207,6 @@ class SupabaseAuthRepository implements AuthRepository{
       email,
       redirectTo: updatePasswordCallback,
     ).catchError((e){
-      debugPrint('error -> ${e.toString()}');
       throw UnexpectedErrorException(ref);
     });
   }
@@ -218,7 +216,6 @@ class SupabaseAuthRepository implements AuthRepository{
     await _client.auth.updateUser(
       UserAttributes(password: password)
     ).catchError((e){
-      debugPrint('error -> ${e.toString()}');
       if(e.message == 'New password should be different from the old password.'){
         throw SamePasswordException(ref);
       }
@@ -268,14 +265,14 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<List<UserRoleCompanySupabase>> getUserRoles({required String id}) async {
+  Future<List<UserRoleCompanyShopSupabase>> getUserRoles({required String id}) async {
     try {
       final response = await _client
-        .from(userRoleCompanyTable())
+        .from(userRoleCompanyShopTable())
         .select()
         .match({'user_id': id});
 
-      List<UserRoleCompanySupabase> userRoles = List<UserRoleCompanySupabase>.from(response.map((model)=> UserRoleCompanySupabase.fromJson(model)));
+      List<UserRoleCompanyShopSupabase> userRoles = List<UserRoleCompanyShopSupabase>.from(response.map((model)=> UserRoleCompanyShopSupabase.fromJson(model)));
 
       return userRoles;
     } catch (error) {
@@ -284,7 +281,7 @@ class SupabaseAuthRepository implements AuthRepository{
   }
 
   @override
-  Future<void> updateActiveUserRole({required UserRoleCompanySupabase previousRole,required UserRoleCompanySupabase nextRole}) async{
+  Future<void> updateActiveUserRole({required UserRoleCompanyShopSupabase previousRole,required UserRoleCompanyShopSupabase nextRole}) async{
     try {
 
       // Reset bottom navigation index
@@ -292,13 +289,13 @@ class SupabaseAuthRepository implements AuthRepository{
 
       // Update the previous role to not active
       await _client
-        .from(userRoleCompanyTable())
+        .from(userRoleCompanyShopTable())
         .update({'active': false})
         .match({'id': previousRole.id});
 
       // Update the next role to active
       await _client
-        .from(userRoleCompanyTable())
+        .from(userRoleCompanyShopTable())
         .update({'active': true})
         .match({'id': nextRole.id});
     } catch (error) {
@@ -322,9 +319,9 @@ final watchEventChangesProvider = StreamProvider<AuthChangeEvent?>((ref) {
   return authRepository.watchEventChanges();
 });
 
-final watchActiveUserRoleCompanyProvider = StreamProvider.family<UserRoleCompanySupabase,String>((ref,id) {
+final watchActiveUserRoleCompanyProvider = StreamProvider.family<UserRoleCompanyShopSupabase,String>((ref,id) {
   final authRepository = ref.watch(authRepositoryProvider);
-  return authRepository.watchActiveUserRoleCompany(id: id);
+  return authRepository.watchActiveUserRoleCompanyShop(id: id);
 });
 
 final getUserDataProvider = FutureProvider.autoDispose.family<UserSupabase,String>((ref,id) {
@@ -332,7 +329,7 @@ final getUserDataProvider = FutureProvider.autoDispose.family<UserSupabase,Strin
   return authRepository.getUserData(id: id);
 });
 
-final getRolesProvider = FutureProvider.autoDispose.family<List<UserRoleCompanySupabase>,String>((ref,id) {
+final getRolesProvider = FutureProvider.autoDispose.family<List<UserRoleCompanyShopSupabase>,String>((ref,id) {
   final authRepository = ref.watch(authRepositoryProvider);
   return authRepository.getUserRoles(id: id);
 });

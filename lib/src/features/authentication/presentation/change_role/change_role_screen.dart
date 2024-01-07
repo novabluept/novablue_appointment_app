@@ -8,7 +8,7 @@ import 'package:novablue_appointment_app/src/common_widgets/my_app_bar.dart';
 import 'package:novablue_appointment_app/src/common_widgets/my_scaffold.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
-import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role/roles_grid.dart';
+import 'package:novablue_appointment_app/src/features/authentication/presentation/change_role/change_roles_grid.dart';
 import 'package:novablue_appointment_app/src/localization/app_localizations_context.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 import 'package:novablue_appointment_app/src/utils/formatters.dart';
@@ -42,7 +42,7 @@ class _ChangeRoleScreenState extends ConsumerState<ChangeRoleScreen> {
           },
         )
       ),
-      body: RolesGrid()
+      body: ChangeRolesGrid()
     );
   }
 }

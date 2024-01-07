@@ -7,9 +7,9 @@ import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novablue_appointment_app/src/utils/dialogs.dart';
 
-class AppointmentHistoryCard extends StatelessWidget {
+class AppointmentsHistoryCard extends StatelessWidget {
 
-  const AppointmentHistoryCard({super.key});
+  const AppointmentsHistoryCard({super.key});
 
   @override
   Widget build(BuildContext context) {

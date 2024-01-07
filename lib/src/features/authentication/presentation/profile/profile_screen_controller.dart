@@ -21,7 +21,7 @@ class ProfileScreenController extends StateNotifier<AsyncValue<void>>{
     }
   }
 
-  Future<void> setUserRoleCompany(WidgetRef ref,UserRoleCompanySupabase value) async{
+  Future<void> setUserRoleCompany(WidgetRef ref,UserRoleCompanyShopSupabase value) async{
     ref.read(isBottomLoadingProvider.notifier).state = true;
     state = const AsyncValue<void>.loading();
     ref.read(currentUserRoleCompanyProvider) != value ? ref.read(currentIndexProvider.notifier).state = 0 : null;

@@ -8,17 +8,17 @@ import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 import 'package:novablue_appointment_app/src/localization/app_supported_locale.dart';
 import 'package:novablue_appointment_app/src/utils/shared_prefrences.dart';
 import 'change_language_screen_controller.dart';
-import 'language_card.dart';
+import 'change_language_card.dart';
 
-class LanguagesGrid extends ConsumerStatefulWidget {
+class ChangeLanguageGrid extends ConsumerStatefulWidget {
 
-  const LanguagesGrid({super.key});
+  const ChangeLanguageGrid({super.key});
 
   @override
-  _LanguagesGridState createState() => _LanguagesGridState();
+  _ChangeLanguageGridState createState() => _ChangeLanguageGridState();
 }
 
-class _LanguagesGridState extends ConsumerState<LanguagesGrid> {
+class _ChangeLanguageGridState extends ConsumerState<ChangeLanguageGrid> {
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _LanguagesGridState extends ConsumerState<LanguagesGrid> {
       separatorBuilder: (BuildContext context, int index) => gapH24,
       itemBuilder: (context, index) {
         final language = languagesList[index];
-        return LanguageCard(
+        return ChangeLanguageCard(
           language: language,
           selectedValue: selectedValue,
           onChanged: (value) {

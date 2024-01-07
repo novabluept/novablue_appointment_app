@@ -9,10 +9,10 @@ import '../../features/authentication/domain/user_role_company_supabase.dart';
 class RefreshService {
 
   final Ref ref;
-  StreamSubscription<UserRoleCompanySupabase?>? _userRoleSubscription;
+  StreamSubscription<UserRoleCompanyShopSupabase?>? _userRoleSubscription;
   StreamSubscription<AuthChangeEvent?>? _eventSubscription;
 
-  StreamController<UserRoleCompanySupabase?> _userRoleStreamController = StreamController<UserRoleCompanySupabase?>();
+  StreamController<UserRoleCompanyShopSupabase?> _userRoleStreamController = StreamController<UserRoleCompanyShopSupabase?>();
   StreamController<AuthChangeEvent?> _eventStreamController = StreamController<AuthChangeEvent?>();
 
 
@@ -53,7 +53,7 @@ class RefreshService {
   getActiveUserRoleCompany(String id){
     _userRoleSubscription = ref
       .read(authRepositoryProvider)
-      .watchActiveUserRoleCompany(id: id)
+      .watchActiveUserRoleCompanyShop(id: id)
       .listen((role) async {
         final user = ref.read(authRepositoryProvider).currentUser;
         if (user != null) {
@@ -71,7 +71,7 @@ class RefreshService {
     _eventStreamController.close();
   }
 
-  Stream<UserRoleCompanySupabase?> get userRoleStream => _userRoleStreamController.stream;
+  Stream<UserRoleCompanyShopSupabase?> get userRoleStream => _userRoleStreamController.stream;
   Stream<AuthChangeEvent?> get eventStream => _eventStreamController.stream;
 
 }

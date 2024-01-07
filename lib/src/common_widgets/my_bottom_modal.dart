@@ -18,7 +18,7 @@ class MyBottomModal extends StatelessWidget {
   final String positiveButtonTitle;
   final Function() positiveButtonOnPressed;
 
-  const MyBottomModal({super.key, required this.title, this.titleColor = OtherColors.black, required this.content, required this.negativeButtonTitle, required this.negativeButtonOnPressed, required this.positiveButtonTitle, required this.positiveButtonOnPressed,});
+  const MyBottomModal({super.key, required this.title, this.titleColor = OtherColors.black, required this.content, required this.negativeButtonTitle, required this.negativeButtonOnPressed, required this.positiveButtonTitle, required this.positiveButtonOnPressed});
 
   @override
   Widget build(BuildContext context) {

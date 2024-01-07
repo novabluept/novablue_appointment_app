@@ -6,8 +6,8 @@ import 'package:novablue_appointment_app/src/common_widgets/my_shimmer.dart';
 import 'package:novablue_appointment_app/src/constants/app_colors.dart';
 import 'package:novablue_appointment_app/src/constants/app_sizes.dart';
 
-class RoleCardLoader extends StatelessWidget {
-  const RoleCardLoader({super.key});
+class ChangeRoleCardLoader extends StatelessWidget {
+  const ChangeRoleCardLoader({super.key});
 
   @override
   Widget build(BuildContext context) {
